@@ -1,0 +1,4258 @@
+{
+  "1": [
+    {
+      "table": "production_lines",
+      "columns": [
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_code",
+          "type": "character varying"
+        },
+        {
+          "name": "line_name",
+          "type": "character varying"
+        },
+        {
+          "name": "department_id",
+          "type": "bigint"
+        },
+        {
+          "name": "location",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "LINE-A",
+          "Line A",
+          "1",
+          "Building 1"
+        ],
+        [
+          "2",
+          "LINE-B",
+          "Line B",
+          "1",
+          "Building 1"
+        ],
+        [
+          "3",
+          "LINE-C",
+          "Line C",
+          "1",
+          ""
+        ],
+        [
+          "4",
+          "LINE-D",
+          "Line D",
+          "1",
+          "NULL"
+        ]
+      ]
+    },
+    {
+      "table": "products",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "product_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_name",
+          "type": "character varying"
+        },
+        {
+          "name": "product_family",
+          "type": "character varying"
+        },
+        {
+          "name": "standard_cycle_sec",
+          "type": "numeric"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "P-001",
+          "Product 001",
+          "Sensor Housing",
+          "42.00"
+        ],
+        [
+          "2",
+          "P-002",
+          "Product 002",
+          "Motor Bracket",
+          "45.00"
+        ],
+        [
+          "3",
+          "P-003",
+          "Product 003",
+          "Gear Cover",
+          "48.00"
+        ],
+        [
+          "4",
+          "P-004",
+          "Product 004",
+          "Valve Body",
+          "50.00"
+        ],
+        [
+          "5",
+          "P-005",
+          "Product 005",
+          "Sensor Housing",
+          "52.00"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ],
+  "2": [
+    {
+      "table": "production_lines",
+      "columns": [
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_code",
+          "type": "character varying"
+        },
+        {
+          "name": "line_name",
+          "type": "character varying"
+        },
+        {
+          "name": "department_id",
+          "type": "bigint"
+        },
+        {
+          "name": "location",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "LINE-A",
+          "Line A",
+          "1",
+          "Building 1"
+        ],
+        [
+          "2",
+          "LINE-B",
+          "Line B",
+          "1",
+          "Building 1"
+        ],
+        [
+          "3",
+          "LINE-C",
+          "Line C",
+          "1",
+          ""
+        ],
+        [
+          "4",
+          "LINE-D",
+          "Line D",
+          "1",
+          "NULL"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ],
+  "3": [
+    {
+      "table": "products",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "product_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_name",
+          "type": "character varying"
+        },
+        {
+          "name": "product_family",
+          "type": "character varying"
+        },
+        {
+          "name": "standard_cycle_sec",
+          "type": "numeric"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "P-001",
+          "Product 001",
+          "Sensor Housing",
+          "42.00"
+        ],
+        [
+          "2",
+          "P-002",
+          "Product 002",
+          "Motor Bracket",
+          "45.00"
+        ],
+        [
+          "3",
+          "P-003",
+          "Product 003",
+          "Gear Cover",
+          "48.00"
+        ],
+        [
+          "4",
+          "P-004",
+          "Product 004",
+          "Valve Body",
+          "50.00"
+        ],
+        [
+          "5",
+          "P-005",
+          "Product 005",
+          "Sensor Housing",
+          "52.00"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    },
+    {
+      "table": "production_lines",
+      "columns": [
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_code",
+          "type": "character varying"
+        },
+        {
+          "name": "line_name",
+          "type": "character varying"
+        },
+        {
+          "name": "department_id",
+          "type": "bigint"
+        },
+        {
+          "name": "location",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "LINE-A",
+          "Line A",
+          "1",
+          "Building 1"
+        ],
+        [
+          "2",
+          "LINE-B",
+          "Line B",
+          "1",
+          "Building 1"
+        ],
+        [
+          "3",
+          "LINE-C",
+          "Line C",
+          "1",
+          ""
+        ],
+        [
+          "4",
+          "LINE-D",
+          "Line D",
+          "1",
+          "NULL"
+        ]
+      ]
+    }
+  ],
+  "4": [
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ],
+  "5": [
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ],
+  "6": [],
+  "7": [
+    {
+      "table": "products",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "product_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_name",
+          "type": "character varying"
+        },
+        {
+          "name": "product_family",
+          "type": "character varying"
+        },
+        {
+          "name": "standard_cycle_sec",
+          "type": "numeric"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "P-001",
+          "Product 001",
+          "Sensor Housing",
+          "42.00"
+        ],
+        [
+          "2",
+          "P-002",
+          "Product 002",
+          "Motor Bracket",
+          "45.00"
+        ],
+        [
+          "3",
+          "P-003",
+          "Product 003",
+          "Gear Cover",
+          "48.00"
+        ],
+        [
+          "4",
+          "P-004",
+          "Product 004",
+          "Valve Body",
+          "50.00"
+        ],
+        [
+          "5",
+          "P-005",
+          "Product 005",
+          "Sensor Housing",
+          "52.00"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    },
+    {
+      "table": "production_lines",
+      "columns": [
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_code",
+          "type": "character varying"
+        },
+        {
+          "name": "line_name",
+          "type": "character varying"
+        },
+        {
+          "name": "department_id",
+          "type": "bigint"
+        },
+        {
+          "name": "location",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "LINE-A",
+          "Line A",
+          "1",
+          "Building 1"
+        ],
+        [
+          "2",
+          "LINE-B",
+          "Line B",
+          "1",
+          "Building 1"
+        ],
+        [
+          "3",
+          "LINE-C",
+          "Line C",
+          "1",
+          ""
+        ],
+        [
+          "4",
+          "LINE-D",
+          "Line D",
+          "1",
+          "NULL"
+        ]
+      ]
+    }
+  ],
+  "8": [
+    {
+      "table": "products",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "product_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_name",
+          "type": "character varying"
+        },
+        {
+          "name": "product_family",
+          "type": "character varying"
+        },
+        {
+          "name": "standard_cycle_sec",
+          "type": "numeric"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "P-001",
+          "Product 001",
+          "Sensor Housing",
+          "42.00"
+        ],
+        [
+          "2",
+          "P-002",
+          "Product 002",
+          "Motor Bracket",
+          "45.00"
+        ],
+        [
+          "3",
+          "P-003",
+          "Product 003",
+          "Gear Cover",
+          "48.00"
+        ],
+        [
+          "4",
+          "P-004",
+          "Product 004",
+          "Valve Body",
+          "50.00"
+        ],
+        [
+          "5",
+          "P-005",
+          "Product 005",
+          "Sensor Housing",
+          "52.00"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    },
+    {
+      "table": "defect_types",
+      "columns": [
+        {
+          "name": "defect_type_id",
+          "type": "bigint"
+        },
+        {
+          "name": "defect_code",
+          "type": "character varying"
+        },
+        {
+          "name": "defect_name",
+          "type": "character varying"
+        },
+        {
+          "name": "severity",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "D01",
+          "Scratch",
+          "Minor"
+        ],
+        [
+          "2",
+          "D02",
+          "Dimension Out",
+          "Major"
+        ],
+        [
+          "3",
+          "D03",
+          "Crack",
+          "Critical"
+        ],
+        [
+          "4",
+          "D04",
+          "Missing Part",
+          "Major"
+        ],
+        [
+          "5",
+          "D05",
+          "Burr",
+          "Minor"
+        ]
+      ]
+    },
+    {
+      "table": "quality_inspections",
+      "columns": [
+        {
+          "name": "inspection_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "defect_type_id",
+          "type": "bigint"
+        },
+        {
+          "name": "inspector_id",
+          "type": "bigint"
+        },
+        {
+          "name": "inspected_at",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "sample_qty",
+          "type": "integer"
+        },
+        {
+          "name": "defect_qty",
+          "type": "integer"
+        },
+        {
+          "name": "result",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "3",
+          "32",
+          "2026-08-01 01:30",
+          "50",
+          "2",
+          "OK"
+        ],
+        [
+          "2",
+          "1",
+          "3",
+          "29",
+          "2026-08-01 05:30",
+          "50",
+          "2",
+          "OK"
+        ],
+        [
+          "3",
+          "1",
+          "2",
+          "30",
+          "2026-08-01 09:30",
+          "50",
+          "3",
+          "NG"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "28",
+          "2026-08-01 13:30",
+          "50",
+          "1",
+          "OK"
+        ],
+        [
+          "5",
+          "1",
+          "NULL",
+          "31",
+          "2026-08-01 17:30",
+          "50",
+          "0",
+          "OK"
+        ]
+      ]
+    }
+  ],
+  "9": [
+    {
+      "table": "quality_inspections",
+      "columns": [
+        {
+          "name": "inspection_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "defect_type_id",
+          "type": "bigint"
+        },
+        {
+          "name": "inspector_id",
+          "type": "bigint"
+        },
+        {
+          "name": "inspected_at",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "sample_qty",
+          "type": "integer"
+        },
+        {
+          "name": "defect_qty",
+          "type": "integer"
+        },
+        {
+          "name": "result",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "3",
+          "32",
+          "2026-08-01 01:30",
+          "50",
+          "2",
+          "OK"
+        ],
+        [
+          "2",
+          "1",
+          "3",
+          "29",
+          "2026-08-01 05:30",
+          "50",
+          "2",
+          "OK"
+        ],
+        [
+          "3",
+          "1",
+          "2",
+          "30",
+          "2026-08-01 09:30",
+          "50",
+          "3",
+          "NG"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "28",
+          "2026-08-01 13:30",
+          "50",
+          "1",
+          "OK"
+        ],
+        [
+          "5",
+          "1",
+          "NULL",
+          "31",
+          "2026-08-01 17:30",
+          "50",
+          "0",
+          "OK"
+        ]
+      ]
+    },
+    {
+      "table": "production_lines",
+      "columns": [
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_code",
+          "type": "character varying"
+        },
+        {
+          "name": "line_name",
+          "type": "character varying"
+        },
+        {
+          "name": "department_id",
+          "type": "bigint"
+        },
+        {
+          "name": "location",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "LINE-A",
+          "Line A",
+          "1",
+          "Building 1"
+        ],
+        [
+          "2",
+          "LINE-B",
+          "Line B",
+          "1",
+          "Building 1"
+        ],
+        [
+          "3",
+          "LINE-C",
+          "Line C",
+          "1",
+          ""
+        ],
+        [
+          "4",
+          "LINE-D",
+          "Line D",
+          "1",
+          "NULL"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    }
+  ],
+  "10": [
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    },
+    {
+      "table": "quality_inspections",
+      "columns": [
+        {
+          "name": "inspection_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "defect_type_id",
+          "type": "bigint"
+        },
+        {
+          "name": "inspector_id",
+          "type": "bigint"
+        },
+        {
+          "name": "inspected_at",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "sample_qty",
+          "type": "integer"
+        },
+        {
+          "name": "defect_qty",
+          "type": "integer"
+        },
+        {
+          "name": "result",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "3",
+          "32",
+          "2026-08-01 01:30",
+          "50",
+          "2",
+          "OK"
+        ],
+        [
+          "2",
+          "1",
+          "3",
+          "29",
+          "2026-08-01 05:30",
+          "50",
+          "2",
+          "OK"
+        ],
+        [
+          "3",
+          "1",
+          "2",
+          "30",
+          "2026-08-01 09:30",
+          "50",
+          "3",
+          "NG"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "28",
+          "2026-08-01 13:30",
+          "50",
+          "1",
+          "OK"
+        ],
+        [
+          "5",
+          "1",
+          "NULL",
+          "31",
+          "2026-08-01 17:30",
+          "50",
+          "0",
+          "OK"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    }
+  ],
+  "11": [
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ],
+  "12": [
+    {
+      "table": "downtime_events",
+      "columns": [
+        {
+          "name": "downtime_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "reason_id",
+          "type": "bigint"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "duration_minutes",
+          "type": "numeric"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "2",
+          "1",
+          "8",
+          "2026-08-01 14:33",
+          "2026-08-01 15:00",
+          "27.00"
+        ],
+        [
+          "2",
+          "2",
+          "1",
+          "4",
+          "2026-08-01 21:35",
+          "2026-08-01 21:48",
+          "13.00"
+        ],
+        [
+          "3",
+          "3",
+          "1",
+          "7",
+          "2026-08-02 01:46",
+          "2026-08-02 01:51",
+          "5.00"
+        ],
+        [
+          "4",
+          "2",
+          "1",
+          "10",
+          "2026-08-02 07:16",
+          "2026-08-02 07:35",
+          "19.00"
+        ],
+        [
+          "5",
+          "3",
+          "1",
+          "2",
+          "2026-08-02 20:16",
+          "2026-08-02 20:43",
+          "27.00"
+        ]
+      ]
+    },
+    {
+      "table": "machines",
+      "columns": [
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_code",
+          "type": "character varying"
+        },
+        {
+          "name": "machine_name",
+          "type": "character varying"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_type",
+          "type": "character varying"
+        },
+        {
+          "name": "ideal_cycle_sec",
+          "type": "numeric"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "M-A1",
+          "CNC A1",
+          "1",
+          "CNC",
+          "45.00"
+        ],
+        [
+          "2",
+          "M-A2",
+          "Assembly A2",
+          "1",
+          "Assembly",
+          "45.00"
+        ],
+        [
+          "3",
+          "M-A3",
+          "Press A3",
+          "1",
+          "Press",
+          "45.00"
+        ],
+        [
+          "4",
+          "M-B1",
+          "CNC B1",
+          "2",
+          "CNC",
+          "45.00"
+        ],
+        [
+          "5",
+          "M-B2",
+          "Assembly B2",
+          "2",
+          "Assembly",
+          "45.00"
+        ]
+      ]
+    }
+  ],
+  "13": [
+    {
+      "table": "production_lines",
+      "columns": [
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_code",
+          "type": "character varying"
+        },
+        {
+          "name": "line_name",
+          "type": "character varying"
+        },
+        {
+          "name": "department_id",
+          "type": "bigint"
+        },
+        {
+          "name": "location",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "LINE-A",
+          "Line A",
+          "1",
+          "Building 1"
+        ],
+        [
+          "2",
+          "LINE-B",
+          "Line B",
+          "1",
+          "Building 1"
+        ],
+        [
+          "3",
+          "LINE-C",
+          "Line C",
+          "1",
+          ""
+        ],
+        [
+          "4",
+          "LINE-D",
+          "Line D",
+          "1",
+          "NULL"
+        ]
+      ]
+    },
+    {
+      "table": "products",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "product_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_name",
+          "type": "character varying"
+        },
+        {
+          "name": "product_family",
+          "type": "character varying"
+        },
+        {
+          "name": "standard_cycle_sec",
+          "type": "numeric"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "P-001",
+          "Product 001",
+          "Sensor Housing",
+          "42.00"
+        ],
+        [
+          "2",
+          "P-002",
+          "Product 002",
+          "Motor Bracket",
+          "45.00"
+        ],
+        [
+          "3",
+          "P-003",
+          "Product 003",
+          "Gear Cover",
+          "48.00"
+        ],
+        [
+          "4",
+          "P-004",
+          "Product 004",
+          "Valve Body",
+          "50.00"
+        ],
+        [
+          "5",
+          "P-005",
+          "Product 005",
+          "Sensor Housing",
+          "52.00"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ],
+  "14": [],
+  "15": [
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ],
+  "16": [
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "quality_inspections",
+      "columns": [
+        {
+          "name": "inspection_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "defect_type_id",
+          "type": "bigint"
+        },
+        {
+          "name": "inspector_id",
+          "type": "bigint"
+        },
+        {
+          "name": "inspected_at",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "sample_qty",
+          "type": "integer"
+        },
+        {
+          "name": "defect_qty",
+          "type": "integer"
+        },
+        {
+          "name": "result",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "3",
+          "32",
+          "2026-08-01 01:30",
+          "50",
+          "2",
+          "OK"
+        ],
+        [
+          "2",
+          "1",
+          "3",
+          "29",
+          "2026-08-01 05:30",
+          "50",
+          "2",
+          "OK"
+        ],
+        [
+          "3",
+          "1",
+          "2",
+          "30",
+          "2026-08-01 09:30",
+          "50",
+          "3",
+          "NG"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "28",
+          "2026-08-01 13:30",
+          "50",
+          "1",
+          "OK"
+        ],
+        [
+          "5",
+          "1",
+          "NULL",
+          "31",
+          "2026-08-01 17:30",
+          "50",
+          "0",
+          "OK"
+        ]
+      ]
+    }
+  ],
+  "17": [
+    {
+      "table": "production_lines",
+      "columns": [
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_code",
+          "type": "character varying"
+        },
+        {
+          "name": "line_name",
+          "type": "character varying"
+        },
+        {
+          "name": "department_id",
+          "type": "bigint"
+        },
+        {
+          "name": "location",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "LINE-A",
+          "Line A",
+          "1",
+          "Building 1"
+        ],
+        [
+          "2",
+          "LINE-B",
+          "Line B",
+          "1",
+          "Building 1"
+        ],
+        [
+          "3",
+          "LINE-C",
+          "Line C",
+          "1",
+          ""
+        ],
+        [
+          "4",
+          "LINE-D",
+          "Line D",
+          "1",
+          "NULL"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ],
+  "18": [
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ],
+  "19": [
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    },
+    {
+      "table": "production_lines",
+      "columns": [
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_code",
+          "type": "character varying"
+        },
+        {
+          "name": "line_name",
+          "type": "character varying"
+        },
+        {
+          "name": "department_id",
+          "type": "bigint"
+        },
+        {
+          "name": "location",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "LINE-A",
+          "Line A",
+          "1",
+          "Building 1"
+        ],
+        [
+          "2",
+          "LINE-B",
+          "Line B",
+          "1",
+          "Building 1"
+        ],
+        [
+          "3",
+          "LINE-C",
+          "Line C",
+          "1",
+          ""
+        ],
+        [
+          "4",
+          "LINE-D",
+          "Line D",
+          "1",
+          "NULL"
+        ]
+      ]
+    }
+  ],
+  "20": [
+    {
+      "table": "downtime_reasons",
+      "columns": [
+        {
+          "name": "reason_id",
+          "type": "bigint"
+        },
+        {
+          "name": "reason_code",
+          "type": "character varying"
+        },
+        {
+          "name": "reason_name",
+          "type": "character varying"
+        },
+        {
+          "name": "category",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "R01",
+          "Planned Maintenance",
+          "Planned"
+        ],
+        [
+          "2",
+          "R02",
+          "Changeover",
+          "Changeover"
+        ],
+        [
+          "3",
+          "R03",
+          "Motor Breakdown",
+          "Breakdown"
+        ],
+        [
+          "4",
+          "R04",
+          "Sensor Fault",
+          "Breakdown"
+        ],
+        [
+          "5",
+          "R05",
+          "Tool Change",
+          "Changeover"
+        ]
+      ]
+    },
+    {
+      "table": "downtime_events",
+      "columns": [
+        {
+          "name": "downtime_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "reason_id",
+          "type": "bigint"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "duration_minutes",
+          "type": "numeric"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "2",
+          "1",
+          "8",
+          "2026-08-01 14:33",
+          "2026-08-01 15:00",
+          "27.00"
+        ],
+        [
+          "2",
+          "2",
+          "1",
+          "4",
+          "2026-08-01 21:35",
+          "2026-08-01 21:48",
+          "13.00"
+        ],
+        [
+          "3",
+          "3",
+          "1",
+          "7",
+          "2026-08-02 01:46",
+          "2026-08-02 01:51",
+          "5.00"
+        ],
+        [
+          "4",
+          "2",
+          "1",
+          "10",
+          "2026-08-02 07:16",
+          "2026-08-02 07:35",
+          "19.00"
+        ],
+        [
+          "5",
+          "3",
+          "1",
+          "2",
+          "2026-08-02 20:16",
+          "2026-08-02 20:43",
+          "27.00"
+        ]
+      ]
+    }
+  ],
+  "21": [
+    {
+      "table": "production_lines",
+      "columns": [
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_code",
+          "type": "character varying"
+        },
+        {
+          "name": "line_name",
+          "type": "character varying"
+        },
+        {
+          "name": "department_id",
+          "type": "bigint"
+        },
+        {
+          "name": "location",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "LINE-A",
+          "Line A",
+          "1",
+          "Building 1"
+        ],
+        [
+          "2",
+          "LINE-B",
+          "Line B",
+          "1",
+          "Building 1"
+        ],
+        [
+          "3",
+          "LINE-C",
+          "Line C",
+          "1",
+          ""
+        ],
+        [
+          "4",
+          "LINE-D",
+          "Line D",
+          "1",
+          "NULL"
+        ]
+      ]
+    },
+    {
+      "table": "production_orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_code",
+          "type": "character varying"
+        },
+        {
+          "name": "product_id",
+          "type": "bigint"
+        },
+        {
+          "name": "line_id",
+          "type": "bigint"
+        },
+        {
+          "name": "planned_qty",
+          "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "status",
+          "type": "character varying"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "ORD-2608-0001",
+          "4",
+          "1",
+          "3071",
+          "2026-07-31 23:00",
+          "2026-08-03 23:00",
+          "Completed"
+        ],
+        [
+          "2",
+          "ORD-2608-0002",
+          "6",
+          "1",
+          "3673",
+          "2026-08-03 23:00",
+          "2026-08-06 23:00",
+          "Completed"
+        ],
+        [
+          "3",
+          "ORD-2608-0003",
+          "8",
+          "1",
+          "3106",
+          "2026-08-06 23:00",
+          "2026-08-09 23:00",
+          "Completed"
+        ],
+        [
+          "4",
+          "ORD-2608-0004",
+          "1",
+          "1",
+          "3544",
+          "2026-08-09 23:00",
+          "2026-08-12 23:00",
+          "Completed"
+        ],
+        [
+          "5",
+          "ORD-2608-0005",
+          "2",
+          "1",
+          "2720",
+          "2026-08-12 23:00",
+          "2026-08-15 23:00",
+          "Completed"
+        ]
+      ]
+    },
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    },
+    {
+      "table": "downtime_events",
+      "columns": [
+        {
+          "name": "downtime_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "reason_id",
+          "type": "bigint"
+        },
+        {
+          "name": "start_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "end_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "duration_minutes",
+          "type": "numeric"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "2",
+          "1",
+          "8",
+          "2026-08-01 14:33",
+          "2026-08-01 15:00",
+          "27.00"
+        ],
+        [
+          "2",
+          "2",
+          "1",
+          "4",
+          "2026-08-01 21:35",
+          "2026-08-01 21:48",
+          "13.00"
+        ],
+        [
+          "3",
+          "3",
+          "1",
+          "7",
+          "2026-08-02 01:46",
+          "2026-08-02 01:51",
+          "5.00"
+        ],
+        [
+          "4",
+          "2",
+          "1",
+          "10",
+          "2026-08-02 07:16",
+          "2026-08-02 07:35",
+          "19.00"
+        ],
+        [
+          "5",
+          "3",
+          "1",
+          "2",
+          "2026-08-02 20:16",
+          "2026-08-02 20:43",
+          "27.00"
+        ]
+      ]
+    }
+  ],
+  "22": [
+    {
+      "table": "production_records",
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "bigint"
+        },
+        {
+          "name": "order_id",
+          "type": "bigint"
+        },
+        {
+          "name": "machine_id",
+          "type": "bigint"
+        },
+        {
+          "name": "shift_id",
+          "type": "bigint"
+        },
+        {
+          "name": "operator_id",
+          "type": "bigint"
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "good_qty",
+          "type": "integer"
+        },
+        {
+          "name": "ng_qty",
+          "type": "integer"
+        },
+        {
+          "name": "total_qty",
+          "type": "integer"
+        }
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          "1",
+          "1",
+          "8",
+          "2026-07-31 23:00",
+          "64",
+          "1",
+          "65"
+        ],
+        [
+          "2",
+          "1",
+          "2",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "61",
+          "2",
+          "63"
+        ],
+        [
+          "3",
+          "1",
+          "3",
+          "1",
+          "5",
+          "2026-07-31 23:00",
+          "65",
+          "2",
+          "67"
+        ],
+        [
+          "4",
+          "1",
+          "1",
+          "1",
+          "5",
+          "2026-08-01 00:00",
+          "59",
+          "3",
+          "62"
+        ],
+        [
+          "5",
+          "1",
+          "2",
+          "1",
+          "1",
+          "2026-08-01 00:00",
+          "64",
+          "2",
+          "66"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <defs>
+    <linearGradient id="nd-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#13264f"/>
+      <stop offset="1" stop-color="#d71920"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="10" fill="url(#nd-grad)"/>
+  <rect x="8" y="23" width="6" height="9" rx="2" fill="#ffffff" fill-opacity="0.6"/>
+  <rect x="17" y="16" width="6" height="16" rx="2" fill="#ffffff" fill-opacity="0.8"/>
+  <rect x="26" y="9" width="6" height="23" rx="2" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,368 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 1104" width="1460" height="1104">
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<path d="M40 422 C190 422, 190 92, 340 92" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M40 422 C190 422, 190 242, 340 242" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M40 612 C190 612, 190 92, 340 92" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M40 802 C190 802, 190 612, 340 612" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M400 142 C370 142, 370 612, 340 612" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M400 142 C370 142, 370 992, 340 992" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M400 392 C370 392, 370 802, 340 802" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M400 392 C370 392, 370 422, 340 422" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M400 392 C550 392, 550 142, 700 142" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M400 392 C370 392, 370 242, 340 242" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M400 612 C370 612, 370 802, 340 802" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M400 612 C550 612, 550 142, 700 142" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M760 302 C910 302, 910 102, 1060 102" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M760 302 C550 302, 550 422, 340 422" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M760 302 C730 302, 730 142, 700 142" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M760 692 C550 692, 550 802, 340 802" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M760 692 C730 692, 730 142, 700 142" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M760 692 C910 692, 910 502, 1060 502" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M1120 302 C1270 302, 1270 112, 1420 112" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M1120 302 C910 302, 910 142, 700 142" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+<g>
+<rect x="40" y="40" width="300" height="104" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="40" y="40" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="40" y="64" width="300" height="10" fill="#0f172a"/>
+<text x="52" y="62" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">departments</text>
+<text x="52" y="88" font-size="12" fill="#0f172a" font-family="Consolas, monospace">department_id</text>
+<text x="328" y="88" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="88" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="52" y="108" font-size="12" fill="#0f172a" font-family="Consolas, monospace">department_code</text>
+<text x="328" y="108" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(20)</text>
+
+<text x="52" y="128" font-size="12" fill="#0f172a" font-family="Consolas, monospace">department_name</text>
+<text x="328" y="128" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(100)</text>
+
+</g>
+<g>
+<rect x="40" y="180" width="300" height="124" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="40" y="180" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="40" y="204" width="300" height="10" fill="#0f172a"/>
+<text x="52" y="202" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">shifts</text>
+<text x="52" y="228" font-size="12" fill="#0f172a" font-family="Consolas, monospace">shift_id</text>
+<text x="328" y="228" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="228" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="52" y="248" font-size="12" fill="#0f172a" font-family="Consolas, monospace">shift_name</text>
+<text x="328" y="248" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(30)</text>
+
+<text x="52" y="268" font-size="12" fill="#0f172a" font-family="Consolas, monospace">start_hour</text>
+<text x="328" y="268" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">integer</text>
+
+<text x="52" y="288" font-size="12" fill="#0f172a" font-family="Consolas, monospace">end_hour</text>
+<text x="328" y="288" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">integer</text>
+
+</g>
+<g>
+<rect x="40" y="340" width="300" height="164" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="40" y="340" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="40" y="364" width="300" height="10" fill="#0f172a"/>
+<text x="52" y="362" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">employees</text>
+<text x="52" y="388" font-size="12" fill="#0f172a" font-family="Consolas, monospace">employee_id</text>
+<text x="328" y="388" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="388" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="52" y="408" font-size="12" fill="#0f172a" font-family="Consolas, monospace">department_id</text>
+<text x="328" y="408" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="408" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="52" y="428" font-size="12" fill="#0f172a" font-family="Consolas, monospace">shift_id</text>
+<text x="328" y="428" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="428" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="52" y="448" font-size="12" fill="#0f172a" font-family="Consolas, monospace">full_name</text>
+<text x="328" y="448" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(120)</text>
+
+<text x="52" y="468" font-size="12" fill="#0f172a" font-family="Consolas, monospace">role</text>
+<text x="328" y="468" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(20)</text>
+
+<text x="52" y="488" font-size="12" fill="#0f172a" font-family="Consolas, monospace">hire_date</text>
+<text x="328" y="488" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">date</text>
+
+</g>
+<g>
+<rect x="40" y="540" width="300" height="144" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="40" y="540" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="40" y="564" width="300" height="10" fill="#0f172a"/>
+<text x="52" y="562" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">production_lines</text>
+<text x="52" y="588" font-size="12" fill="#0f172a" font-family="Consolas, monospace">line_id</text>
+<text x="328" y="588" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="588" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="52" y="608" font-size="12" fill="#0f172a" font-family="Consolas, monospace">line_code</text>
+<text x="328" y="608" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(20)</text>
+
+<text x="52" y="628" font-size="12" fill="#0f172a" font-family="Consolas, monospace">line_name</text>
+<text x="328" y="628" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(100)</text>
+
+<text x="52" y="648" font-size="12" fill="#0f172a" font-family="Consolas, monospace">department_id</text>
+<text x="328" y="648" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="648" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="52" y="668" font-size="12" fill="#0f172a" font-family="Consolas, monospace">location</text>
+<text x="328" y="668" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(60)</text>
+
+</g>
+<g>
+<rect x="40" y="720" width="300" height="164" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="40" y="720" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="40" y="744" width="300" height="10" fill="#0f172a"/>
+<text x="52" y="742" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">machines</text>
+<text x="52" y="768" font-size="12" fill="#0f172a" font-family="Consolas, monospace">machine_id</text>
+<text x="328" y="768" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="768" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="52" y="788" font-size="12" fill="#0f172a" font-family="Consolas, monospace">machine_code</text>
+<text x="328" y="788" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(20)</text>
+
+<text x="52" y="808" font-size="12" fill="#0f172a" font-family="Consolas, monospace">machine_name</text>
+<text x="328" y="808" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(100)</text>
+
+<text x="52" y="828" font-size="12" fill="#0f172a" font-family="Consolas, monospace">line_id</text>
+<text x="328" y="828" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="828" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="52" y="848" font-size="12" fill="#0f172a" font-family="Consolas, monospace">machine_type</text>
+<text x="328" y="848" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(40)</text>
+
+<text x="52" y="868" font-size="12" fill="#0f172a" font-family="Consolas, monospace">ideal_cycle_sec</text>
+<text x="328" y="868" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">numeric(8,2)</text>
+
+</g>
+<g>
+<rect x="40" y="920" width="300" height="144" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="40" y="920" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="40" y="944" width="300" height="10" fill="#0f172a"/>
+<text x="52" y="942" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">products</text>
+<text x="52" y="968" font-size="12" fill="#0f172a" font-family="Consolas, monospace">product_id</text>
+<text x="328" y="968" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="250" y="968" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="52" y="988" font-size="12" fill="#0f172a" font-family="Consolas, monospace">product_code</text>
+<text x="328" y="988" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(20)</text>
+
+<text x="52" y="1008" font-size="12" fill="#0f172a" font-family="Consolas, monospace">product_name</text>
+<text x="328" y="1008" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(100)</text>
+
+<text x="52" y="1028" font-size="12" fill="#0f172a" font-family="Consolas, monospace">product_family</text>
+<text x="328" y="1028" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(40)</text>
+
+<text x="52" y="1048" font-size="12" fill="#0f172a" font-family="Consolas, monospace">standard_cycle_sec</text>
+<text x="328" y="1048" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">numeric(8,2)</text>
+
+</g>
+<g>
+<rect x="400" y="40" width="300" height="204" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="400" y="40" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="400" y="64" width="300" height="10" fill="#0f172a"/>
+<text x="412" y="62" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">production_orders</text>
+<text x="412" y="88" font-size="12" fill="#0f172a" font-family="Consolas, monospace">order_id</text>
+<text x="688" y="88" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="88" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="412" y="108" font-size="12" fill="#0f172a" font-family="Consolas, monospace">order_code</text>
+<text x="688" y="108" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(30)</text>
+
+<text x="412" y="128" font-size="12" fill="#0f172a" font-family="Consolas, monospace">product_id</text>
+<text x="688" y="128" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="128" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="412" y="148" font-size="12" fill="#0f172a" font-family="Consolas, monospace">line_id</text>
+<text x="688" y="148" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="148" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="412" y="168" font-size="12" fill="#0f172a" font-family="Consolas, monospace">planned_qty</text>
+<text x="688" y="168" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">integer</text>
+
+<text x="412" y="188" font-size="12" fill="#0f172a" font-family="Consolas, monospace">start_time</text>
+<text x="688" y="188" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">timestamp without time zone</text>
+
+<text x="412" y="208" font-size="12" fill="#0f172a" font-family="Consolas, monospace">end_time</text>
+<text x="688" y="208" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">timestamp without time zone</text>
+
+<text x="412" y="228" font-size="12" fill="#0f172a" font-family="Consolas, monospace">status</text>
+<text x="688" y="228" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(20)</text>
+
+</g>
+<g>
+<rect x="400" y="280" width="300" height="224" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="400" y="280" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="400" y="304" width="300" height="10" fill="#0f172a"/>
+<text x="412" y="302" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">production_records</text>
+<text x="412" y="328" font-size="12" fill="#0f172a" font-family="Consolas, monospace">record_id</text>
+<text x="688" y="328" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="328" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="412" y="348" font-size="12" fill="#0f172a" font-family="Consolas, monospace">order_id</text>
+<text x="688" y="348" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="348" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="412" y="368" font-size="12" fill="#0f172a" font-family="Consolas, monospace">machine_id</text>
+<text x="688" y="368" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="368" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="412" y="388" font-size="12" fill="#0f172a" font-family="Consolas, monospace">shift_id</text>
+<text x="688" y="388" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="388" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="412" y="408" font-size="12" fill="#0f172a" font-family="Consolas, monospace">operator_id</text>
+<text x="688" y="408" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="408" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="412" y="428" font-size="12" fill="#0f172a" font-family="Consolas, monospace">record_time</text>
+<text x="688" y="428" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">timestamp without time zone</text>
+
+<text x="412" y="448" font-size="12" fill="#0f172a" font-family="Consolas, monospace">good_qty</text>
+<text x="688" y="448" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">integer</text>
+
+<text x="412" y="468" font-size="12" fill="#0f172a" font-family="Consolas, monospace">ng_qty</text>
+<text x="688" y="468" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">integer</text>
+
+<text x="412" y="488" font-size="12" fill="#0f172a" font-family="Consolas, monospace">total_qty</text>
+<text x="688" y="488" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">integer</text>
+
+</g>
+<g>
+<rect x="400" y="540" width="300" height="144" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="400" y="540" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="400" y="564" width="300" height="10" fill="#0f172a"/>
+<text x="412" y="562" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">machine_cycles</text>
+<text x="412" y="588" font-size="12" fill="#0f172a" font-family="Consolas, monospace">cycle_id</text>
+<text x="688" y="588" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="588" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="412" y="608" font-size="12" fill="#0f172a" font-family="Consolas, monospace">machine_id</text>
+<text x="688" y="608" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="608" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="412" y="628" font-size="12" fill="#0f172a" font-family="Consolas, monospace">order_id</text>
+<text x="688" y="628" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="610" y="628" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="412" y="648" font-size="12" fill="#0f172a" font-family="Consolas, monospace">cycle_start</text>
+<text x="688" y="648" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">timestamp without time zone</text>
+
+<text x="412" y="668" font-size="12" fill="#0f172a" font-family="Consolas, monospace">cycle_time_sec</text>
+<text x="688" y="668" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">numeric(8,2)</text>
+
+</g>
+<g>
+<rect x="760" y="40" width="300" height="124" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="760" y="40" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="760" y="64" width="300" height="10" fill="#0f172a"/>
+<text x="772" y="62" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">defect_types</text>
+<text x="772" y="88" font-size="12" fill="#0f172a" font-family="Consolas, monospace">defect_type_id</text>
+<text x="1048" y="88" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="88" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="772" y="108" font-size="12" fill="#0f172a" font-family="Consolas, monospace">defect_code</text>
+<text x="1048" y="108" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(20)</text>
+
+<text x="772" y="128" font-size="12" fill="#0f172a" font-family="Consolas, monospace">defect_name</text>
+<text x="1048" y="128" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(100)</text>
+
+<text x="772" y="148" font-size="12" fill="#0f172a" font-family="Consolas, monospace">severity</text>
+<text x="1048" y="148" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(10)</text>
+
+</g>
+<g>
+<rect x="760" y="200" width="300" height="204" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="760" y="200" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="760" y="224" width="300" height="10" fill="#0f172a"/>
+<text x="772" y="222" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">quality_inspections</text>
+<text x="772" y="248" font-size="12" fill="#0f172a" font-family="Consolas, monospace">inspection_id</text>
+<text x="1048" y="248" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="248" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="772" y="268" font-size="12" fill="#0f172a" font-family="Consolas, monospace">order_id</text>
+<text x="1048" y="268" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="268" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="772" y="288" font-size="12" fill="#0f172a" font-family="Consolas, monospace">defect_type_id</text>
+<text x="1048" y="288" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="288" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="772" y="308" font-size="12" fill="#0f172a" font-family="Consolas, monospace">inspector_id</text>
+<text x="1048" y="308" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="308" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="772" y="328" font-size="12" fill="#0f172a" font-family="Consolas, monospace">inspected_at</text>
+<text x="1048" y="328" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">timestamp without time zone</text>
+
+<text x="772" y="348" font-size="12" fill="#0f172a" font-family="Consolas, monospace">sample_qty</text>
+<text x="1048" y="348" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">integer</text>
+
+<text x="772" y="368" font-size="12" fill="#0f172a" font-family="Consolas, monospace">defect_qty</text>
+<text x="1048" y="368" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">integer</text>
+
+<text x="772" y="388" font-size="12" fill="#0f172a" font-family="Consolas, monospace">result</text>
+<text x="1048" y="388" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(5)</text>
+
+</g>
+<g>
+<rect x="760" y="440" width="300" height="124" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="760" y="440" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="760" y="464" width="300" height="10" fill="#0f172a"/>
+<text x="772" y="462" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">downtime_reasons</text>
+<text x="772" y="488" font-size="12" fill="#0f172a" font-family="Consolas, monospace">reason_id</text>
+<text x="1048" y="488" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="488" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="772" y="508" font-size="12" fill="#0f172a" font-family="Consolas, monospace">reason_code</text>
+<text x="1048" y="508" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(20)</text>
+
+<text x="772" y="528" font-size="12" fill="#0f172a" font-family="Consolas, monospace">reason_name</text>
+<text x="1048" y="528" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(100)</text>
+
+<text x="772" y="548" font-size="12" fill="#0f172a" font-family="Consolas, monospace">category</text>
+<text x="1048" y="548" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(30)</text>
+
+</g>
+<g>
+<rect x="760" y="600" width="300" height="184" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="760" y="600" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="760" y="624" width="300" height="10" fill="#0f172a"/>
+<text x="772" y="622" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">downtime_events</text>
+<text x="772" y="648" font-size="12" fill="#0f172a" font-family="Consolas, monospace">downtime_id</text>
+<text x="1048" y="648" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="648" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="772" y="668" font-size="12" fill="#0f172a" font-family="Consolas, monospace">machine_id</text>
+<text x="1048" y="668" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="668" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="772" y="688" font-size="12" fill="#0f172a" font-family="Consolas, monospace">order_id</text>
+<text x="1048" y="688" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="688" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="772" y="708" font-size="12" fill="#0f172a" font-family="Consolas, monospace">reason_id</text>
+<text x="1048" y="708" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="970" y="708" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="772" y="728" font-size="12" fill="#0f172a" font-family="Consolas, monospace">start_time</text>
+<text x="1048" y="728" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">timestamp without time zone</text>
+
+<text x="772" y="748" font-size="12" fill="#0f172a" font-family="Consolas, monospace">end_time</text>
+<text x="1048" y="748" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">timestamp without time zone</text>
+
+<text x="772" y="768" font-size="12" fill="#0f172a" font-family="Consolas, monospace">duration_minutes</text>
+<text x="1048" y="768" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">numeric(8,2)</text>
+
+</g>
+<g>
+<rect x="1120" y="40" width="300" height="144" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="1120" y="40" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="1120" y="64" width="300" height="10" fill="#0f172a"/>
+<text x="1132" y="62" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">materials</text>
+<text x="1132" y="88" font-size="12" fill="#0f172a" font-family="Consolas, monospace">material_id</text>
+<text x="1408" y="88" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="1330" y="88" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="1132" y="108" font-size="12" fill="#0f172a" font-family="Consolas, monospace">material_code</text>
+<text x="1408" y="108" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(20)</text>
+
+<text x="1132" y="128" font-size="12" fill="#0f172a" font-family="Consolas, monospace">material_name</text>
+<text x="1408" y="128" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(100)</text>
+
+<text x="1132" y="148" font-size="12" fill="#0f172a" font-family="Consolas, monospace">unit</text>
+<text x="1408" y="148" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(10)</text>
+
+<text x="1132" y="168" font-size="12" fill="#0f172a" font-family="Consolas, monospace">unit_cost</text>
+<text x="1408" y="168" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">numeric(12,2)</text>
+
+</g>
+<g>
+<rect x="1120" y="220" width="300" height="164" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="1120" y="220" width="300" height="34" rx="10" fill="#0f172a"/>
+<rect x="1120" y="244" width="300" height="10" fill="#0f172a"/>
+<text x="1132" y="242" font-size="13" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">material_transactions</text>
+<text x="1132" y="268" font-size="12" fill="#0f172a" font-family="Consolas, monospace">txn_id</text>
+<text x="1408" y="268" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="1330" y="268" font-size="10" font-weight="700" fill="#e11d48" font-family="Consolas, monospace">PK</text>
+<text x="1132" y="288" font-size="12" fill="#0f172a" font-family="Consolas, monospace">material_id</text>
+<text x="1408" y="288" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="1330" y="288" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="1132" y="308" font-size="12" fill="#0f172a" font-family="Consolas, monospace">order_id</text>
+<text x="1408" y="308" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">bigint</text>
+<text x="1330" y="308" font-size="10" font-weight="700" fill="#0284c7" font-family="Consolas, monospace">FK</text>
+<text x="1132" y="328" font-size="12" fill="#0f172a" font-family="Consolas, monospace">txn_type</text>
+<text x="1408" y="328" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">character varying(5)</text>
+
+<text x="1132" y="348" font-size="12" fill="#0f172a" font-family="Consolas, monospace">qty</text>
+<text x="1408" y="348" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">numeric(12,2)</text>
+
+<text x="1132" y="368" font-size="12" fill="#0f172a" font-family="Consolas, monospace">txn_time</text>
+<text x="1408" y="368" font-size="11" text-anchor="end" fill="#64748b" font-family="Consolas, monospace">timestamp without time zone</text>
+
+</g>
+</svg>
