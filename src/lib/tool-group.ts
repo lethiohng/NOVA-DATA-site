@@ -27,6 +27,10 @@ export const TOPIC_GROUPS: TopicGroup[] = [
       "mtbf",
       "mttr",
       "attainment",
+      "capacity-calculation",
+      "capacity-utilization",
+      "line-balancing",
+      "bottleneck-rate",
     ],
   },
   {

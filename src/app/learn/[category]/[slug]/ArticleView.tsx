@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { Article, Category } from "@/lib/content";
+import type { Article, Category, Topic } from "@/lib/content";
 import { useLang, useT } from "@/lib/i18n";
 import { Badge, CodeBlock, Section } from "@/components/ui";
 import TopicDoneButton from "@/components/TopicDoneButton";
+import { TOPIC_GROUPS } from "@/lib/tool-group";
 
 const labels = {
   vi: {
@@ -67,36 +68,61 @@ export default function ArticleView({ article, category, relatedPublished }: { a
   const L = labels[lang];
   const [showAnswer, setShowAnswer] = useState(false);
 
+  // Sidebar chia theo nhóm (src/lib/tool-group.ts). Mỗi bài chỉ hiện ở nhóm đầu tiên chứa nó.
+  const groupsHere = TOPIC_GROUPS.filter((g) => g.categorySlug === category.slug);
+  const placed = new Set<string>();
+  const sidebarGroups = groupsHere
+    .map((g) => {
+      const topics = g.topicSlugs
+        .filter((s) => !placed.has(s))
+        .map((s) => category.topics.find((tp) => tp.slug === s))
+        .filter((tp): tp is Topic => Boolean(tp));
+      topics.forEach((tp) => placed.add(tp.slug));
+      return { key: g.slug, title: t(g.title), topics };
+    })
+    .filter((g) => g.topics.length);
+  const rest = category.topics.filter((tp) => !placed.has(tp.slug));
+  if (groupsHere.length && rest.length) sidebarGroups.push({ key: "other", title: lang === "vi" ? "Khác" : "Other", topics: rest });
+
+  const renderTopic = (tp: Topic) => {
+    const current = tp.slug === article.slug;
+    const published = tp.status === "published";
+    const base = `-ml-px block truncate border-l-2 py-1 pl-4 pr-2 text-sm transition ${
+      current ? "border-sky-600 font-semibold text-sky-700 dark:text-sky-300" : "border-transparent text-slate-600 dark:text-slate-400"
+    }`;
+    return (
+      <li key={tp.slug}>
+        {published ? (
+          <Link
+            href={`/learn/${category.slug}/${tp.slug}`}
+            aria-current={current ? "page" : undefined}
+            className={`${base} hover:border-sky-500 hover:text-sky-700 dark:hover:text-sky-300`}
+          >
+            {t(tp.title)}
+          </Link>
+        ) : (
+          <span className={`${base} opacity-50`}>{t(tp.title)}</span>
+        )}
+      </li>
+    );
+  };
+
   return (
     <div className="lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start lg:gap-8">
       {/* Danh sách chủ đề trong danh mục, bên trái, giống trang SQL Basic */}
       <aside className="hidden lg:sticky lg:top-24 lg:block lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
         <p className="mb-3 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">{lang === "vi" ? "Danh sách bài học" : "Lessons"}</p>
         <nav aria-label={lang === "vi" ? "Danh sách bài học" : "Lessons"}>
-          <ul className="space-y-0.5 border-l border-slate-200 dark:border-slate-800">
-            {category.topics.map((tp) => {
-              const current = tp.slug === article.slug;
-              const published = tp.status === "published";
-              const base = `-ml-px block truncate border-l-2 py-1 pl-4 pr-2 text-sm transition ${
-                current ? "border-sky-600 font-semibold text-sky-700 dark:text-sky-300" : "border-transparent text-slate-600 dark:text-slate-400"
-              }`;
-              return (
-                <li key={tp.slug}>
-                  {published ? (
-                    <Link
-                      href={`/learn/${category.slug}/${tp.slug}`}
-                      aria-current={current ? "page" : undefined}
-                      className={`${base} hover:border-sky-500 hover:text-sky-700 dark:hover:text-sky-300`}
-                    >
-                      {t(tp.title)}
-                    </Link>
-                  ) : (
-                    <span className={`${base} opacity-50`}>{t(tp.title)}</span>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+          {groupsHere.length ? (
+            sidebarGroups.map((g) => (
+              <details key={g.key} open={g.topics.some((tp) => tp.slug === article.slug)} className="mb-3">
+                <summary className="mb-1 cursor-pointer px-3 text-sm font-semibold text-slate-800 dark:text-slate-200">{g.title}</summary>
+                <ul className="space-y-0.5 border-l border-slate-200 dark:border-slate-800">{g.topics.map(renderTopic)}</ul>
+              </details>
+            ))
+          ) : (
+            <ul className="space-y-0.5 border-l border-slate-200 dark:border-slate-800">{category.topics.map(renderTopic)}</ul>
+          )}
         </nav>
       </aside>
 

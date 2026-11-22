@@ -313,6 +313,8 @@ export const categories: Category[] = [
       { slug: "msa", title: { vi: "MSA (Measurement System Analysis): phân tích hệ thống đo lường", en: "MSA (Measurement System Analysis)" }, status: "published" },
       { slug: "4m-5m1e", title: { vi: "4M / 5M1E (Man, Machine, Material, Method, Measurement, Environment): các yếu tố ảnh hưởng đến sản xuất", en: "4M / 5M1E (Man, Machine, Material, Method, Measurement, Environment): factors that affect production" }, status: "published" },
       { slug: "visual-management", title: { vi: "Visual Management", en: "Visual Management" }, status: "published" },
+      { slug: "capacity-utilization", title: { vi: "Capacity Utilization: mức sử dụng công suất", en: "Capacity Utilization: how much capacity is used" }, status: "published" },
+      { slug: "bottleneck-rate", title: { vi: "Bottleneck Rate: tỷ lệ đạt của điểm nghẽn", en: "Bottleneck Rate: achievement of the constraint" }, status: "published" },
     ],
   },
   {
@@ -442,8 +444,8 @@ export const articles: Article[] = [
       en: "OEE = Availability × Performance × Quality. Availability captures time lost to stops (breakdowns, changeovers). Performance captures speed loss versus the ideal cycle time (slow running, minor stops). Quality captures defects and rework. Because the three are multiplied, one weak factor pulls the whole OEE down.",
     },
     practicalExample: {
-      vi: "Một line có 480 phút kế hoạch, dừng 60 phút (hỏng + setup), ideal cycle time 1 phút/sản phẩm, sản xuất 380 sản phẩm, trong đó 360 sản phẩm đạt. Availability = 420/480 = 87.5%. Performance = (1 × 380) / 420 = 90.5%. Quality = 360/380 = 94.7%. OEE ≈ 75.0%.",
-      en: "A line has 480 planned minutes, 60 minutes of stops (breakdown + changeover), an ideal cycle time of 1 minute per part, and produces 380 parts, of which 360 are good. Availability = 420/480 = 87.5%. Performance = (1 × 380) / 420 = 90.5%. Quality = 360/380 = 94.7%. OEE ≈ 75.0%.",
+      vi: "Một line có 480 phút kế hoạch, dừng 60 phút (hỏng + setup), ideal cycle time 1 phút/sản phẩm, sản xuất 380 sản phẩm, trong đó 360 sản phẩm đạt.\nAvailability = 420/480 = 87.5%.\nPerformance = (1 × 380) / 420 = 90.5%.\nQuality = 360/380 = 94.7%.\nOEE ≈ 75.0%.",
+      en: "A line has 480 planned minutes, 60 minutes of stops (breakdown + changeover), an ideal cycle time of 1 minute per part, and produces 380 parts, of which 360 are good.\nAvailability = 420/480 = 87.5%.\nPerformance = (1 × 380) / 420 = 90.5%.\nQuality = 360/380 = 94.7%.\nOEE ≈ 75.0%.",
     },
     formula: [
       {
@@ -7403,6 +7405,96 @@ ORDER BY b.order_id;`,
     "answer": {
       "vi": "Man (con người).",
       "en": "Man (people)."
+    },
+    "relatedTopics": []
+  },
+  {
+    "slug": "capacity-utilization",
+    "categorySlug": "manufacturing-analytics",
+    "title": {
+      "vi": "Capacity Utilization: mức sử dụng công suất",
+      "en": "Capacity Utilization: how much capacity is used"
+    },
+    "summary": {
+      "vi": "Capacity Utilization là tỷ lệ sản lượng thực tế trên công suất tối đa, cho biết dây chuyền đang dùng bao nhiêu năng lực.",
+      "en": "Capacity Utilization is the ratio of actual output to maximum capacity, showing how much of the capacity is used."
+    },
+    "difficulty": "Beginner",
+    "overview": {
+      "vi": "Mức sử dụng thấp nghĩa là năng lực dư thừa; mức quá cao có thể làm máy quá tải và hỏng nhanh.",
+      "en": "Low utilization means spare capacity; very high utilization can overload machines and cause faster wear."
+    },
+    "objectives": [
+      {
+        "vi": "Tính Capacity Utilization.",
+        "en": "Calculate Capacity Utilization."
+      },
+      {
+        "vi": "Đọc kết quả thấp và cao.",
+        "en": "Read low and high results."
+      }
+    ],
+    "explanation": {
+      "vi": "1. Công thức: Capacity Utilization = Actual Output ÷ Maximum Capacity × 100%.\n2. Actual Output là sản lượng thực tế của kỳ.\n3. Maximum Capacity là công suất tối đa của cùng kỳ.",
+      "en": "1. Formula: Capacity Utilization = Actual Output ÷ Maximum Capacity × 100%.\n2. Actual Output is the output for the period.\n3. Maximum Capacity is the capacity for the same period."
+    },
+    "practicalExample": {
+      "vi": "Công suất tối đa 480 sản phẩm, sản lượng thực tế 380: Capacity Utilization = 380 ÷ 480 = 79,2%.",
+      "en": "Maximum capacity 480 units, actual output 380: Capacity Utilization = 380 ÷ 480 = 79.2%."
+    },
+    "formula": [],
+    "exercise": {
+      "vi": "Công suất tối đa 800 sản phẩm, sản lượng thực tế 600. Capacity Utilization là bao nhiêu?",
+      "en": "Maximum capacity 800 units, actual output 600. What is the Capacity Utilization?"
+    },
+    "answer": {
+      "vi": "600 ÷ 800 = 75%.",
+      "en": "600 ÷ 800 = 75%."
+    },
+    "relatedTopics": []
+  },
+  {
+    "slug": "bottleneck-rate",
+    "categorySlug": "manufacturing-analytics",
+    "title": {
+      "vi": "Bottleneck Rate: tỷ lệ đạt của điểm nghẽn",
+      "en": "Bottleneck Rate: achievement of the constraint"
+    },
+    "summary": {
+      "vi": "Bottleneck Rate đo sản lượng của công đoạn nghẽn so với mục tiêu, vì nó quyết định sản lượng cả chuyền.",
+      "en": "Bottleneck Rate compares the bottleneck step's output with its target, since that step sets the output of the whole line."
+    },
+    "difficulty": "Intermediate",
+    "overview": {
+      "vi": "Nếu điểm nghẽn đạt thấp hơn mục tiêu, cả chuyền sẽ không đạt mục tiêu dù các công đoạn khác tốt.",
+      "en": "If the bottleneck is below target, the whole line misses target even if the other steps perform well."
+    },
+    "objectives": [
+      {
+        "vi": "Tính Bottleneck Rate.",
+        "en": "Calculate Bottleneck Rate."
+      },
+      {
+        "vi": "Liên hệ Bottleneck Rate với điểm nghẽn của chuyền.",
+        "en": "Link Bottleneck Rate to the constraint of a line."
+      }
+    ],
+    "explanation": {
+      "vi": "1. Công thức: Bottleneck Rate = Bottleneck Output ÷ Target Output × 100%.\n2. Bottleneck Output là sản lượng thực tế của công đoạn nghẽn trong kỳ.\n3. Target Output là mục tiêu sản lượng của cùng kỳ.",
+      "en": "1. Formula: Bottleneck Rate = Bottleneck Output ÷ Target Output × 100%.\n2. Bottleneck Output is the actual output of the bottleneck step in the period.\n3. Target Output is the target output for the same period."
+    },
+    "practicalExample": {
+      "vi": "Mục tiêu 500 sản phẩm, công đoạn nghẽn làm 420: Bottleneck Rate = 420 ÷ 500 = 84%.",
+      "en": "Target 500 units, bottleneck step made 420: Bottleneck Rate = 420 ÷ 500 = 84%."
+    },
+    "formula": [],
+    "exercise": {
+      "vi": "Mục tiêu 500 sản phẩm, công đoạn nghẽn làm 450. Bottleneck Rate là bao nhiêu?",
+      "en": "Target 500 units, bottleneck step made 450. What is the Bottleneck Rate?"
+    },
+    "answer": {
+      "vi": "450 ÷ 500 = 90%.",
+      "en": "450 ÷ 500 = 90%."
     },
     "relatedTopics": []
   },
