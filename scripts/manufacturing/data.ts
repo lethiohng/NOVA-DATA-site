@@ -48,6 +48,7 @@ export function generateManufacturingData(): Tables {
   const rnd = mulberry32(20260801);
   // Bộ sinh riêng cho phút và giây của record_time, để không làm thay đổi các số liệu khác.
   const timeRnd = mulberry32(20260802);
+  const orderTimeRnd = mulberry32(20260803); // phút, giây cho start_time / end_time của lệnh
   const between = (lo: number, hi: number) => lo + Math.floor(rnd() * (hi - lo + 1));
   const pick = <T,>(arr: T[]): T => arr[Math.floor(rnd() * arr.length)];
 
@@ -166,7 +167,8 @@ export function generateManufacturingData(): Tables {
       const orderId = li * 20 + k + 1;
       const startH = k * 72 + 6;
       const endH = startH + 72;
-      const startMs = BASE + startH * HOUR;
+      const startMs = BASE + startH * HOUR + Math.floor(orderTimeRnd() * HOUR);
+      const endMs = BASE + endH * HOUR + Math.floor(orderTimeRnd() * HOUR);
       const running = endH > HOURS;
       const productId = between(1, products.length);
       orderProduct.set(orderId, productId);
@@ -177,7 +179,7 @@ export function generateManufacturingData(): Tables {
         line_id: li + 1,
         planned_qty: between(2500, 4000),
         start_time: ts(startMs),
-        end_time: running ? null : ts(startMs + 72 * HOUR),
+        end_time: running ? null : ts(endMs),
         status: running ? "Running" : "Completed",
       });
       for (let h = startH; h < Math.min(endH, HOURS); h++) orderAt[li][h] = orderId;
