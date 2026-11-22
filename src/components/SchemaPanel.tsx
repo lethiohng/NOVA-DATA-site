@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { sandbox, type TableInfo } from "@/lib/sql-sandbox";
+import { displayCell, sandbox, type TableInfo } from "@/lib/sql-sandbox";
 import { useLang } from "@/lib/i18n";
 
 export { DATASET_TABLES, tablesIn } from "@/lib/dataset-tables";
@@ -86,7 +86,7 @@ export function SchemaPanel({ names }: { names?: string[] }) {
                           <tr key={i} className="border-t border-slate-100 dark:border-slate-800">
                             {t.columns.map((c) => (
                               <td key={c.name} className="whitespace-nowrap px-3 py-2 font-mono">
-                                {row[c.name] === null ? <span className="text-slate-400">NULL</span> : String(row[c.name])}
+                                {row[c.name] === null ? <span className="text-slate-400">NULL</span> : displayCell(row[c.name])}
                               </td>
                             ))}
                           </tr>

@@ -121,6 +121,18 @@ export type Verdict = {
   message: string;
 };
 
+/** Hiển thị một ô kết quả: thời gian dạng YYYY-MM-DD HH:MM:SS thay vì chuỗi Date dài của JavaScript. */
+export function displayCell(v: unknown): string {
+  if (v === null || v === undefined) return "NULL";
+  if (v instanceof Date) {
+    if (isNaN(v.getTime())) return "Invalid Date";
+    // PGlite đọc timestamp không kèm múi giờ theo giờ địa phương, nên đọc lại bằng hàm địa phương.
+    const p = (n: number) => String(n).padStart(2, "0");
+    return `${v.getFullYear()}-${p(v.getMonth() + 1)}-${p(v.getDate())} ${p(v.getHours())}:${p(v.getMinutes())}:${p(v.getSeconds())}`;
+  }
+  return String(v);
+}
+
 /** Chuẩn hóa một giá trị để so sánh: số làm tròn 4 chữ số, NULL thống nhất. */
 function normValue(v: unknown): string {
   if (v === null || v === undefined) return "NULL";

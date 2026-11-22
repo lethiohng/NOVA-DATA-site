@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { sandbox, type QueryResult, type Verdict } from "@/lib/sql-sandbox";
+import { displayCell, sandbox, type QueryResult, type Verdict } from "@/lib/sql-sandbox";
 import { useLang } from "@/lib/i18n";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { markExerciseSolved } from "@/lib/progress";
@@ -75,7 +75,7 @@ export function ResultView({ result }: { result: QueryResult }) {
               <tr key={i} className="border-t border-slate-100 dark:border-slate-800">
                 {result.columns.map((c) => (
                   <td key={c} className="whitespace-nowrap px-3 py-1.5 font-mono">
-                    {row[c] === null ? <span className="text-slate-400">NULL</span> : String(row[c])}
+                    {row[c] === null ? <span className="text-slate-400">NULL</span> : displayCell(row[c])}
                   </td>
                 ))}
               </tr>
