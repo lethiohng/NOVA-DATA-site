@@ -50,7 +50,9 @@ create table if not exists products (
   product_code     varchar(20) not null unique,
   product_name     varchar(100) not null,
   product_family   varchar(40),
-  standard_cycle_sec numeric(8, 2) not null check (standard_cycle_sec > 0)
+  standard_cycle_sec numeric(8, 2) not null check (standard_cycle_sec > 0),
+  standard_uph       numeric(8, 2) check (standard_uph > 0),        -- UPH chuẩn của cả dây chuyền (sản phẩm/giờ)
+  standard_crew_size int check (standard_crew_size > 0)               -- số người chuẩn trên dây chuyền
 );
 
 -- ============================================================
@@ -269,15 +271,15 @@ INSERT INTO machines (machine_id, machine_code, machine_name, line_id, machine_t
 (10, 'M-D1', 'CNC D1', 4, 'CNC', 45),
 (11, 'M-D2', 'Assembly D2', 4, 'Assembly', 45),
 (12, 'M-D3', 'Press D3', 4, 'Press', 45);
-INSERT INTO products (product_id, product_code, product_name, product_family, standard_cycle_sec) VALUES
-(1, 'P-001', 'Product 001', 'Sensor Housing', 42),
-(2, 'P-002', 'Product 002', 'Motor Bracket', 45),
-(3, 'P-003', 'Product 003', 'Gear Cover', 48),
-(4, 'P-004', 'Product 004', 'Valve Body', 50),
-(5, 'P-005', 'Product 005', 'Sensor Housing', 52),
-(6, 'P-006', 'Product 006', 'Motor Bracket', 55),
-(7, 'P-007', 'Product 007', 'Gear Cover', 58),
-(8, 'P-008', 'Product 008', 'Valve Body', 60);
+INSERT INTO products (product_id, product_code, product_name, product_family, standard_cycle_sec, standard_uph, standard_crew_size) VALUES
+(1, 'P-001', 'Product 001', 'Sensor Housing', 42, 257.1, 3),
+(2, 'P-002', 'Product 002', 'Motor Bracket', 45, 240, 3),
+(3, 'P-003', 'Product 003', 'Gear Cover', 48, 225, 3),
+(4, 'P-004', 'Product 004', 'Valve Body', 50, 216, 3),
+(5, 'P-005', 'Product 005', 'Sensor Housing', 52, 207.7, 3),
+(6, 'P-006', 'Product 006', 'Motor Bracket', 55, 196.4, 3),
+(7, 'P-007', 'Product 007', 'Gear Cover', 58, 186.2, 3),
+(8, 'P-008', 'Product 008', 'Valve Body', 60, 180, 3);
 INSERT INTO production_orders (order_id, order_code, product_id, line_id, planned_qty, start_time, end_time, status) VALUES
 (1, 'ORD-2608-0001', 4, 1, 3071, '2026-08-01 06:21:17', '2026-08-04 06:19:49', 'Completed'),
 (2, 'ORD-2608-0002', 6, 1, 3673, '2026-08-04 06:34:31', '2026-08-07 06:10:54', 'Completed'),

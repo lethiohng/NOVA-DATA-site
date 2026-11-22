@@ -125,6 +125,9 @@ export function generateManufacturingData(): Tables {
     product_name: `Product ${String(i + 1).padStart(3, "0")}`,
     product_family: families[i % families.length],
     standard_cycle_sec: cycle,
+    // Dây chuyền có 3 máy chạy song song: UPH chuẩn = 3 × 3600 / chu kỳ chuẩn; 1 người cho mỗi máy.
+    standard_uph: Math.round((3 * 3600 * 10) / cycle) / 10,
+    standard_crew_size: 3,
   }));
 
   const defectTypes: Row[] = [

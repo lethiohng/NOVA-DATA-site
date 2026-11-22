@@ -50,7 +50,9 @@ create table if not exists products (
   product_code     varchar(20) not null unique,
   product_name     varchar(100) not null,
   product_family   varchar(40),
-  standard_cycle_sec numeric(8, 2) not null check (standard_cycle_sec > 0)
+  standard_cycle_sec numeric(8, 2) not null check (standard_cycle_sec > 0),
+  standard_uph       numeric(8, 2) check (standard_uph > 0),        -- UPH chuẩn của cả dây chuyền (sản phẩm/giờ)
+  standard_crew_size int check (standard_crew_size > 0)               -- số người chuẩn trên dây chuyền
 );
 
 -- ============================================================
