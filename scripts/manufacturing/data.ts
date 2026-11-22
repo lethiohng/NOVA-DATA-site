@@ -46,6 +46,8 @@ const dateStr = (ms: number) => new Date(ms).toISOString().slice(0, 10);
 
 export function generateManufacturingData(): Tables {
   const rnd = mulberry32(20260801);
+  // Bộ sinh riêng cho phút và giây của record_time, để không làm thay đổi các số liệu khác.
+  const timeRnd = mulberry32(20260802);
   const between = (lo: number, hi: number) => lo + Math.floor(rnd() * (hi - lo + 1));
   const pick = <T,>(arr: T[]): T => arr[Math.floor(rnd() * arr.length)];
 
@@ -238,7 +240,8 @@ export function generateManufacturingData(): Tables {
           machine_id: machineId,
           shift_id: shiftId,
           operator_id: pool.length ? pick(pool) : null,
-          record_time: ts(hourMs),
+          // Giữ nguyên giờ, thêm phút và giây ngẫu nhiên trong giờ đó (ví dụ 06:14:37).
+          record_time: ts(hourMs + Math.floor(timeRnd() * HOUR)),
           good_qty: total - ng,
           ng_qty: ng,
           total_qty: total,
