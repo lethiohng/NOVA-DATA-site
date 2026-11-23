@@ -25,3 +25,20 @@ export type BasicLesson = {
 };
 
 export type BasicModule = { number: 4 | 5 | 6 | 7; title: string; description: string };
+
+/* Bản tiếng Anh của một bài: chỉ các trường chữ hiển thị. SQL, bảng dữ liệu và đáp án dùng chung với bản tiếng Việt. */
+export type BasicLessonEn = {
+  title: string;
+  objectives: string[];
+  prerequisites: string;
+  explanation: string[];
+  factory: string;
+  example: { explain: string[] };
+  practice: { question: string; hint: string }[];
+  mistakes: string[];
+  summary: string[];
+  next: string;
+};
+
+/* Phần chữ tiếng Anh của bài (không gồm giải thích ví dụ, lấy từ examples-en.ts). */
+export type BasicLessonEnText = Omit<BasicLessonEn, "example">;

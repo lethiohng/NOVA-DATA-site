@@ -13,6 +13,7 @@ export default function LessonHeader({
   access,
   totalLessons,
   totalMinutes,
+  lang = "vi",
 }: {
   course: { title: string; href: string };
   moduleLabel: string;
@@ -23,7 +24,11 @@ export default function LessonHeader({
   access: { label: string; tone: "green" | "violet" };
   totalLessons: number;
   totalMinutes: number;
+  lang?: "vi" | "en";
 }) {
+  const minutesLabel = lang === "en" ? "min" : "phút";
+  const lessonsLabel = lang === "en" ? "lessons" : "bài";
+  const thisLessonLabel = lang === "en" ? "min for this lesson" : "phút bài này";
   return (
     <>
       <nav className="mb-4 text-sm text-slate-500">
@@ -40,9 +45,9 @@ export default function LessonHeader({
         <Badge tone="sky">{moduleLabel}</Badge>
         <Badge>{level}</Badge>
         <Badge>
-          {totalLessons} bài · {totalMinutes} phút
+          {totalLessons} {lessonsLabel} · {totalMinutes} {minutesLabel}
         </Badge>
-        <Badge>{minutes} phút bài này</Badge>
+        <Badge>{minutes} {thisLessonLabel}</Badge>
       </div>
       <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
         <span className="mr-3 font-mono text-xl text-slate-400">{number}</span>
