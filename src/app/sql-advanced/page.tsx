@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ADVANCED_GROUPS, ADVANCED_LESSONS, ADVANCED_MODULES, advancedLessonNumber } from "@/lib/sql-advanced";
 import { PageHeader, Section } from "@/components/ui";
+import { DatasetNote } from "@/components/DatasetNote";
 
 export default function SqlAdvancedPage() {
   return (
@@ -10,6 +11,8 @@ export default function SqlAdvancedPage() {
         title="SQL Advanced"
         description={`${ADVANCED_LESSONS.length} bài học SQL nâng cao trên bộ dữ liệu NOVA MANUFACTURING: truy vấn phức tạp, xử lý dữ liệu, mô hình hóa và bài toán BI sản xuất thực tế.`}
       />
+
+      <DatasetNote />
 
       {ADVANCED_GROUPS.map((g) => (
         <div key={g.number} className="mt-12 first:mt-8">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BASIC_LESSONS, BASIC_MODULES, lessonNumber, moduleNumber } from "@/lib/sql-basic";
 import { PageHeader, Section } from "@/components/ui";
+import { DatasetNote } from "@/components/DatasetNote";
 
 export default function SqlBasicPage() {
   return (
@@ -10,6 +11,8 @@ export default function SqlBasicPage() {
         title="SQL Basic"
         description={`${BASIC_LESSONS.length} bài học SQL cơ bản trên bộ dữ liệu NOVA MANUFACTURING. Mỗi bài có giải thích, ví dụ, tình huống nhà máy và bài tập có gợi ý.`}
       />
+
+      <DatasetNote />
 
       {BASIC_MODULES.map((m) => (
         <Section key={m.number} title={`Module ${moduleNumber(m.number)}: ${m.title}`}>

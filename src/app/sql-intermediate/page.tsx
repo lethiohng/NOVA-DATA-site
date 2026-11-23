@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { INTERMEDIATE_LESSONS, INTERMEDIATE_MODULES, intermediateLessonNumber, intermediateModuleNumber } from "@/lib/sql-intermediate";
 import { PageHeader, Section } from "@/components/ui";
+import { DatasetNote } from "@/components/DatasetNote";
 
 export default function SqlIntermediatePage() {
   return (
@@ -10,6 +11,8 @@ export default function SqlIntermediatePage() {
         title="SQL Intermediate"
         description={`${INTERMEDIATE_LESSONS.length} bài học SQL trung cấp trên bộ dữ liệu NOVA MANUFACTURING: JOIN, subquery, CTE, hàm và window function.`}
       />
+
+      <DatasetNote />
 
       {INTERMEDIATE_MODULES.map((m) => (
         <Section key={m.number} title={`Module ${intermediateModuleNumber(m.number)}: ${m.title}`}>
