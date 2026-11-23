@@ -4,7 +4,7 @@ import type { BasicPractice } from "@/lib/sql-basic/types";
 
 export type IntermediateLesson = {
   id: string; // số thứ tự toàn khóa, dùng trong đường dẫn: "1" đến "31"
-  module: 7 | 8 | 9 | 10 | 11; // mã module theo roadmap (07 đến 11)
+  module: 7 | 8 | 9 | 10 | 11 | 12; // mã module theo roadmap (07 đến 12)
   title: string;
   minutes: number;
   objectives: string[];
@@ -20,4 +20,4 @@ export type IntermediateLesson = {
   next: string;
 };
 
-export type IntermediateModule = { number: 7 | 8 | 9 | 10 | 11; title: string; description: string };
+export type IntermediateModule = { number: 7 | 8 | 9 | 10 | 11 | 12; title: string; description: string };

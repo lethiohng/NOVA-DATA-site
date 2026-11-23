@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import CopyButton from "@/components/CopyButton";
 
 /* Hệ thống giao diện dùng chung: một kiểu bo góc, một kiểu viền, một kiểu nhãn. */
 
@@ -186,8 +187,10 @@ export function CodeBlock({ code }: { code: string }) {
         <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
         <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
         <span className="ml-3 text-xs text-slate-500">SQL · PostgreSQL</span>
+        <CopyButton text={code} />
       </div>
-      <pre className="overflow-x-auto p-4 text-sm leading-relaxed text-slate-100">
+      {/* Xuống dòng thay vì cuộn ngang, để thấy hết câu lệnh dài. */}
+      <pre className="whitespace-pre-wrap break-words p-4 text-sm leading-relaxed text-slate-100">
         <code>{code}</code>
       </pre>
     </div>

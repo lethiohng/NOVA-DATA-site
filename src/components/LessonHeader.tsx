@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui";
+import LessonTimer from "@/components/LessonTimer";
 
 /* Đầu bài học: breadcrumb, nhãn (module, cấp độ, miễn phí hoặc premium, số bài, số phút) và tiêu đề. */
 export default function LessonHeader({
@@ -47,6 +48,9 @@ export default function LessonHeader({
         <span className="mr-3 font-mono text-xl text-slate-400">{number}</span>
         {title}
       </h1>
+      <div className="mt-6">
+        <LessonTimer minutes={minutes} />
+      </div>
     </>
   );
 }

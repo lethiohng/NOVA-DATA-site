@@ -41,3 +41,27 @@
 ::selection {
   background: rgb(31 79 156 / 0.18);
 }
+
+/* Hoa rơi khi hoàn thành bài (FlowerBurst). */
+.flower-petal {
+  position: absolute;
+  opacity: 0;
+  animation: flower-fall 2.8s cubic-bezier(0.2, 0.7, 0.4, 1) forwards;
+}
+
+@keyframes flower-fall {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flower-petal {
+    display: none;
+  }
+}

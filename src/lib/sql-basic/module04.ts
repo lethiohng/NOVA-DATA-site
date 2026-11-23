@@ -228,6 +228,7 @@ export const module04: BasicLesson[] = [
       "Alias là tên tạm thời hiển thị trong kết quả. Viết tên_cột AS tên_mới. Alias không đổi tên cột trong bảng gốc.",
       "Nếu tên alias có khoảng trắng hoặc dấu tiếng Việt, đặt trong dấu nháy kép, ví dụ AS \"Tên sản phẩm\".",
       "Alias giúp báo cáo dễ đọc hơn. Bạn cũng có thể dùng alias để đặt tên cho các phép tính, sẽ gặp lại ở module tổng hợp.",
+      "Bí danh bảng (table alias) là tên ngắn đặt cho một bảng ngay sau tên bảng trong FROM, ví dụ FROM production_records r. Từ đó, r.record_id nghĩa là cột record_id của bảng production_records. Bí danh bảng giúp câu lệnh ngắn hơn, nhất là khi sau này bạn ghép nhiều bảng bằng JOIN.",
     ],
     syntax: "SELECT tên_cột AS tên_hiển_thị FROM tên_bảng;",
     example: {
@@ -262,6 +263,7 @@ export const module04: BasicLesson[] = [
       "AS đặt tên hiển thị cho cột.",
       "Dùng nháy kép cho alias có khoảng trắng hoặc tiếng Việt.",
       "Bảng gốc không thay đổi.",
+      "Bí danh bảng đặt sau tên bảng trong FROM, ví dụ FROM production_records r, rồi dùng r.tên_cột.",
     ],
     next: "Bài 6 giới hạn số dòng với LIMIT và OFFSET.",
   },

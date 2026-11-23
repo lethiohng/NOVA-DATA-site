@@ -2,6 +2,7 @@ import type { BasicLesson, BasicModule } from "./types";
 import { module04 } from "./module04";
 import { module05 } from "./module05";
 import { module06 } from "./module06";
+import { module07 } from "./module07";
 
 export type { BasicLesson, BasicModule, BasicPractice } from "./types";
 
@@ -9,9 +10,10 @@ export const BASIC_MODULES: BasicModule[] = [
   { number: 4, title: "SQL Basic Queries", description: "SELECT, chọn cột, DISTINCT, alias, LIMIT, NULL và comment." },
   { number: 5, title: "Filtering & Sorting", description: "Lọc dữ liệu với WHERE, toán tử so sánh, AND/OR/NOT, IN, BETWEEN, LIKE và ORDER BY." },
   { number: 6, title: "SQL Aggregation", description: "COUNT, SUM, AVG, MIN, MAX, GROUP BY và HAVING." },
+  { number: 7, title: "Toán tử và kiểu dữ liệu", description: "Toán tử số học, IS NULL và IS NOT NULL, ép kiểu với CAST và ::, nối chuỗi với || và COALESCE." },
 ];
 
-export const BASIC_LESSONS: BasicLesson[] = [...module04, ...module05, ...module06];
+export const BASIC_LESSONS: BasicLesson[] = [...module04, ...module05, ...module06, ...module07];
 
 export function getBasicLesson(id: string): BasicLesson | undefined {
   return BASIC_LESSONS.find((l) => l.id === id);

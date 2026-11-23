@@ -8,7 +8,7 @@ export type BasicPractice = {
 
 export type BasicLesson = {
   id: string; // ví dụ "04-01": số module và số thứ tự bài
-  module: 4 | 5 | 6;
+  module: 4 | 5 | 6 | 7;
   title: string;
   minutes: number;
   objectives: string[];
@@ -24,4 +24,4 @@ export type BasicLesson = {
   next: string;
 };
 
-export type BasicModule = { number: 4 | 5 | 6; title: string; description: string };
+export type BasicModule = { number: 4 | 5 | 6 | 7; title: string; description: string };

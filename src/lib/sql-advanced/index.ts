@@ -3,16 +3,18 @@ import { group01 } from "./group01";
 import { group02 } from "./group02";
 import { group03 } from "./group03";
 import { group04 } from "./group04";
+import { group05 } from "./group05";
 
 export type { AdvancedGroup, AdvancedLesson, AdvancedModule } from "./types";
 
-/* Khóa SQL Advanced: 4 nhóm, 11 module, 22 bài. Theo outline 11 module và bài tập thực tế nhà máy. */
+/* Khóa SQL Advanced: 5 nhóm, 13 module, 31 bài. Theo outline 11 module và bài tập thực tế nhà máy. */
 
 export const ADVANCED_GROUPS: AdvancedGroup[] = [
   { number: 1, title: "Advanced Query Engineering: xử lý truy vấn phức tạp" },
   { number: 2, title: "Advanced Data Processing: làm sạch và biến đổi dữ liệu" },
   { number: 3, title: "Database & Performance: tổ chức và tối ưu database" },
   { number: 4, title: "Real-world BI Engineering: ứng dụng trong công việc" },
+  { number: 5, title: "Bổ sung: thao tác dữ liệu, hiệu năng và kiểm soát chất lượng" },
 ];
 
 export const ADVANCED_MODULES: AdvancedModule[] = [
@@ -27,9 +29,11 @@ export const ADVANCED_MODULES: AdvancedModule[] = [
   { number: 9, group: 3, title: "Views, Materialized Views & Transactions", description: "View báo cáo, materialized view, INSERT ON CONFLICT và giao dịch ACID." },
   { number: 10, group: 4, title: "Advanced SQL Business Logic", description: "Plan vs Actual, tỷ lệ đạt, phân tích dừng máy và OEE." },
   { number: 11, group: 4, title: "Manufacturing BI Capstone Project", description: "Khảo sát nguồn, dựng KPI dataset và dashboard-ready dataset." },
+  { number: 12, group: 5, title: "Advanced Data Modification & Staging", description: "UPSERT nâng cao, bảng tạm và staging, UPDATE FROM, DELETE USING, stored procedures." },
+  { number: 13, group: 5, title: "Performance, Partitioning & Data Quality", description: "Phân vùng bảng, EXPLAIN ANALYZE, chỉ mục GIN/GiST/BRIN, PIVOT/UNPIVOT, kiểm tra và đối chiếu dữ liệu." },
 ];
 
-export const ADVANCED_LESSONS: AdvancedLesson[] = [...group01, ...group02, ...group03, ...group04];
+export const ADVANCED_LESSONS: AdvancedLesson[] = [...group01, ...group02, ...group03, ...group04, ...group05];
 
 export function getAdvancedLesson(id: string): AdvancedLesson | undefined {
   return ADVANCED_LESSONS.find((l) => l.id === id);

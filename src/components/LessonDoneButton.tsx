@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { useLang } from "@/lib/i18n";
+import FlowerBurst from "@/components/FlowerBurst";
+import { playChime } from "@/lib/sound";
 
 /* Nút đánh dấu đã học một bài trong khóa đã đăng ký. Đặt trong PremiumGate nên chỉ người có quyền mới thấy. */
 export default function LessonDoneButton({ courseKey, lessonId }: { courseKey: string; lessonId: string }) {
@@ -12,6 +14,7 @@ export default function LessonDoneButton({ courseKey, lessonId }: { courseKey: s
   const [userId, setUserId] = useState<string | null>(null);
   const [done, setDone] = useState<boolean | null>(null);
   const [busy, setBusy] = useState(false);
+  const [burst, setBurst] = useState(0); // tăng mỗi lần vừa hoàn thành bài, để bắn hiệu ứng hoa
 
   useEffect(() => {
     let alive = true;
@@ -46,11 +49,15 @@ export default function LessonDoneButton({ courseKey, lessonId }: { courseKey: s
     } else {
       await supabase.from("lesson_progress").upsert({ user_id: userId, course_key: courseKey, lesson_id: lessonId }, { onConflict: "user_id,course_key,lesson_id" });
       setDone(true);
+      setBurst((n) => n + 1);
+      playChime();
     }
     setBusy(false);
   };
 
   return (
+    <>
+    <FlowerBurst trigger={burst} />
     <button
       type="button"
       onClick={toggle}
@@ -64,5 +71,6 @@ export default function LessonDoneButton({ courseKey, lessonId }: { courseKey: s
     >
       {done ? (vi ? "✓ Đã học" : "✓ Completed") : vi ? "Đánh dấu đã học" : "Mark as completed"}
     </button>
+    </>
   );
 }
