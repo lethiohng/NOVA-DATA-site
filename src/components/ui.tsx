@@ -93,7 +93,7 @@ const STAT_ICON_PATHS: Record<StatIcon, string> = {
   project: "M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3",
 };
 
-export type IconName = "book" | "grid" | "map" | "factory" | "antenna" | "monitor" | "layers" | "cap" | "trophy" | "code" | "chart" | "database" | "cube" | "shield" | "file" | "download" | "mail" | "link" | "menu" | "close" | "settings";
+export type IconName = "book" | "grid" | "map" | "factory" | "antenna" | "monitor" | "layers" | "cap" | "trophy" | "code" | "chart" | "database" | "cube" | "shield" | "file" | "download" | "mail" | "link" | "menu" | "close" | "settings" | "sun" | "moon" | "user";
 
 const ICON_PATHS: Record<IconName, string> = {
   book: STAT_ICON_PATHS.category,
@@ -117,6 +117,9 @@ const ICON_PATHS: Record<IconName, string> = {
   menu: "M4 6h16M4 12h16M4 18h16",
   close: "M6 18L18 6M6 6l12 12",
   settings: "M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4",
+  sun: "M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z",
+  moon: "M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z",
+  user: "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z",
 };
 
 /** Biểu tượng outline dùng chung cho thẻ, menu và liên kết. Đổi màu bằng class text-*. */

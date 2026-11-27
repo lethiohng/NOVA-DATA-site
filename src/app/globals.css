@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Chế độ tối bật khi <html> có class "dark" (chọn trong Cài đặt), không phụ thuộc hệ điều hành. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
  * Bảng màu thương hiệu NOVA DATA:
  *  - brand (xanh đậm) → dùng cho các class sky-* hiện có: nút, liên kết, nhấn mạnh.
