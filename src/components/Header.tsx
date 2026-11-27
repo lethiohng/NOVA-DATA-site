@@ -6,16 +6,19 @@ import { useState } from "react";
 import { navItems } from "@/lib/nav";
 import Logo from "@/components/Logo";
 import AuthButton from "@/components/AuthButton";
+import ThemeToggle from "@/components/ThemeToggle";
 import { Icon } from "@/components/ui";
 import { useLang, useT } from "@/lib/i18n";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { lang } = useLang();
+  const vi = lang === "vi";
   const t = useT();
   const pathname = usePathname();
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  const settingsLabel = vi ? "Cài đặt" : "Settings";
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/70 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80">
@@ -24,8 +27,8 @@ export default function Header() {
           <Logo />
         </Link>
 
-        {/* Điều hướng desktop */}
-        <nav className="hidden items-center gap-1 text-sm lg:flex" aria-label="Main">
+        {/* Điều hướng desktop: trang đang mở có chữ xanh và gạch dưới */}
+        <nav className="hidden h-16 items-stretch gap-1 text-sm lg:flex" aria-label="Main">
           {navItems.map((item) => {
             const active = isActive(item.href);
             return (
@@ -33,38 +36,46 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`rounded-md px-3 py-1.5 font-medium transition ${
-                  active
-                    ? "bg-sky-50 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+                className={`relative flex items-center px-3 font-medium transition ${
+                  active ? "text-sky-600 dark:text-sky-400" : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                 }`}
               >
                 {t(item.label)}
+                {active && <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-sky-600 dark:bg-sky-400" />}
               </Link>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <div className="hidden lg:block">
-            <AuthButton />
+        <div className="flex items-center gap-1">
+          <ThemeToggle />
+
+          {/* Cài đặt: icon có tooltip khi di chuột hoặc focus bằng bàn phím */}
+          <div className="group relative">
+            <Link
+              href="/settings"
+              aria-label={settingsLabel}
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+            >
+              <Icon name="settings" className="h-5 w-5" />
+            </Link>
+            <span
+              role="tooltip"
+              className="pointer-events-none absolute right-0 top-full z-50 mt-2 whitespace-nowrap rounded-md bg-slate-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow transition group-hover:opacity-100 group-focus-within:opacity-100 dark:bg-slate-700"
+            >
+              {settingsLabel}
+            </span>
           </div>
 
-          {/* Cài đặt, gồm ngôn ngữ hiển thị. Đổi ngôn ngữ ở trang này thay vì nút VI/EN trên thanh menu. */}
-          <Link
-            href="/settings"
-            aria-label={lang === "vi" ? "Cài đặt" : "Settings"}
-            title={lang === "vi" ? "Cài đặt" : "Settings"}
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
-          >
-            <Icon name="settings" className="h-5 w-5" />
-          </Link>
+          <div className="ml-2 hidden border-l border-slate-200 pl-3 lg:block dark:border-slate-800">
+            <AuthButton />
+          </div>
 
           {/* Menu cho mobile */}
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 text-slate-700 transition hover:bg-slate-100 lg:hidden dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            className="ml-1 flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 text-slate-700 transition hover:bg-slate-100 lg:hidden dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
