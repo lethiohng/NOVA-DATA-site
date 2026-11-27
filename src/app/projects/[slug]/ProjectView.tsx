@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Project } from "@/lib/content";
 import { useLang, useT } from "@/lib/i18n";
 import { Badge, PageHeader, Section } from "@/components/ui";
+import YouTubeEmbed from "@/components/YouTubeEmbed";
 
 const labels = {
   vi: {
@@ -47,6 +48,9 @@ export default function ProjectView({ project }: { project: Project }) {
             {tag}
           </Badge>
         ))}
+      </div>
+      <div className="max-w-3xl">
+        <YouTubeEmbed url={project.youtube} title={t(project.title)} />
       </div>
       <div className="max-w-3xl space-y-8">
         {steps.map((s, i) => (

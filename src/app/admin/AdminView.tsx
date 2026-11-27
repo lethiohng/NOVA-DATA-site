@@ -5,11 +5,37 @@ import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { PageHeader, Section } from "@/components/ui";
 import LessonVideos from "./LessonVideos";
+import { youtubeId } from "@/lib/youtube";
 
 /* Trang quản trị nội dung: chỉ tài khoản có is_admin = true mới sửa được (RLS trong migration_013 kiểm tra lại ở database). */
 
 type Lang = "vi" | "en";
-type Tab = "articles" | "projects" | "courses" | "lessons";
+type Tab = "articles" | "projects" | "courses";
+
+/* Kiểm tra link YouTube nhập vào. Để trống thì lưu null (xóa video). */
+function cleanYoutube(v: string): { value: string | null; error: string | null } {
+  const s = v.trim();
+  if (!s) return { value: null, error: null };
+  if (!youtubeId(s)) return { value: null, error: "Link YouTube không hợp lệ. Dùng dạng youtube.com/watch?v=... hoặc youtu.be/..." };
+  return { value: s, error: null };
+}
+
+/* Ô nhập link YouTube, dùng chung cho bài viết, dự án và khóa học. */
+function YoutubeInput({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const bad = value.trim() !== "" && !youtubeId(value);
+  return (
+    <label className="block text-sm">
+      <span className="mb-1 block font-medium text-slate-700 dark:text-slate-300">Link YouTube (không bắt buộc)</span>
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="https://www.youtube.com/watch?v=..."
+        className={`w-full rounded-lg border bg-white px-3 py-2 text-sm focus:border-sky-500 focus:outline-none dark:bg-slate-950 ${bad ? "border-rose-400" : "border-slate-300 dark:border-slate-700"}`}
+      />
+      {bad && <span className="mt-1 block text-xs text-rose-600">Link không hợp lệ.</span>}
+    </label>
+  );
+}
 
 // Khóa học theo chủ đề (danh mục) và các bài thuộc khóa đó.
 type CourseRow = {
@@ -17,6 +43,7 @@ type CourseRow = {
   slug: string;
   category_translations: { language_code: Lang; title: string; description: string | null }[];
   content_items: { id: string; slug: string; status: string }[];
+  youtube_url: string | null;
 };
 
 type ArticleRow = {
@@ -24,6 +51,7 @@ type ArticleRow = {
   slug: string;
   status: "Draft" | "Published";
   difficulty: string | null;
+  youtube_url: string | null;
   content_translations: { language_code: Lang; title: string; summary: string | null; sections: unknown }[];
 };
 
@@ -31,6 +59,7 @@ type ProjectRow = {
   id: string;
   slug: string;
   status: "Draft" | "Published";
+  youtube_url: string | null;
   project_translations: {
     language_code: Lang;
     title: string;
@@ -270,6 +299,13 @@ function DraftEditor({ d, onChange, isVi }: { d: Draft; onChange: (d: Draft) => 
   );
 }
 
+// Ba khóa SQL có nội dung trong code; admin chỉ nhập link video từng bài ở đây.
+const SQL_COURSE_LIST: { key: "sql-basic" | "sql-intermediate" | "sql-advanced"; label: string }[] = [
+  { key: "sql-basic", label: "SQL Basic" },
+  { key: "sql-intermediate", label: "SQL Intermediate" },
+  { key: "sql-advanced", label: "SQL Advanced" },
+];
+
 export default function AdminView() {
   const [supabase] = useState(() => createSupabaseBrowserClient());
   const [status, setStatus] = useState<"loading" | "signed-out" | "forbidden" | "ready">("loading");
@@ -277,15 +313,16 @@ export default function AdminView() {
   const [articles, setArticles] = useState<ArticleRow[]>([]);
   const [projects, setProjects] = useState<ProjectRow[]>([]);
   const [courses, setCourses] = useState<CourseRow[]>([]);
-  const [courseForm, setCourseForm] = useState<{ id: string; slug: string; vi: { title: string; description: string }; en: { title: string; description: string }; topics: CourseRow["content_items"] } | null>(null);
+  const [sqlCourse, setSqlCourse] = useState<"sql-basic" | "sql-intermediate" | "sql-advanced" | null>(null);
+  const [courseForm, setCourseForm] = useState<{ id: string; slug: string; vi: { title: string; description: string }; en: { title: string; description: string }; topics: CourseRow["content_items"]; youtube: string } | null>(null);
   const [editing, setEditing] = useState<string | null>(null);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
   const [saving, setSaving] = useState(false);
 
   // Form bài viết và dự án đang sửa. Giữ dạng chuỗi để người dùng gõ tự do; phần JSON được kiểm tra khi lưu.
-  const [artForm, setArtForm] = useState<{ status: string; difficulty: string; vi: LangForm; en: LangForm } | null>(null);
+  const [artForm, setArtForm] = useState<{ status: string; difficulty: string; youtube: string; vi: LangForm; en: LangForm } | null>(null);
   const [artLang, setArtLang] = useState<Lang>("vi"); // ngôn ngữ đang soạn trong form bài viết
-  const [projForm, setProjForm] = useState<{ status: string; vi: Record<string, string>; en: Record<string, string> } | null>(null);
+  const [projForm, setProjForm] = useState<{ status: string; youtube: string; vi: Record<string, string>; en: Record<string, string> } | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -320,14 +357,14 @@ export default function AdminView() {
 
   async function reload() {
     const [a, p, c] = await Promise.all([
-      supabase.from("content_items").select("id, slug, status, difficulty, content_translations(language_code, title, summary, sections)").order("slug"),
+      supabase.from("content_items").select("id, slug, status, difficulty, youtube_url, content_translations(language_code, title, summary, sections)").order("slug"),
       supabase
         .from("projects")
-        .select("id, slug, status, project_translations(language_code, title, summary, business_problem, data_structure, solution, dashboard, business_value)")
+        .select("id, slug, status, youtube_url, project_translations(language_code, title, summary, business_problem, data_structure, solution, dashboard, business_value)")
         .order("slug"),
       supabase
         .from("categories")
-        .select("id, slug, category_translations(language_code, title, description), content_items(id, slug, status)")
+        .select("id, slug, youtube_url, category_translations(language_code, title, description), content_items(id, slug, status)")
         .neq("slug", "sql-database")
         .order("slug"),
     ]);
@@ -350,7 +387,7 @@ export default function AdminView() {
       const t = row.content_translations.find((x) => x.language_code === lang);
       return { title: t?.title ?? "", summary: t?.summary ?? "", draft: toDraft(t?.sections) };
     };
-    setArtForm({ status: row.status, difficulty: row.difficulty ?? "", vi: pick("vi"), en: pick("en") });
+    setArtForm({ status: row.status, difficulty: row.difficulty ?? "", youtube: row.youtube_url ?? "", vi: pick("vi"), en: pick("en") });
     setArtLang("vi");
     setProjForm(null);
     setEditing(row.id);
@@ -364,7 +401,7 @@ export default function AdminView() {
       for (const f of PROJECT_FIELDS) out[f.key] = (t?.[f.key] as string | null | undefined) ?? "";
       return out;
     };
-    setProjForm({ status: row.status, vi: pick("vi"), en: pick("en") });
+    setProjForm({ status: row.status, youtube: row.youtube_url ?? "", vi: pick("vi"), en: pick("en") });
     setArtForm(null);
     setEditing(row.id);
     setMessage(null);
@@ -375,11 +412,16 @@ export default function AdminView() {
     if (!artForm) return;
     const sVi = toSections(artForm.vi.draft, true);
     const sEn = toSections(artForm.en.draft, false);
+    const yt = cleanYoutube(artForm.youtube);
+    if (yt.error) {
+      setMessage({ ok: false, text: yt.error });
+      return;
+    }
     setSaving(true);
     setMessage(null);
     const { data: upd, error: e1 } = await supabase
       .from("content_items")
-      .update({ status: artForm.status, difficulty: artForm.difficulty || null, updated_at: new Date().toISOString() })
+      .update({ status: artForm.status, difficulty: artForm.difficulty || null, youtube_url: yt.value, updated_at: new Date().toISOString() })
       .eq("id", id)
       .select("id");
     if (e1 || !upd?.length) {
@@ -412,7 +454,12 @@ export default function AdminView() {
     if (!projForm) return;
     setSaving(true);
     setMessage(null);
-    const { data: upd, error: e1 } = await supabase.from("projects").update({ status: projForm.status }).eq("id", id).select("id");
+    const yt = cleanYoutube(projForm.youtube);
+    if (yt.error) {
+      setMessage({ ok: false, text: yt.error });
+      return;
+    }
+    const { data: upd, error: e1 } = await supabase.from("projects").update({ status: projForm.status, youtube_url: yt.value }).eq("id", id).select("id");
     if (e1 || !upd?.length) {
       setSaving(false);
       setMessage({ ok: false, text: e1 ? e1.message : "Không lưu được: không có quyền sửa dự án này." });
@@ -440,7 +487,8 @@ export default function AdminView() {
       const t = row.category_translations.find((x) => x.language_code === lang);
       return { title: t?.title ?? "", description: t?.description ?? "" };
     };
-    setCourseForm({ id: row.id, slug: row.slug, vi: pick("vi"), en: pick("en"), topics: row.content_items });
+    setCourseForm({ id: row.id, slug: row.slug, vi: pick("vi"), en: pick("en"), topics: row.content_items, youtube: row.youtube_url ?? "" });
+    setSqlCourse(null);
     setArtForm(null);
     setProjForm(null);
     setEditing(row.id);
@@ -450,8 +498,19 @@ export default function AdminView() {
   /* Lưu tên và mô tả khóa học của hai ngôn ngữ. */
   async function saveCourse(id: string) {
     if (!courseForm) return;
+    const yt = cleanYoutube(courseForm.youtube);
+    if (yt.error) {
+      setMessage({ ok: false, text: yt.error });
+      return;
+    }
     setSaving(true);
     setMessage(null);
+    const { data: catUpd, error: catErr } = await supabase.from("categories").update({ youtube_url: yt.value }).eq("id", id).select("id");
+    if (catErr || !catUpd?.length) {
+      setSaving(false);
+      setMessage({ ok: false, text: catErr ? catErr.message : "Không lưu được link video: không có quyền sửa khóa này." });
+      return;
+    }
     for (const lang of ["vi", "en"] as const) {
       const f = courseForm[lang];
       const { data: upd, error } = await supabase
@@ -495,7 +554,7 @@ export default function AdminView() {
       <PageHeader eyebrow="Admin" title="Quản trị nội dung" description="Sửa bài viết và dự án. Bấm Lưu để cập nhật trực tiếp trên Supabase." />
 
       <div className="mb-6 flex gap-2">
-        {(["articles", "projects", "courses", "lessons"] as Tab[]).map((t) => (
+        {(["articles", "projects", "courses"] as Tab[]).map((t) => (
           <button
             key={t}
             type="button"
@@ -510,18 +569,14 @@ export default function AdminView() {
               ? `Bài viết (${articles.length})`
               : t === "projects"
                 ? `Dự án (${projects.length})`
-                : t === "courses"
-                  ? `Khóa học (${courses.length})`
-                  : "Video SQL"}
+                : `Khóa học (${courses.length})`}
           </button>
         ))}
       </div>
 
       {message && <p className={`mb-4 text-sm ${message.ok ? "text-emerald-600" : "text-rose-600"}`}>{message.text}</p>}
 
-      {tab === "lessons" && <LessonVideos />}
-
-      <div className={tab === "lessons" ? "hidden" : "grid gap-6 lg:grid-cols-3"}>
+      <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-2 lg:col-span-1">
           {tab === "articles" &&
             articles.map((a) => (
@@ -535,6 +590,23 @@ export default function AdminView() {
                 <span className="text-xs text-slate-500">
                   {a.slug} · {a.status}
                 </span>
+              </button>
+            ))}
+          {tab === "courses" &&
+            SQL_COURSE_LIST.map((c) => (
+              <button
+                key={c.key}
+                type="button"
+                onClick={() => {
+                  setSqlCourse(c.key);
+                  setEditing(null);
+                  setCourseForm(null);
+                  setMessage(null);
+                }}
+                className={`block w-full rounded-xl border p-3 text-left text-sm transition ${sqlCourse === c.key ? "border-sky-500 bg-sky-50 dark:bg-slate-800" : "border-slate-200 bg-white hover:border-sky-300 dark:border-slate-800 dark:bg-slate-900"}`}
+              >
+                <span className="block font-semibold text-slate-900 dark:text-white">{c.label}</span>
+                <span className="text-xs text-slate-500">{c.key} · link video từng bài</span>
               </button>
             ))}
           {tab === "courses" &&
@@ -571,6 +643,7 @@ export default function AdminView() {
         </div>
 
         <div className="lg:col-span-2">
+          {tab === "courses" && sqlCourse && <LessonVideos course={sqlCourse} />}
           {!editing && <p className="text-sm text-slate-500">Chọn một mục bên trái để sửa.</p>}
 
           {editing && artForm && (
@@ -594,6 +667,8 @@ export default function AdminView() {
                     </select>
                   </label>
                 </div>
+
+                <YoutubeInput value={artForm.youtube} onChange={(v) => setArtForm({ ...artForm, youtube: v })} />
 
                 {/* Chọn ngôn ngữ đang soạn */}
                 <div className="flex gap-2 border-t border-slate-200 pt-4 dark:border-slate-800">
@@ -634,6 +709,7 @@ export default function AdminView() {
           {editing && courseForm && (
             <Section title="Chỉnh sửa nội dung khóa học">
               <div className="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <YoutubeInput value={courseForm.youtube} onChange={(v) => setCourseForm({ ...courseForm, youtube: v })} />
                 {(["vi", "en"] as const).map((lang) => (
                   <div key={lang} className="space-y-3">
                     <p className="text-sm font-bold uppercase text-sky-700 dark:text-sky-400">{lang === "vi" ? "Tiếng Việt" : "English"}</p>
@@ -683,6 +759,7 @@ export default function AdminView() {
           {editing && projForm && (
             <Section title="Sửa dự án">
               <div className="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <YoutubeInput value={projForm.youtube} onChange={(v) => setProjForm({ ...projForm, youtube: v })} />
                 <label className="block text-sm sm:w-1/2">
                   <span className="mb-1 block font-medium text-slate-700 dark:text-slate-300">Trạng thái</span>
                   <select className={inputCls} value={projForm.status} onChange={(e) => setProjForm({ ...projForm, status: e.target.value })}>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import YouTubeEmbed from "@/components/YouTubeEmbed";
 import type { Article, Category, Topic } from "@/lib/content";
 import { useLang, useT } from "@/lib/i18n";
 import { Badge, CodeBlock, Section } from "@/components/ui";
@@ -137,6 +138,8 @@ export default function ArticleView({ article, category, relatedPublished }: { a
       <p className="mt-3 text-lg text-slate-600 dark:text-slate-400">{t(article.summary)}</p>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       {article.thumbnail && <img src={article.thumbnail} alt="" className="mt-8 w-full rounded-2xl border border-slate-200 object-cover shadow-sm dark:border-slate-800" />}
+
+      <YouTubeEmbed url={article.youtube} title={t(article.title)} />
 
       <div className="mt-8 space-y-10">
         <Section title={L.overview}>

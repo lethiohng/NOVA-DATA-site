@@ -49,12 +49,13 @@ function biFromCols(row: Row, base: string): Bi {
 export async function getCategories(): Promise<Category[]> {
   const res = await db()
     .from("categories")
-    .select("slug, position, category_translations(language_code, title, description), content_items(slug, status, position, thumbnail_url, difficulty, content_translations(language_code, title))")
+    .select("slug, position, youtube_url, category_translations(language_code, title, description), content_items(slug, status, position, thumbnail_url, difficulty, content_translations(language_code, title))")
     .order("position");
   return ok<Row[]>("categories", res).map((c) => ({
     slug: c.slug,
     title: biFromRows(c.category_translations, "title"),
     description: biFromRows(c.category_translations, "description"),
+    youtube: c.youtube_url ?? undefined,
     topics: [...(c.content_items ?? [])]
       .sort((a, b) => a.position - b.position)
       .map((t) => ({
@@ -79,7 +80,7 @@ export async function getCategorySlugs(): Promise<string[]> {
 export async function getArticle(categorySlug: string, slug: string): Promise<Article | null> {
   const res = await db()
     .from("content_items")
-    .select("slug, difficulty, thumbnail_url, categories!inner(slug), content_translations(language_code, title, summary, sections)")
+    .select("slug, difficulty, thumbnail_url, youtube_url, categories!inner(slug), content_translations(language_code, title, summary, sections)")
     .eq("slug", slug)
     .eq("status", "Published")
     .eq("categories.slug", categorySlug)
@@ -111,6 +112,7 @@ export async function getArticle(categorySlug: string, slug: string): Promise<Ar
     })),
     relatedTopics: vi.relatedTopics ?? [],
     thumbnail: row.thumbnail_url ?? undefined,
+    youtube: row.youtube_url ?? undefined,
   };
 }
 
@@ -210,7 +212,7 @@ export async function getChallenges() {
 export async function getProjects(): Promise<Project[]> {
   const res = await db()
     .from("projects")
-    .select("slug, position, tags, project_translations(language_code, title, summary, business_problem, data_structure, solution, dashboard, business_value)")
+    .select("slug, position, tags, youtube_url, project_translations(language_code, title, summary, business_problem, data_structure, solution, dashboard, business_value)")
     .order("position");
   return ok<Row[]>("projects", res).map((p) => {
     const t = p.project_translations ?? [];
@@ -224,6 +226,7 @@ export async function getProjects(): Promise<Project[]> {
       dashboard: biFromRows(t, "dashboard"),
       businessValue: biFromRows(t, "business_value"),
       tags: p.tags ?? [],
+      youtube: p.youtube_url ?? undefined,
     };
   });
 }

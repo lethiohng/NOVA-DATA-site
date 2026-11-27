@@ -4,6 +4,7 @@ import Link from "next/link";
 import { formatVnd, sqlCourses, type Category, type Level, type Topic } from "@/lib/content";
 import { useLang, useT } from "@/lib/i18n";
 import { Badge, Card, PageHeader } from "@/components/ui";
+import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { BASIC_LESSONS } from "@/lib/sql-basic";
 import { INTERMEDIATE_LESSONS } from "@/lib/sql-intermediate";
 import { ADVANCED_LESSONS } from "@/lib/sql-advanced";
@@ -65,6 +66,7 @@ export default function CategoryView({ category }: { category: Category }) {
     return (
       <>
         <PageHeader eyebrow="Learn" title={t(category.title)} description={t(category.description)} />
+        <YouTubeEmbed url={category.youtube} title={t(category.title)} />
         {CATEGORY_IMAGES[category.slug] && (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={CATEGORY_IMAGES[category.slug]} alt="" className="mb-8 w-full rounded-2xl border border-slate-200 bg-white object-contain shadow-sm dark:border-slate-800" />

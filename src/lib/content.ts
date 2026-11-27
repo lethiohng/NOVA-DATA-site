@@ -56,6 +56,7 @@ export type Category = {
   title: Bi;
   description: Bi;
   topics: Topic[];
+  youtube?: string; // link YouTube của khóa học, hiện ở đầu trang khóa
 };
 
 export type Article = {
@@ -73,6 +74,7 @@ export type Article = {
   answer?: Bi; // đáp án bài tập, hiện khi người học bấm "Xem đáp án"
   extraSections?: { title: Bi; body: Bi }[]; // các mục bổ sung, hiện ngay sau phần Giải thích
   relatedTopics: string[];
+  youtube?: string; // link YouTube của bài, hiện ngay sau phần tổng quan
   thumbnail?: string;
 };
 
@@ -121,6 +123,7 @@ export type Project = {
   dashboard: Bi;
   businessValue: Bi;
   tags: string[];
+  youtube?: string; // link YouTube của dự án
 };
 
 /* ------------------------------------------------------------------ */

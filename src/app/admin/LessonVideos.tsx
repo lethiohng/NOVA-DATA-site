@@ -31,9 +31,8 @@ const COURSES: { key: CourseKey; label: string; lessons: { id: string; number: s
 
 const keyOf = (course: string, lesson: string) => `${course}|${lesson}`;
 
-export default function LessonVideos() {
+export default function LessonVideos({ course }: { course: CourseKey }) {
   const [supabase] = useState(() => createSupabaseBrowserClient());
-  const [course, setCourse] = useState<CourseKey>("sql-basic");
   const [saved, setSaved] = useState<Record<string, string>>({}); // link đã lưu trong database
   const [drafts, setDrafts] = useState<Record<string, string>>({}); // link đang gõ
   const [busy, setBusy] = useState<string | null>(null);
@@ -102,21 +101,7 @@ export default function LessonVideos() {
 
   return (
     <section className="space-y-5">
-      <div className="flex flex-wrap gap-2">
-        {COURSES.map((c) => (
-          <button
-            key={c.key}
-            type="button"
-            onClick={() => {
-              setCourse(c.key);
-              setMessage(null);
-            }}
-            className={`rounded-xl px-4 py-2 text-sm font-semibold ${course === c.key ? "bg-sky-600 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300"}`}
-          >
-            {c.label}
-          </button>
-        ))}
-      </div>
+      <h3 className="text-lg font-bold text-slate-900 dark:text-white">{COURSES.find((c) => c.key === course)?.label}</h3>
 
       {message && <p className={`text-sm ${message.ok ? "text-emerald-600" : "text-rose-600"}`}>{message.text}</p>}
 
