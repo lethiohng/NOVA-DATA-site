@@ -93,7 +93,7 @@ const STAT_ICON_PATHS: Record<StatIcon, string> = {
   project: "M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3",
 };
 
-export type IconName = "book" | "grid" | "map" | "factory" | "antenna" | "monitor" | "layers" | "cap" | "trophy" | "code" | "chart" | "database" | "cube" | "shield" | "file" | "download" | "mail" | "link" | "menu" | "close" | "settings" | "sun" | "moon" | "user" | "chevron" | "logout";
+export type IconName = "book" | "grid" | "map" | "factory" | "antenna" | "monitor" | "layers" | "cap" | "trophy" | "code" | "chart" | "database" | "cube" | "shield" | "file" | "download" | "mail" | "link" | "menu" | "close" | "settings" | "sun" | "moon" | "user" | "chevron" | "logout" | "home" | "folder" | "briefcase" | "info";
 
 const ICON_PATHS: Record<IconName, string> = {
   book: STAT_ICON_PATHS.category,
@@ -122,6 +122,10 @@ const ICON_PATHS: Record<IconName, string> = {
   user: "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z",
   chevron: "M19 9l-7 7-7-7",
   logout: "M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75",
+  home: "M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75",
+  folder: "M2.25 12.75V6.75A2.25 2.25 0 014.5 4.5h4.19a2.25 2.25 0 011.59.66l1.06 1.06a2.25 2.25 0 001.59.66h6.31a2.25 2.25 0 012.25 2.25v7.75a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25z",
+  briefcase: "M20.25 14.15v4.1a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25v-4.1m16.5 0a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25m16.5 0V9.75A2.25 2.25 0 0018 7.5h-1.5m-9 0H6a2.25 2.25 0 00-2.25 2.25v4.4M9 7.5V6a2.25 2.25 0 012.25-2.25h1.5A2.25 2.25 0 0115 6v1.5M9 7.5h6",
+  info: "M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z",
 };
 
 /** Biểu tượng outline dùng chung cho thẻ, menu và liên kết. Đổi màu bằng class text-*. */

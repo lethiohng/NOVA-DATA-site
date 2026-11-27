@@ -62,6 +62,15 @@ export default function AboutPage() {
       <PageHeader
         eyebrow="07 · About"
         title={vi ? "Về Nova Data" : "About Nova Data"}
+        art={
+          // Ảnh đặt ở bên phải thẻ, chỉ hiện trên màn hình vừa trở lên (xem PageHeader).
+          <img
+            src="https://mvhzyhdwmhdgossmpblj.supabase.co/storage/v1/object/public/brand/anhcua%20hanh.png"
+            alt={vi ? "Hạnh Lê Thị Hồng" : "Hanh Le Thi Hong"}
+            loading="lazy"
+            className="ml-auto h-44 w-auto object-contain drop-shadow-md"
+          />
+        }
         description={
           vi
             ? "Mình xây dựng nơi này không phải vì mình đã biết tất cả, mà đơn giản là muốn chia sẻ những gì mình đã học, những gì mình đang làm và những kinh nghiệm thực tế mình tích lũy được trong công việc."

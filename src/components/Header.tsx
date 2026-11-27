@@ -7,8 +7,18 @@ import { navItems } from "@/lib/nav";
 import Logo from "@/components/Logo";
 import AuthButton from "@/components/AuthButton";
 import ThemeToggle from "@/components/ThemeToggle";
-import { Icon } from "@/components/ui";
+import LangToggle from "@/components/LangToggle";
+import { Icon, type IconName } from "@/components/ui";
 import { useLang, useT } from "@/lib/i18n";
+
+/* Icon cho từng mục menu, theo đường dẫn. */
+const NAV_ICONS: Record<string, IconName> = {
+  "/": "home",
+  "/learn": "chart",
+  "/projects": "folder",
+  "/career": "briefcase",
+  "/about": "info",
+};
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -21,36 +31,46 @@ export default function Header() {
   const settingsLabel = vi ? "Cài đặt" : "Settings";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/70 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Link href="/" aria-label="NovaData" className="flex items-center">
-          <Logo />
-        </Link>
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/85">
+      <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
+        {/* Bên trái: logo và menu chính */}
+        <div className="flex min-w-0 items-center gap-4">
+          <Link href="/" aria-label="NovaData" className="flex shrink-0 items-center">
+            <Logo />
+          </Link>
+          <span className="hidden h-6 w-px bg-slate-200 lg:block dark:bg-slate-800" />
 
-        {/* Điều hướng desktop: trang đang mở có chữ xanh và gạch dưới */}
-        <nav className="hidden h-16 items-stretch gap-1 text-sm lg:flex" aria-label="Main">
-          {navItems.map((item) => {
-            const active = isActive(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={`relative flex items-center px-3 font-medium transition ${
-                  active ? "text-sky-600 dark:text-sky-400" : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                }`}
-              >
-                {t(item.label)}
-                {active && <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-sky-600 dark:bg-sky-400" />}
-              </Link>
-            );
-          })}
-        </nav>
+          {/* Điều hướng desktop: có icon, trang đang mở có nền xanh nhạt */}
+          <nav className="hidden items-center gap-1 text-sm lg:flex" aria-label="Main">
+            {navItems.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 font-medium transition ${
+                    active
+                      ? "bg-sky-100 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+                  }`}
+                >
+                  <Icon name={NAV_ICONS[item.href] ?? "book"} className="h-4 w-4" />
+                  {t(item.label)}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
+        {/* Bên phải: ngôn ngữ, giao diện, cài đặt, tài khoản */}
         <div className="flex items-center gap-1">
+          <div className="hidden sm:block">
+            <LangToggle />
+          </div>
           <ThemeToggle />
 
-          {/* Cài đặt: icon có tooltip khi di chuột hoặc focus bằng bàn phím */}
+          {/* Cài đặt tách riêng khỏi nút giao diện, có tooltip khi di chuột hoặc focus */}
           <div className="group relative">
             <Link
               href="/settings"
@@ -67,7 +87,7 @@ export default function Header() {
             </span>
           </div>
 
-          <div className="ml-2 hidden border-l border-slate-200 pl-3 lg:block dark:border-slate-800">
+          <div className="ml-2 hidden lg:block">
             <AuthButton />
           </div>
 
@@ -86,7 +106,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <nav id="mobile-nav" className="border-t border-slate-200 bg-white px-4 py-3 lg:hidden dark:border-slate-800 dark:bg-slate-950" aria-label="Mobile">
+        <nav id="mobile-nav" className="relative border-t border-slate-200 bg-white px-4 py-3 lg:hidden dark:border-slate-800 dark:bg-slate-950" aria-label="Mobile">
           <div className="mb-2 border-b border-slate-200 pb-2 dark:border-slate-800">
             <AuthButton mobile />
           </div>

@@ -40,7 +40,7 @@ function AccountMenu({ name, email, avatar, onSignOut, vi }: { name: string; ema
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-2 rounded-xl px-2 py-1.5 transition hover:bg-slate-100 dark:hover:bg-slate-800"
+        className="flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50 py-1 pl-1 pr-3 transition hover:border-sky-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-slate-600"
       >
         <Avatar src={avatar} name={name} className="h-8 w-8" />
         <span className="max-w-[8rem] truncate text-sm font-semibold text-slate-900 dark:text-white">{firstName}</span>
