@@ -2,20 +2,30 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 /* Tiến độ học viên: đọc và ghi từ trình duyệt, RLS trong migration_006 chỉ cho người dùng sửa dữ liệu của chính mình. */
 
-export type MyProgress = { topics: string[]; exercises: string[] };
+/* topicAt, exerciseAt: thời điểm hoàn thành, dùng để tính ngày học liên tiếp và hoạt động gần đây. */
+export type MyProgress = {
+  topics: string[];
+  exercises: string[];
+  topicAt: { slug: string; at: string }[];
+  exerciseAt: { id: string; at: string }[];
+};
 
 export async function fetchMyProgress(supabase: SupabaseClient): Promise<MyProgress> {
   const { data: auth } = await supabase.auth.getUser();
-  if (!auth.user) return { topics: [], exercises: [] };
+  if (!auth.user) return { topics: [], exercises: [], topicAt: [], exerciseAt: [] };
   const [topics, exercises] = await Promise.all([
-    supabase.from("topic_progress").select("topic_slug"),
-    supabase.from("exercise_progress").select("exercise_id"),
+    supabase.from("topic_progress").select("topic_slug, completed_at"),
+    supabase.from("exercise_progress").select("exercise_id, solved_at"),
   ]);
   if (topics.error) throw new Error(topics.error.message);
   if (exercises.error) throw new Error(exercises.error.message);
+  const topicRows = (topics.data ?? []) as { topic_slug: string; completed_at: string }[];
+  const exerciseRows = (exercises.data ?? []) as { exercise_id: string; solved_at: string }[];
   return {
-    topics: (topics.data ?? []).map((r: { topic_slug: string }) => r.topic_slug),
-    exercises: (exercises.data ?? []).map((r: { exercise_id: string }) => r.exercise_id),
+    topics: topicRows.map((r) => r.topic_slug),
+    exercises: exerciseRows.map((r) => r.exercise_id),
+    topicAt: topicRows.map((r) => ({ slug: r.topic_slug, at: r.completed_at })),
+    exerciseAt: exerciseRows.map((r) => ({ id: r.exercise_id, at: r.solved_at })),
   };
 }
 
@@ -39,7 +49,7 @@ export async function markExerciseSolved(supabase: SupabaseClient, exerciseId: s
   if (error) throw new Error(error.message);
 }
 
-export type MyCourses = { keys: string[]; lessons: { course_key: string; lesson_id: string }[] };
+export type MyCourses = { keys: string[]; lessons: { course_key: string; lesson_id: string; completed_at: string }[] };
 
 /** Khóa đã đăng ký (Premium thì mở mọi khóa trả phí) và các bài đã đánh dấu học. */
 export async function fetchMyCourses(supabase: SupabaseClient, paidKeys: string[]): Promise<MyCourses> {
@@ -48,7 +58,7 @@ export async function fetchMyCourses(supabase: SupabaseClient, paidKeys: string[
   const [profile, access, lessons] = await Promise.all([
     supabase.from("profiles").select("is_premium").eq("id", auth.user.id).maybeSingle(),
     supabase.from("course_access").select("course"),
-    supabase.from("lesson_progress").select("course_key, lesson_id"),
+    supabase.from("lesson_progress").select("course_key, lesson_id, completed_at"),
   ]);
   if (access.error) throw new Error(access.error.message);
   if (lessons.error) throw new Error(lessons.error.message);
