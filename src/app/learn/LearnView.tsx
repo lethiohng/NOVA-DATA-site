@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Category, Roadmap } from "@/lib/content";
 import type { getResources } from "@/lib/data";
 import { useLang, useT } from "@/lib/i18n";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { Badge, Card, Icon, IconBox, type IconName, PageHeader, Section } from "@/components/ui";
 
 type Resource = Awaited<ReturnType<typeof getResources>>[number];
@@ -29,6 +31,21 @@ export default function LearnView({ categories, roadmaps, resources }: { categor
   const t = useT();
   const { lang } = useLang();
   const vi = lang === "vi";
+  const [supabase] = useState(() => createSupabaseBrowserClient());
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      if (!auth.user) return;
+      const { data } = await supabase.from("profiles").select("is_admin").eq("id", auth.user.id).maybeSingle();
+      if (alive) setIsAdmin(Boolean(data?.is_admin));
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [supabase]);
 
   return (
     <>
@@ -47,16 +64,24 @@ export default function LearnView({ categories, roadmaps, resources }: { categor
           {categories.map((c) => {
             // Danh mục mở được khi có chủ đề xuất bản hoặc có khóa học (chủ đề có cấp độ, ví dụ khóa SQL).
             return (
-              <Card key={c.slug} href={`/learn/${c.slug}`}>
-                <IconBox name={CATEGORY_ICONS[c.slug] ?? "book"} />
-                <h3 className="font-semibold text-slate-900 dark:text-white">{t(c.title)}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t(c.description)}</p>
-                <div className="mt-3 flex items-center gap-2 text-xs font-medium text-slate-500">
-                  <span>
-                    {c.topics.length} {vi ? "chủ đề" : "topics"}
-                  </span>
-                </div>
-              </Card>
+              <div key={c.slug} className="flex flex-col gap-2">
+                <Card href={`/learn/${c.slug}`}>
+                  <IconBox name={CATEGORY_ICONS[c.slug] ?? "book"} />
+                  <h3 className="font-semibold text-slate-900 dark:text-white">{t(c.title)}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t(c.description)}</p>
+                  <div className="mt-3 flex items-center gap-2 text-xs font-medium text-slate-500">
+                    <span>
+                      {c.topics.length} {vi ? "chủ đề" : "topics"}
+                    </span>
+                  </div>
+                </Card>
+                {/* Chỉ admin thấy: sửa nội dung khóa học (khóa SQL nằm trong code nên không hiện nút) */}
+                {isAdmin && c.slug !== "sql-database" && (
+                  <Link href={`/admin?course=${c.slug}`} className="rounded-lg border border-dashed border-sky-400 py-2 text-center text-sm font-semibold text-sky-700 hover:bg-sky-50 dark:text-sky-300 dark:hover:bg-slate-800">
+                    ✎ {vi ? "Chỉnh sửa nội dung khóa học" : "Edit course content"}
+                  </Link>
+                )}
+              </div>
             );
           })}
         </div>

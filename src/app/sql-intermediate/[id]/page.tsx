@@ -12,6 +12,7 @@ import { Badge, CodeBlock, Section, TableWrap } from "@/components/ui";
 import { SqlEditor } from "@/components/SqlLab";
 import PremiumGate from "@/components/PremiumGate";
 import LessonDoneButton from "@/components/LessonDoneButton";
+import LessonVideo from "@/components/LessonVideo";
 import LessonSidebar from "@/components/LessonSidebar";
 import LessonHeader from "@/components/LessonHeader";
 import { formatVnd, sqlCourses } from "@/lib/content";
@@ -60,6 +61,9 @@ export default async function SqlIntermediateLessonPage({ params }: { params: Pr
 
         <PremiumGate course="sql-intermediate" courseTitle="SQL Intermediate" price={sqlCourses.Intermediate.price}>
           <LessonDoneButton courseKey="sql-intermediate" lessonId={lesson.id} />
+        <div className="mt-8">
+          <LessonVideo courseKey="sql-intermediate" lessonId={lesson.id} title={lesson.title} />
+        </div>
         <div className="mt-8 space-y-10">
           <Section title="Mục tiêu">
             <ul className="list-disc space-y-1 pl-6">

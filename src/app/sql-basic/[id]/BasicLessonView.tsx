@@ -5,6 +5,7 @@ import { useLang } from "@/lib/i18n";
 import { CodeBlock, Section, TableWrap } from "@/components/ui";
 import { SqlEditor } from "@/components/SqlLab";
 import LessonDoneButton from "@/components/LessonDoneButton";
+import LessonVideo from "@/components/LessonVideo";
 import LessonSidebar from "@/components/LessonSidebar";
 import LessonHeader from "@/components/LessonHeader";
 import type { BasicLesson, BasicLessonEn } from "@/lib/sql-basic/types";
@@ -120,6 +121,10 @@ export default function BasicLessonView({
         />
         <div className="mt-6">
           <LessonDoneButton courseKey="sql-basic" lessonId={lesson.id} />
+        </div>
+
+        <div className="mt-8">
+          <LessonVideo courseKey="sql-basic" lessonId={lesson.id} title={title} />
         </div>
 
         <div className="mt-8 space-y-10">

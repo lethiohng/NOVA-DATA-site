@@ -11,6 +11,7 @@ import { Badge, CodeBlock, Section, TableWrap } from "@/components/ui";
 import { SqlEditor } from "@/components/SqlLab";
 import PremiumGate from "@/components/PremiumGate";
 import LessonDoneButton from "@/components/LessonDoneButton";
+import LessonVideo from "@/components/LessonVideo";
 import LessonSidebar from "@/components/LessonSidebar";
 import LessonHeader from "@/components/LessonHeader";
 import { formatVnd, sqlCourses } from "@/lib/content";
@@ -59,6 +60,9 @@ export default async function SqlAdvancedLessonPage({ params }: { params: Promis
 
         <PremiumGate course="sql-advanced" courseTitle="SQL Advanced" price={sqlCourses.Advanced.price}>
           <LessonDoneButton courseKey="sql-advanced" lessonId={lesson.id} />
+        <div className="mt-8">
+          <LessonVideo courseKey="sql-advanced" lessonId={lesson.id} title={lesson.title} />
+        </div>
         <div className="mt-8 space-y-10">
           <Section title="Mục tiêu">
             <ul className="list-disc space-y-1 pl-6">
