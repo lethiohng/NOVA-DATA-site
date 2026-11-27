@@ -10,7 +10,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { useLang } from "@/lib/i18n";
 
 /* Menu tài khoản trên máy tính: bấm vào tên để mở. Đăng xuất nằm trong menu này. */
-function AccountMenu({ name, email, avatar, onSignOut, vi }: { name: string; email: string; avatar?: string; onSignOut: () => void; vi: boolean }) {
+function AccountMenu({ name, email, avatar, onSignOut, vi, isAdmin }: { name: string; email: string; avatar?: string; onSignOut: () => void; vi: boolean; isAdmin: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const firstName = name.trim().split(" ").slice(-1)[0] ?? name;
@@ -57,6 +57,12 @@ function AccountMenu({ name, email, avatar, onSignOut, vi }: { name: string; ema
             <Icon name="chart" className="h-4 w-4 text-slate-500" />
             {vi ? "Tiến độ học" : "My progress"}
           </Link>
+          {isAdmin && (
+            <Link role="menuitem" href="/admin" onClick={() => setOpen(false)} className={item}>
+              <Icon name="file" className="h-4 w-4 text-slate-500" />
+              {vi ? "Quản trị nội dung" : "Content admin"}
+            </Link>
+          )}
           <Link role="menuitem" href="/settings" onClick={() => setOpen(false)} className={item}>
             <Icon name="settings" className="h-4 w-4 text-slate-500" />
             {vi ? "Cài đặt" : "Settings"}
@@ -80,6 +86,7 @@ export default function AuthButton({ mobile = false }: { mobile?: boolean }) {
   const [supabase] = useState(() => createSupabaseBrowserClient());
   const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -87,6 +94,12 @@ export default function AuthButton({ mobile = false }: { mobile?: boolean }) {
       setReady(true);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => setUser(session?.user ?? null));
+    // Kiểm tra quyền admin để hiện mục "Quản trị nội dung" trong menu (quyền thật được RLS kiểm tra ở database).
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (!data.user) return setIsAdmin(false);
+      const { data: profile } = await supabase.from("profiles").select("is_admin").eq("id", data.user.id).maybeSingle();
+      setIsAdmin(Boolean(profile?.is_admin));
+    });
     return () => sub.subscription.unsubscribe();
   }, [supabase]);
 
@@ -103,7 +116,7 @@ export default function AuthButton({ mobile = false }: { mobile?: boolean }) {
     const avatar = user.user_metadata?.avatar_url as string | undefined;
 
     if (!mobile) {
-      return <AccountMenu name={name} email={user.email ?? ""} avatar={avatar} onSignOut={signOut} vi={vi} />;
+      return <AccountMenu name={name} email={user.email ?? ""} avatar={avatar} onSignOut={signOut} vi={vi} isAdmin={isAdmin} />;
     }
 
     // Điện thoại: danh sách phẳng trong menu mở ra.
@@ -116,6 +129,11 @@ export default function AuthButton({ mobile = false }: { mobile?: boolean }) {
         <Link href="/dashboard" className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
           {vi ? "Tiến độ học" : "My progress"}
         </Link>
+        {isAdmin && (
+          <Link href="/admin" className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
+            {vi ? "Quản trị nội dung" : "Content admin"}
+          </Link>
+        )}
         <Link href="/settings" className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
           {vi ? "Cài đặt" : "Settings"}
         </Link>
