@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getCategory, getCategorySlugs } from "@/lib/data";
 import CategoryView from "./CategoryView";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const slugs = await getCategorySlugs();

@@ -5,4 +5,4 @@ export default async function ProjectsPage() {
   return <ProjectsView projects={await getProjects()} />;
 }
 
-export const revalidate = 3600;
+export const revalidate = 60;

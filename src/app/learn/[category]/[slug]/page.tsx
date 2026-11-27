@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getArticle, getArticleKeys, getCategory } from "@/lib/data";
 import ArticleView from "./ArticleView";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const keys = await getArticleKeys();
