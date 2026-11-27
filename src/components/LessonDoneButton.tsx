@@ -15,6 +15,7 @@ export default function LessonDoneButton({ courseKey, lessonId }: { courseKey: s
   const [done, setDone] = useState<boolean | null>(null);
   const [busy, setBusy] = useState(false);
   const [burst, setBurst] = useState(0); // tăng mỗi lần vừa hoàn thành bài, để bắn hiệu ứng hoa
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -26,13 +27,15 @@ export default function LessonDoneButton({ courseKey, lessonId }: { courseKey: s
         return;
       }
       setUserId(auth.user.id);
-      const { data } = await supabase
+      const { data, error: readErr } = await supabase
         .from("lesson_progress")
         .select("lesson_id")
         .eq("course_key", courseKey)
         .eq("lesson_id", lessonId)
         .maybeSingle();
-      if (alive) setDone(Boolean(data));
+      if (!alive) return;
+      if (readErr) setError(readErr.message);
+      setDone(Boolean(data));
     })();
     return () => {
       alive = false;
@@ -43,14 +46,20 @@ export default function LessonDoneButton({ courseKey, lessonId }: { courseKey: s
 
   const toggle = async () => {
     setBusy(true);
+    setError(null);
     if (done) {
-      await supabase.from("lesson_progress").delete().eq("course_key", courseKey).eq("lesson_id", lessonId);
-      setDone(false);
+      const { error: delErr } = await supabase.from("lesson_progress").delete().eq("course_key", courseKey).eq("lesson_id", lessonId);
+      if (delErr) setError(delErr.message);
+      else setDone(false);
     } else {
-      await supabase.from("lesson_progress").upsert({ user_id: userId, course_key: courseKey, lesson_id: lessonId }, { onConflict: "user_id,course_key,lesson_id" });
-      setDone(true);
-      setBurst((n) => n + 1);
-      playChime();
+      const { error: insErr } = await supabase.from("lesson_progress").upsert({ user_id: userId, course_key: courseKey, lesson_id: lessonId }, { onConflict: "user_id,course_key,lesson_id" });
+      if (insErr) {
+        setError(insErr.message);
+      } else {
+        setDone(true);
+        setBurst((n) => n + 1);
+        playChime();
+      }
     }
     setBusy(false);
   };
@@ -71,6 +80,7 @@ export default function LessonDoneButton({ courseKey, lessonId }: { courseKey: s
     >
       {done ? (vi ? "✓ Đã học" : "✓ Completed") : vi ? "Đánh dấu đã học" : "Mark as completed"}
     </button>
+    {error && <p className="-mt-4 mb-6 text-sm text-rose-600">{vi ? "Không lưu được tiến độ: " : "Could not save progress: "}{error}</p>}
     </>
   );
 }
