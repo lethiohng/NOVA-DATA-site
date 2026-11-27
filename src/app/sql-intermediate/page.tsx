@@ -2,6 +2,7 @@ import Link from "next/link";
 import { INTERMEDIATE_LESSONS, INTERMEDIATE_MODULES, intermediateLessonNumber, intermediateModuleNumber } from "@/lib/sql-intermediate";
 import { PageHeader, Section } from "@/components/ui";
 import { DatasetNote } from "@/components/DatasetNote";
+import LessonList from "@/components/LessonList";
 
 export default function SqlIntermediatePage() {
   return (
@@ -17,22 +18,16 @@ export default function SqlIntermediatePage() {
       {INTERMEDIATE_MODULES.map((m) => (
         <Section key={m.number} title={`Module ${intermediateModuleNumber(m.number)}: ${m.title}`}>
           <p className="mb-4 text-slate-600 dark:text-slate-400">{m.description}</p>
-          <ol className="space-y-2">
-            {INTERMEDIATE_LESSONS.filter((l) => l.module === m.number).map((l) => (
-              <li key={l.id}>
-                <Link
-                  href={`/sql-intermediate/${l.id}`}
-                  className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm transition hover:border-sky-400 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-sky-600"
-                >
-                  <span className="min-w-0">
-                    <span className="mr-3 font-mono text-xs text-slate-500">{intermediateLessonNumber(l)}</span>
-                    <span className="font-medium text-slate-900 dark:text-white">{l.title}</span>
-                  </span>
-                  <span className="shrink-0 text-xs text-slate-500">{l.minutes} phút</span>
-                </Link>
-              </li>
-            ))}
-          </ol>
+          <LessonList
+            courseKey="sql-intermediate"
+            items={INTERMEDIATE_LESSONS.filter((l) => l.module === m.number).map((l) => ({
+              id: l.id,
+              href: `/sql-intermediate/${l.id}`,
+              number: intermediateLessonNumber(l),
+              title: l.title,
+              minutes: l.minutes,
+            }))}
+          />
         </Section>
       ))}
 

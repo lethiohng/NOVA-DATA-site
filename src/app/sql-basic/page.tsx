@@ -5,6 +5,7 @@ import { BASIC_LESSONS, BASIC_MODULES, lessonNumber, moduleNumber } from "@/lib/
 import { BASIC_EN, BASIC_MODULES_EN } from "@/lib/sql-basic/en";
 import { PageHeader, Section } from "@/components/ui";
 import { DatasetNote } from "@/components/DatasetNote";
+import LessonList from "@/components/LessonList";
 import { useLang } from "@/lib/i18n";
 
 export default function SqlBasicPage() {
@@ -31,24 +32,16 @@ export default function SqlBasicPage() {
       {BASIC_MODULES.map((m) => (
         <Section key={m.number} title={`${vi ? "Module" : "Module"} ${moduleNumber(m.number)}: ${modTitle(m.number, m.title)}`}>
           <p className="mb-4 text-slate-600 dark:text-slate-400">{modDesc(m.number, m.description)}</p>
-          <ol className="space-y-2">
-            {BASIC_LESSONS.filter((l) => l.module === m.number).map((l) => (
-              <li key={l.id}>
-                <Link
-                  href={`/sql-basic/${l.id}`}
-                  className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm transition hover:border-sky-400 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-sky-600"
-                >
-                  <span className="min-w-0">
-                    <span className="mr-3 font-mono text-xs text-slate-500">{lessonNumber(l)}</span>
-                    <span className="font-medium text-slate-900 dark:text-white">{lessonTitle(l.id, l.title)}</span>
-                  </span>
-                  <span className="shrink-0 text-xs text-slate-500">
-                    {l.minutes} {vi ? "phút" : "min"}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ol>
+          <LessonList
+            courseKey="sql-basic"
+            items={BASIC_LESSONS.filter((l) => l.module === m.number).map((l) => ({
+              id: l.id,
+              href: `/sql-basic/${l.id}`,
+              number: lessonNumber(l),
+              title: lessonTitle(l.id, l.title),
+              minutes: l.minutes,
+            }))}
+          />
         </Section>
       ))}
 
