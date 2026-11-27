@@ -53,34 +53,6 @@ function Bar({ value, total }: { value: number; total: number }) {
   );
 }
 
-/** Vòng tròn phần trăm, vẽ bằng SVG. */
-function Ring({ pct, label }: { pct: number; label: string }) {
-  const r = 52;
-  const c = 2 * Math.PI * r;
-  return (
-    <div className="relative h-36 w-36 shrink-0">
-      <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90">
-        <circle cx="60" cy="60" r={r} fill="none" strokeWidth="10" className="stroke-slate-200 dark:stroke-slate-800" />
-        <circle
-          cx="60"
-          cy="60"
-          r={r}
-          fill="none"
-          strokeWidth="10"
-          strokeLinecap="round"
-          className="stroke-sky-600 transition-all"
-          strokeDasharray={c}
-          strokeDashoffset={c - (c * pct) / 100}
-        />
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-2xl font-bold text-slate-900 dark:text-white">{pct}%</span>
-        <span className="text-xs text-slate-500">{label}</span>
-      </div>
-    </div>
-  );
-}
-
 type Row = { key: string; title: string; done: number; total: number; unit: string; href: string };
 
 export default function DashboardView({ categories, exerciseTotal }: { categories: Category[]; exerciseTotal: number }) {
@@ -158,8 +130,6 @@ export default function DashboardView({ categories, exerciseTotal }: { categorie
   const rows = [...sqlRows, ...topicRows];
   const exercisesDone = progress.exercises.length;
   const totalDone = rows.reduce((s, r) => s + r.done, 0);
-  const totalAll = rows.reduce((s, r) => s + r.total, 0);
-  const overallPct = totalAll ? Math.round((totalDone / totalAll) * 100) : 0;
 
   // Ngày học: mọi thời điểm hoàn thành bài, chủ đề và bài tập.
   const allTimes = [...myCourses.lessons.map((l) => l.completed_at), ...progress.topicAt.map((x) => x.at), ...progress.exerciseAt.map((x) => x.at)];
@@ -293,17 +263,6 @@ export default function DashboardView({ categories, exerciseTotal }: { categorie
               <p className="text-xl font-bold text-slate-900 dark:text-white">{totalDone}</p>
               <p className="text-xs text-slate-500">{vi ? "Mục đã hoàn thành" : "Items completed"}</p>
             </div>
-          </div>
-
-          {/* Tổng tiến độ */}
-          <div className="flex items-center gap-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-            <Ring pct={overallPct} label={vi ? "Tổng tiến độ" : "Overall"} />
-            <dl className="space-y-3 text-sm">
-              <div>
-                <dt className="text-slate-500">{vi ? "Khóa học" : "Courses"}</dt>
-                <dd className="text-lg font-bold text-slate-900 dark:text-white">{rows.length}</dd>
-              </div>
-            </dl>
           </div>
 
         </div>
