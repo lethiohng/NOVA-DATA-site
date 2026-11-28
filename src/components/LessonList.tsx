@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { useLang } from "@/lib/i18n";
+import { lessonKey, useAccess } from "@/lib/use-access";
 
 export type LessonListItem = { id: string; href: string; number: string | number; title: string; minutes: number };
 
-/* Danh sách bài học của một module. Bài đã đánh dấu học (lesson_progress) hiển thị màu xanh kèm dấu tích. */
+/* Danh sách bài học của một module. Bài đã đánh dấu học (lesson_progress) hiển thị màu xanh kèm dấu tích.
+   Bài bị khóa (chưa được admin mở miễn phí, và người xem không phải Pro hay đã mua khóa) hiện 🔒 Pro. */
 export default function LessonList({ courseKey, items }: { courseKey: string; items: LessonListItem[] }) {
   const { lang } = useLang();
+  const access = useAccess();
   const vi = lang === "vi";
   const [supabase] = useState(() => createSupabaseBrowserClient());
   const [done, setDone] = useState<Set<string>>(new Set());
@@ -31,6 +34,21 @@ export default function LessonList({ courseKey, items }: { courseKey: string; it
     <ol className="space-y-2">
       {items.map((it) => {
         const isDone = done.has(it.id);
+        if (access.ready && access.isLocked("lesson", lessonKey(courseKey, it.id), courseKey)) {
+          return (
+            <li key={it.id}>
+              <div className="flex items-center justify-between gap-4 rounded-xl border border-dashed border-violet-300 bg-violet-50/50 px-4 py-3 text-sm dark:border-violet-900 dark:bg-violet-950/20">
+                <span className="min-w-0 text-slate-500">
+                  <span className="mr-3 font-mono text-xs">{it.number}</span>
+                  <span className="font-medium">{it.title}</span>
+                </span>
+                <span className="inline-flex shrink-0 items-center gap-2 text-xs font-semibold text-violet-700 dark:text-violet-300">
+                  🔒 Pro
+                </span>
+              </div>
+            </li>
+          );
+        }
         return (
           <li key={it.id}>
             <Link

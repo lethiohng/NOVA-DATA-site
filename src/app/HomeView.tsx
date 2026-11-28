@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { Category, Project, Roadmap } from "@/lib/content";
 import { useLang, useT } from "@/lib/i18n";
+import { stripHtml } from "@/lib/rich";
 import { Card, CardArrow, IconBox, type IconName } from "@/components/ui";
 
 const CATEGORY_ICONS: Record<string, IconName> = {
@@ -81,7 +82,7 @@ export default function HomeView({ categories, roadmaps, projects }: { categorie
             <Card key={c.slug} href={`/learn/${c.slug}`}>
               <IconBox name={CATEGORY_ICONS[c.slug] ?? "book"} />
               <h3 className="font-semibold text-slate-900 dark:text-white">{t(c.title)}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t(c.description)}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{stripHtml(t(c.description))}</p>
               <div className="mt-5 flex items-center justify-between border-t border-slate-200 pt-4 text-sm dark:border-slate-800">
                 <span className="text-slate-500">
                   {c.topics.length} {vi ? "chủ đề" : "topics"}
@@ -101,7 +102,7 @@ export default function HomeView({ categories, roadmaps, projects }: { categorie
             <Card key={r.slug} href={`/roadmap/${r.slug}`}>
               <IconBox name="map" />
               <h3 className="font-semibold text-slate-900 dark:text-white">{t(r.title)}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t(r.description)}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{stripHtml(t(r.description))}</p>
               <div className="mt-5 flex items-center justify-between border-t border-slate-200 pt-4 text-sm dark:border-slate-800">
                 <span className="text-slate-500">
                   {r.modules.length} {vi ? "module" : "modules"}
@@ -120,7 +121,7 @@ export default function HomeView({ categories, roadmaps, projects }: { categorie
           {projects.slice(0, 3).map((p) => (
             <Card key={p.slug} href={`/projects/${p.slug}`}>
               <h3 className="font-semibold text-slate-900 dark:text-white">{t(p.title)}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t(p.summary)}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{stripHtml(t(p.summary))}</p>
               <CardArrow />
             </Card>
           ))}

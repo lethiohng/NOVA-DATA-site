@@ -59,7 +59,7 @@ export default async function SqlIntermediateLessonPage({ params }: { params: Pr
           totalMinutes={INTERMEDIATE_LESSONS.reduce((s, x) => s + x.minutes, 0)}
         />
 
-        <PremiumGate course="sql-intermediate" courseTitle="SQL Intermediate" price={sqlCourses.Intermediate.price}>
+        <PremiumGate course="sql-intermediate" courseTitle="SQL Intermediate" price={sqlCourses.Intermediate.price} lessonId={lesson.id}>
           <LessonDoneButton courseKey="sql-intermediate" lessonId={lesson.id} />
         <div className="mt-8">
           <LessonVideo courseKey="sql-intermediate" lessonId={lesson.id} title={lesson.title} />

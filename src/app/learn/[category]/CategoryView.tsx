@@ -10,6 +10,8 @@ import { INTERMEDIATE_LESSONS } from "@/lib/sql-intermediate";
 import { ADVANCED_LESSONS } from "@/lib/sql-advanced";
 import SqlHeaderArt from "@/components/SqlHeaderArt";
 import { TOPIC_GROUPS, type TopicGroup } from "@/lib/tool-group";
+import { stripHtml } from "@/lib/rich";
+import { useAccess } from "@/lib/use-access";
 
 const LEVELS: Level[] = ["Beginner", "Intermediate", "Advanced"];
 
@@ -21,7 +23,16 @@ const LEVEL_TONE: Record<Level, "green" | "amber" | "sky"> = { Beginner: "green"
 
 function TopicCard({ topic, categorySlug }: { topic: Topic; categorySlug: string }) {
   const t = useT();
+  const access = useAccess();
   const published = topic.status === "published";
+  if (published && access.ready && access.isLocked("article", topic.slug)) {
+    return (
+      <div className="rounded-2xl border border-dashed border-violet-300 bg-violet-50/50 p-6 dark:border-violet-900 dark:bg-violet-950/20">
+        <h2 className="font-semibold text-slate-500">{t(topic.title)}</h2>
+        <span className="mt-3 inline-flex text-xs font-semibold text-violet-700 dark:text-violet-300">🔒 Pro</span>
+      </div>
+    );
+  }
   return (
     <Card href={published ? `/learn/${categorySlug}/${topic.slug}` : undefined}>
       {topic.thumbnail && (
@@ -65,7 +76,7 @@ export default function CategoryView({ category }: { category: Category }) {
     const groupedSlugs = new Set(groupsHere.flatMap((g) => g.topicSlugs));
     return (
       <>
-        <PageHeader eyebrow="Learn" title={t(category.title)} description={t(category.description)} />
+        <PageHeader eyebrow="Learn" title={t(category.title)} description={stripHtml(t(category.description))} />
         <YouTubeEmbed url={category.youtube} title={t(category.title)} />
         {CATEGORY_IMAGES[category.slug] && (
           // eslint-disable-next-line @next/next/no-img-element
@@ -92,7 +103,7 @@ export default function CategoryView({ category }: { category: Category }) {
 
   return (
     <>
-      <PageHeader eyebrow="Learn" title={t(category.title)} description={t(category.description)} art={<SqlHeaderArt />} />
+      <PageHeader eyebrow="Learn" title={t(category.title)} description={stripHtml(t(category.description))} art={<SqlHeaderArt />} />
 
       <div className="grid gap-6 md:grid-cols-3">
         {groups.map(({ level, topics }) => {
@@ -112,7 +123,7 @@ export default function CategoryView({ category }: { category: Category }) {
                   {course.price && <span className="ml-auto text-sm font-bold text-slate-900 dark:text-white">{formatVnd(course.price)}</span>}
                 </div>
                 <h3 className="mt-3 text-lg font-semibold text-slate-900 dark:text-white">{t(course.title)}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t(course.description)}</p>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{stripHtml(t(course.description))}</p>
                 <div className="mt-5 flex items-center justify-between border-t border-slate-200 pt-4 text-sm dark:border-slate-800">
                   <span className="text-slate-500">
                     {level === "Beginner"

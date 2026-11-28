@@ -7,12 +7,14 @@ import { PageHeader, Section } from "@/components/ui";
 import LessonVideos from "./LessonVideos";
 import { CareerEditor, PracticeEditor } from "./ExtraContent";
 import UsersAdmin from "./UsersAdmin";
+import FreeItemsAdmin from "./FreeItemsAdmin";
 import { youtubeId } from "@/lib/youtube";
+import RichTextEditor from "./RichTextEditor";
 
 /* Trang quản trị nội dung: chỉ tài khoản có is_admin = true mới sửa được (RLS trong migration_013 kiểm tra lại ở database). */
 
 type Lang = "vi" | "en";
-type Tab = "articles" | "projects" | "courses" | "career" | "practice" | "users";
+type Tab = "articles" | "projects" | "courses" | "career" | "practice" | "users" | "free";
 
 /* Kiểm tra link YouTube nhập vào. Để trống thì lưu null (xóa video). */
 function cleanYoutube(v: string): { value: string | null; error: string | null } {
@@ -231,10 +233,10 @@ function DraftEditor({ d, onChange, isVi }: { d: Draft; onChange: (d: Draft) => 
     <div className="space-y-5">
       <p className="rounded-lg bg-sky-50 px-3 py-2 text-xs text-sky-800 dark:bg-slate-800 dark:text-sky-300">{WORD_HINT}</p>
 
-      <Field label={isVi ? "Tổng quan" : "Overview"} value={d.overview} onChange={(v) => set("overview", v)} rows={3} onImage={(md) => set("overview", d.overview + md)} />
+      <RichTextEditor label={isVi ? "Tổng quan" : "Overview"} value={d.overview} onChange={(v) => set("overview", v)} minRows={3} />
       <Field label={isVi ? "Mục tiêu (mỗi dòng một mục)" : "Objectives (one per line)"} value={d.objectives} onChange={(v) => set("objectives", v)} rows={4} />
-      <Field label={isVi ? "Giải thích" : "Explanation"} value={d.explanation} onChange={(v) => set("explanation", v)} rows={8} onImage={(md) => set("explanation", d.explanation + md)} />
-      <Field label={isVi ? "Ví dụ thực tế" : "Practical example"} value={d.practicalExample} onChange={(v) => set("practicalExample", v)} rows={6} onImage={(md) => set("practicalExample", d.practicalExample + md)} />
+      <RichTextEditor label={isVi ? "Giải thích" : "Explanation"} value={d.explanation} onChange={(v) => set("explanation", v)} minRows={8} />
+      <RichTextEditor label={isVi ? "Ví dụ thực tế" : "Practical example"} value={d.practicalExample} onChange={(v) => set("practicalExample", v)} minRows={6} />
 
       {/* Công thức: mỗi công thức gồm tên và nội dung */}
       <div className="space-y-3">
@@ -262,8 +264,8 @@ function DraftEditor({ d, onChange, isVi }: { d: Draft; onChange: (d: Draft) => 
         ))}
       </div>
 
-      <Field label={isVi ? "Bài tập" : "Exercise"} value={d.exercise} onChange={(v) => set("exercise", v)} rows={4} onImage={(md) => set("exercise", d.exercise + md)} />
-      <Field label={isVi ? "Đáp án (không bắt buộc)" : "Answer key (optional)"} value={d.answer} onChange={(v) => set("answer", v)} rows={4} onImage={(md) => set("answer", d.answer + md)} />
+      <RichTextEditor label={isVi ? "Bài tập" : "Exercise"} value={d.exercise} onChange={(v) => set("exercise", v)} minRows={4} />
+      <RichTextEditor label={isVi ? "Đáp án (không bắt buộc)" : "Answer key (optional)"} value={d.answer} onChange={(v) => set("answer", v)} minRows={4} />
 
       {/* Mục bổ sung: mỗi mục có tiêu đề và nội dung */}
       <div className="space-y-3">
@@ -286,12 +288,11 @@ function DraftEditor({ d, onChange, isVi }: { d: Draft; onChange: (d: Draft) => 
                 {isVi ? "Xóa" : "Remove"}
               </button>
             </div>
-            <Field
+            <RichTextEditor
               label={isVi ? "Nội dung" : "Content"}
               value={x.body}
               onChange={(v) => set("extraSections", d.extraSections.map((y, j) => (j === i ? { ...y, body: v } : y)))}
-              rows={5}
-              onImage={(md) => set("extraSections", d.extraSections.map((y, j) => (j === i ? { ...y, body: y.body + md } : y)))}
+              minRows={5}
             />
           </div>
         ))}
@@ -667,7 +668,7 @@ export default function AdminView() {
       <PageHeader eyebrow="Admin" title="Quản trị nội dung" description="Sửa bài viết và dự án. Bấm Lưu để cập nhật trực tiếp trên Supabase." />
 
       <div className="mb-6 flex gap-2">
-        {(["articles", "projects", "courses", "career", "practice", "users"] as Tab[]).map((t) => (
+        {(["articles", "projects", "courses", "career", "practice", "users", "free"] as Tab[]).map((t) => (
           <button
             key={t}
             type="button"
@@ -688,7 +689,9 @@ export default function AdminView() {
                     ? "Career"
                     : t === "practice"
                       ? "Luyện tập SQL"
-                      : "Người dùng"}
+                      : t === "users"
+                        ? "Người dùng"
+                        : "Miễn phí"}
           </button>
         ))}
       </div>
@@ -698,8 +701,9 @@ export default function AdminView() {
       {tab === "career" && <CareerEditor />}
       {tab === "practice" && <PracticeEditor />}
       {tab === "users" && <UsersAdmin />}
+      {tab === "free" && <FreeItemsAdmin />}
 
-      <div className={tab === "career" || tab === "practice" || tab === "users" ? "hidden" : "grid gap-6 lg:grid-cols-3"}>
+      <div className={tab === "career" || tab === "practice" || tab === "users" || tab === "free" ? "hidden" : "grid gap-6 lg:grid-cols-3"}>
         <div className="space-y-2 lg:col-span-1">
           {tab === "articles" && (
             <>
@@ -859,7 +863,7 @@ export default function AdminView() {
 
                 <div className="space-y-4">
                   <Field label={artLang === "vi" ? "Tiêu đề" : "Title"} value={artForm[artLang].title} onChange={(v) => setArtForm({ ...artForm, [artLang]: { ...artForm[artLang], title: v } })} rows={1} />
-                  <Field label={artLang === "vi" ? "Tóm tắt" : "Summary"} value={artForm[artLang].summary} onChange={(v) => setArtForm({ ...artForm, [artLang]: { ...artForm[artLang], summary: v } })} rows={2} />
+                  <RichTextEditor label={artLang === "vi" ? "Tóm tắt" : "Summary"} value={artForm[artLang].summary} onChange={(v) => setArtForm({ ...artForm, [artLang]: { ...artForm[artLang], summary: v } })} minRows={2} />
                   <DraftEditor
                     isVi={artLang === "vi"}
                     d={artForm[artLang].draft}
@@ -909,7 +913,7 @@ export default function AdminView() {
                   <div key={lang} className="space-y-3">
                     <p className="text-sm font-bold uppercase text-sky-700 dark:text-sky-400">{lang === "vi" ? "Tiếng Việt" : "English"}</p>
                     <Field label={lang === "vi" ? "Tên khóa học" : "Course name"} value={courseForm[lang].title} onChange={(v) => setCourseForm({ ...courseForm, [lang]: { ...courseForm[lang], title: v } })} rows={1} />
-                    <Field label={lang === "vi" ? "Mô tả" : "Description"} value={courseForm[lang].description} onChange={(v) => setCourseForm({ ...courseForm, [lang]: { ...courseForm[lang], description: v } })} rows={3} />
+                    <RichTextEditor label={lang === "vi" ? "Mô tả" : "Description"} value={courseForm[lang].description} onChange={(v) => setCourseForm({ ...courseForm, [lang]: { ...courseForm[lang], description: v } })} minRows={3} />
                   </div>
                 ))}
 
@@ -1018,15 +1022,25 @@ export default function AdminView() {
                   <div key={lang} className="space-y-3 border-t border-slate-200 pt-4 dark:border-slate-800">
                     <p className="text-sm font-bold uppercase text-sky-700 dark:text-sky-400">{lang === "vi" ? "Tiếng Việt" : "English"}</p>
                     {PROJECT_FIELDS.map((f) => (
+                      f.key === "title" ? (
                       <label key={f.key} className="block text-sm">
                         <span className="mb-1 block font-medium text-slate-700 dark:text-slate-300">{f.label}</span>
                         <textarea
-                          rows={f.key === "title" ? 1 : 3}
+                          rows={1}
                           className={inputCls}
                           value={projForm[lang][f.key]}
                           onChange={(e) => setProjForm({ ...projForm, [lang]: { ...projForm[lang], [f.key]: e.target.value } })}
                         />
                       </label>
+                      ) : (
+                      <RichTextEditor
+                        key={f.key}
+                        label={f.label}
+                        value={projForm[lang][f.key]}
+                        onChange={(v) => setProjForm({ ...projForm, [lang]: { ...projForm[lang], [f.key]: v } })}
+                        minRows={3}
+                      />
+                      )
                     ))}
                   </div>
                 ))}

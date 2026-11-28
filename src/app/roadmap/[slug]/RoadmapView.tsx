@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Roadmap } from "@/lib/content";
 import { useLang, useT } from "@/lib/i18n";
 import { Badge, PageHeader } from "@/components/ui";
+import { stripHtml } from "@/lib/rich";
 
 const labels = {
   vi: { knowledge: "Kiến thức cần đạt", lessons: "Bài học liên quan", practice: "Bài thực hành", status: "Trạng thái" },
@@ -17,7 +18,7 @@ export default function RoadmapView({ roadmap }: { roadmap: Roadmap }) {
 
   return (
     <>
-      <PageHeader eyebrow="Learning Path" title={t(roadmap.title)} description={t(roadmap.description)} />
+      <PageHeader eyebrow="Learning Path" title={t(roadmap.title)} description={stripHtml(t(roadmap.description))} />
       <ol className="space-y-4">
         {roadmap.modules.map((m, i) => (
           <li key={m.title.vi} className="rounded-xl border border-slate-200 p-5 dark:border-slate-800">

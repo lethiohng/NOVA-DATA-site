@@ -7,6 +7,9 @@ import { Badge, CodeBlock, PageHeader, Section } from "@/components/ui";
 import { AnswerResult, SqlEditor } from "@/components/SqlLab";
 import { SchemaPanel, tablesIn } from "@/components/SchemaPanel";
 import ExerciseComments from "@/components/ExerciseComments";
+import RichBlock from "@/components/RichBlock";
+import LockedNotice from "@/components/LockedNotice";
+import { useAccess } from "@/lib/use-access";
 
 const LEVELS = ["All", "Beginner", "Intermediate", "Advanced", "Manufacturing"] as const;
 
@@ -23,6 +26,7 @@ export default function SqlExercisesView({ sqlExercises }: { sqlExercises: SqlEx
   const t = useT();
   const vi = lang === "vi";
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+  const access = useAccess();
   const [level, setLevel] = useState<(typeof LEVELS)[number]>("All");
 
   const visible = level === "All" ? sqlExercises : sqlExercises.filter((ex) => ex.level === level);
@@ -103,7 +107,12 @@ export default function SqlExercisesView({ sqlExercises }: { sqlExercises: SqlEx
           </div>
 
           <div className="space-y-6">
-            {visible.map((ex, i) => (
+            {visible.map((ex, i) =>
+              access.ready && access.isLocked("exercise", ex.id) ? (
+              <div key={ex.id}>
+                <LockedNotice compact />
+              </div>
+              ) : (
               <div
                 key={ex.id}
                 id={`ex-${ex.id}`}
@@ -114,7 +123,7 @@ export default function SqlExercisesView({ sqlExercises }: { sqlExercises: SqlEx
                   <Badge tone="sky">{ex.level}</Badge>
                   {ex.topic && <Badge>{ex.topic}</Badge>}
                 </div>
-                <p className="mb-4 leading-relaxed text-slate-700 dark:text-slate-300">{t(ex.question)}</p>
+                <RichBlock text={t(ex.question)} className="mb-4 leading-relaxed text-slate-700 dark:text-slate-300" />
 
                 {tablesIn(ex.solution).length > 0 && (
                   <div className="mb-5">
@@ -137,13 +146,14 @@ export default function SqlExercisesView({ sqlExercises }: { sqlExercises: SqlEx
                   <div className="mt-4 space-y-3">
                     <CodeBlock code={ex.solution} />
                     <AnswerResult sql={ex.solution} />
-                    {ex.explanation && <p className="text-sm text-slate-600 dark:text-slate-400">{t(ex.explanation)}</p>}
+                    {ex.explanation && <RichBlock text={t(ex.explanation)} className="text-sm text-slate-600 dark:text-slate-400" />}
                   </div>
                 )}
 
                 <ExerciseComments exerciseId={ex.id} />
               </div>
-            ))}
+              )
+            )}
           </div>
         </Section>
       </div>

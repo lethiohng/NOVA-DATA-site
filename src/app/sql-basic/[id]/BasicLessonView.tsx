@@ -6,6 +6,8 @@ import { CodeBlock, Section, TableWrap } from "@/components/ui";
 import { SqlEditor } from "@/components/SqlLab";
 import LessonDoneButton from "@/components/LessonDoneButton";
 import LessonVideo from "@/components/LessonVideo";
+import LockedNotice from "@/components/LockedNotice";
+import { lessonKey, useAccess } from "@/lib/use-access";
 import LessonSidebar from "@/components/LessonSidebar";
 import LessonHeader from "@/components/LessonHeader";
 import type { BasicLesson, BasicLessonEn } from "@/lib/sql-basic/types";
@@ -95,6 +97,24 @@ export default function BasicLessonView({
   const moduleTitle = (m: number) => (isEn ? BASIC_MODULES_EN[m]?.title : BASIC_MODULES.find((x) => x.number === m)?.title);
   const moduleDesc = (m: number) => (isEn ? BASIC_MODULES_EN[m]?.description : BASIC_MODULES.find((x) => x.number === m)?.description);
   const lessonTitle = (l: BasicLesson) => (lang === "en" && BASIC_EN[l.id] ? BASIC_EN[l.id].title : l.title);
+
+  // Bài sau 5 bài đầu chỉ dành cho Pro (hoặc người đã mua khóa này).
+  const access = useAccess();
+  if (access.ready && access.isLocked("lesson", lessonKey("sql-basic", lesson.id), "sql-basic")) {
+    return (
+      <div className="max-w-3xl">
+        <p className="text-sm">
+          <Link href="/sql-basic" className="text-slate-500 hover:text-sky-600">
+            ← SQL Basic
+          </Link>
+        </p>
+        <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl dark:text-white">{title}</h1>
+        <div className="mt-6">
+          <LockedNotice />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start lg:gap-8">

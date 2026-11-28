@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
+import RichTextEditor from "./RichTextEditor";
+import { sanitizeRich } from "@/lib/rich";
 
 /* Hai mục admin thêm mới: bước Career và bài tập SQL (Luyện tập). Quyền ghi được RLS kiểm tra ở database (migration_019). */
 
@@ -68,7 +70,7 @@ export function CareerEditor() {
     if (!form.text_vi.trim() || !form.text_en.trim()) return setMsg({ ok: false, text: "Nhập nội dung cả tiếng Việt và tiếng Anh." });
     setBusy(true);
     setMsg(null);
-    const payload = { position: Number(form.position), text_vi: form.text_vi.trim(), text_en: form.text_en.trim() };
+    const payload = { position: Number(form.position), text_vi: sanitizeRich(form.text_vi).trim(), text_en: sanitizeRich(form.text_en).trim() };
     const res =
       sel === "new"
         ? await supabase.from("career_steps").insert(payload).select("id")
@@ -117,8 +119,8 @@ export function CareerEditor() {
           <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <h3 className="font-semibold text-slate-900 dark:text-white">{sel === "new" ? "Bước mới" : `Bước ${form.position}`}</h3>
             <Input label="Thứ tự (số nhỏ hiện trước)" type="number" value={form.position} onChange={(v) => setForm({ ...form, position: Number(v) })} />
-            <Input label="Nội dung (tiếng Việt)" value={form.text_vi} onChange={(v) => setForm({ ...form, text_vi: v })} multiline rows={3} />
-            <Input label="Nội dung (tiếng Anh)" value={form.text_en} onChange={(v) => setForm({ ...form, text_en: v })} multiline rows={3} />
+            <RichTextEditor label="Nội dung (tiếng Việt)" value={form.text_vi} onChange={(v) => setForm({ ...form, text_vi: v })} />
+            <RichTextEditor label="Nội dung (tiếng Anh)" value={form.text_en} onChange={(v) => setForm({ ...form, text_en: v })} />
             <Msg m={msg} />
             <div className="flex flex-wrap gap-2">
               <button type="button" disabled={busy} onClick={save} className={BTN_PRI}>
@@ -212,11 +214,11 @@ export function PracticeEditor() {
       topic: form.topic.trim() || null,
       title_vi: form.title_vi.trim(),
       title_en: form.title_en.trim() || null,
-      question: form.question.trim(),
-      question_en: form.question_en.trim() || null,
+      question: sanitizeRich(form.question).trim(),
+      question_en: sanitizeRich(form.question_en).trim() || null,
       solution: form.solution.trim() || null,
-      explanation: form.explanation.trim() || null,
-      explanation_en: form.explanation_en.trim() || null,
+      explanation: sanitizeRich(form.explanation).trim() || null,
+      explanation_en: sanitizeRich(form.explanation_en).trim() || null,
       position: Number(form.position),
     };
     const res =
@@ -282,11 +284,11 @@ export function PracticeEditor() {
             </div>
             <Input label="Tên bài (tiếng Việt)" value={form.title_vi} onChange={set("title_vi")} />
             <Input label="Tên bài (tiếng Anh)" value={form.title_en} onChange={set("title_en")} />
-            <Input label="Đề bài (tiếng Việt)" value={form.question} onChange={set("question")} multiline rows={4} />
-            <Input label="Đề bài (tiếng Anh)" value={form.question_en} onChange={set("question_en")} multiline rows={4} />
+            <RichTextEditor label="Đề bài (tiếng Việt)" value={form.question} onChange={set("question")} minRows={4} />
+            <RichTextEditor label="Đề bài (tiếng Anh)" value={form.question_en} onChange={set("question_en")} minRows={4} />
             <Input label="Đáp án SQL" value={form.solution} onChange={set("solution")} multiline rows={5} mono />
-            <Input label="Giải thích (tiếng Việt, không bắt buộc)" value={form.explanation} onChange={set("explanation")} multiline rows={3} />
-            <Input label="Giải thích (tiếng Anh, không bắt buộc)" value={form.explanation_en} onChange={set("explanation_en")} multiline rows={3} />
+            <RichTextEditor label="Giải thích (tiếng Việt, không bắt buộc)" value={form.explanation} onChange={set("explanation")} minRows={3} />
+            <RichTextEditor label="Giải thích (tiếng Anh, không bắt buộc)" value={form.explanation_en} onChange={set("explanation_en")} minRows={3} />
             <Msg m={msg} />
             <div className="flex flex-wrap gap-2">
               <button type="button" disabled={busy} onClick={save} className={BTN_PRI}>

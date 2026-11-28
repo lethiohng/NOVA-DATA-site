@@ -6,6 +6,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { useLang } from "@/lib/i18n";
 import { formatVnd } from "@/lib/content";
 import ZaloContact from "@/components/ZaloContact";
+import { lessonKey, useAccess } from "@/lib/use-access";
 
 type Access = "loading" | "allowed" | "login" | "upgrade";
 // Mã khóa khớp với bảng courses trong database, ví dụ "sql-intermediate".
@@ -16,12 +17,16 @@ export default function PremiumGate({
   course,
   courseTitle,
   price,
+  lessonId,
 }: {
   children: ReactNode;
   course: string;
   courseTitle?: string;
   price?: number;
+  lessonId?: string; // bài này có thể được admin mở miễn phí
 }) {
+  const acc = useAccess();
+  const freeOpen = Boolean(lessonId && acc.ready && acc.signedIn && acc.isFree("lesson", lessonKey(course, lessonId)));
   const { lang } = useLang();
   const vi = lang === "vi";
   const [supabase] = useState(() => createSupabaseBrowserClient());
@@ -48,7 +53,7 @@ export default function PremiumGate({
     };
   }, [supabase, course]);
 
-  if (access === "allowed") return <>{children}</>;
+  if (access === "allowed" || freeOpen) return <>{children}</>;
 
   if (access === "loading") {
     return <p className="py-10 text-center text-sm text-slate-500">{vi ? "Đang kiểm tra quyền truy cập…" : "Checking access…"}</p>;

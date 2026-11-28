@@ -2,6 +2,7 @@
 
 import { useLang, useT, type Bi } from "@/lib/i18n";
 import { PageHeader, Section } from "@/components/ui";
+import { sanitizeRich } from "@/lib/rich";
 
 export default function CareerView({ careerRoadmap }: { careerRoadmap: Bi[] }) {
   const { lang } = useLang();
@@ -12,7 +13,7 @@ export default function CareerView({ careerRoadmap }: { careerRoadmap: Bi[] }) {
       <Section title={lang === "vi" ? "Các bước" : "Steps"}>
         <ol className="list-decimal space-y-2 pl-6">
           {careerRoadmap.map((step) => (
-            <li key={step.vi}>{t(step)}</li>
+            <li key={step.vi} dangerouslySetInnerHTML={{ __html: sanitizeRich(t(step)) }} />
           ))}
         </ol>
       </Section>

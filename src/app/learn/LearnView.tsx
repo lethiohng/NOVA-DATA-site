@@ -6,6 +6,7 @@ import type { Category, Roadmap } from "@/lib/content";
 import type { getResources } from "@/lib/data";
 import { useLang, useT } from "@/lib/i18n";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
+import { stripHtml } from "@/lib/rich";
 import { Badge, Card, Icon, IconBox, type IconName, PageHeader, Section } from "@/components/ui";
 
 type Resource = Awaited<ReturnType<typeof getResources>>[number];
@@ -68,7 +69,7 @@ export default function LearnView({ categories, roadmaps, resources }: { categor
                 <Card href={`/learn/${c.slug}`}>
                   <IconBox name={CATEGORY_ICONS[c.slug] ?? "book"} />
                   <h3 className="font-semibold text-slate-900 dark:text-white">{t(c.title)}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t(c.description)}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{stripHtml(t(c.description))}</p>
                   <div className="mt-3 flex items-center gap-2 text-xs font-medium text-slate-500">
                     <span>
                       {c.topics.length} {vi ? "chủ đề" : "topics"}
@@ -120,7 +121,7 @@ export default function LearnView({ categories, roadmaps, resources }: { categor
                 <Badge tone="sky">{r.type}</Badge>
               </div>
               <h3 className="font-semibold text-slate-900 dark:text-white">{t(r.title)}</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t(r.description)}</p>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{stripHtml(t(r.description))}</p>
               {r.href && (
                 <a href={r.href} download className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-600 hover:underline dark:text-sky-400">
                   <Icon name="download" className="h-4 w-4" />

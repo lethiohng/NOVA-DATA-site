@@ -5,6 +5,10 @@ import type { Project } from "@/lib/content";
 import { useLang, useT } from "@/lib/i18n";
 import { Badge, PageHeader, Section } from "@/components/ui";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
+import RichBlock from "@/components/RichBlock";
+import { stripHtml } from "@/lib/rich";
+import LockedNotice from "@/components/LockedNotice";
+import { useAccess } from "@/lib/use-access";
 
 const labels = {
   vi: {
@@ -28,6 +32,7 @@ const labels = {
 export default function ProjectView({ project }: { project: Project }) {
   const t = useT();
   const { lang } = useLang();
+  const access = useAccess();
   const L = labels[lang];
 
   // Thứ tự theo chuẩn: Business Problem → Data Structure → Solution → Dashboard → Business Value
@@ -39,9 +44,25 @@ export default function ProjectView({ project }: { project: Project }) {
     { title: L.value, body: t(project.businessValue) },
   ];
 
+  if (access.ready && access.isLocked("project", project.slug)) {
+    return (
+      <div className="max-w-3xl">
+        <p className="text-sm">
+          <Link href="/projects" className="text-slate-500 hover:text-sky-600">
+            ← {lang === "vi" ? "Thư viện dự án" : "Projects"}
+          </Link>
+        </p>
+        <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl dark:text-white">{t(project.title)}</h1>
+        <div className="mt-6">
+          <LockedNotice />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
-      <PageHeader eyebrow="Project" title={t(project.title)} description={t(project.summary)} />
+      <PageHeader eyebrow="Project" title={t(project.title)} description={stripHtml(t(project.summary))} />
       <div className="mb-8 flex flex-wrap gap-2">
         {project.tags.map((tag) => (
           <Badge key={tag} tone="sky">
@@ -55,7 +76,7 @@ export default function ProjectView({ project }: { project: Project }) {
       <div className="max-w-3xl space-y-8">
         {steps.map((s, i) => (
           <Section key={s.title} title={`${i + 1}. ${s.title}`}>
-            <p className="leading-relaxed">{s.body}</p>
+            <RichBlock text={s.body} />
           </Section>
         ))}
       </div>

@@ -3,6 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
+import RichBlock from "@/components/RichBlock";
+import { renderRichHtml, stripHtml } from "@/lib/rich";
+import LockedNotice from "@/components/LockedNotice";
+import { useAccess } from "@/lib/use-access";
 import type { Article, Category, Topic } from "@/lib/content";
 import { useLang, useT } from "@/lib/i18n";
 import { Badge, CodeBlock, Section } from "@/components/ui";
@@ -38,28 +42,9 @@ const labels = {
 
 /** Đoạn văn: xuống dòng theo ký tự xuống dòng và trước mỗi mục đánh số (1), (2), ... Dòng dạng ![mô tả](đường dẫn) hiện thành ảnh. */
 function Paragraphs({ text, className = "leading-relaxed" }: { text: string; className?: string }) {
-  const parts = text
-    .split(/\n|\s+(?=\(\d+\)\s)/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-  return (
-    <>
-      {parts.map((p, i) => {
-        const img = p.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
-        if (img) {
-          return (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={i} src={img[2]} alt={img[1]} className="mt-4 w-full rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-slate-800" />
-          );
-        }
-        return (
-          <p key={i} className={`${className} ${parts.length > 1 ? "mt-2 first:mt-0" : ""}`}>
-            {p}
-          </p>
-        );
-      })}
-    </>
-  );
+  // Nội dung cũ là văn bản thuần: tách các mục đánh số (1), (2)... thành đoạn riêng như trước.
+  const body = /<[a-z]/i.test(text) ? text : text.replace(/\s+(?=\(\d+\)\s)/g, "\n");
+  return <RichBlock text={body} className={className} />;
 }
 
 export default function ArticleView({ article, category, relatedPublished }: { article: Article; category: Category; relatedPublished: string[] }) {
@@ -68,6 +53,7 @@ export default function ArticleView({ article, category, relatedPublished }: { a
 
   const L = labels[lang];
   const [showAnswer, setShowAnswer] = useState(false);
+  const access = useAccess();
 
   // Sidebar chia theo nhóm (src/lib/tool-group.ts). Mỗi bài chỉ hiện ở nhóm đầu tiên chứa nó.
   const groupsHere = TOPIC_GROUPS.filter((g) => g.categorySlug === category.slug);
@@ -108,6 +94,23 @@ export default function ArticleView({ article, category, relatedPublished }: { a
     );
   };
 
+  // Bài chưa được admin mở miễn phí chỉ dành cho Pro hoặc người đã mua.
+  if (access.ready && access.isLocked("article", article.slug)) {
+    return (
+      <div className="max-w-3xl">
+        <p className="text-sm">
+          <Link href={`/learn/${category.slug}`} className="text-slate-500 hover:text-sky-600">
+            ← {t(category.title)}
+          </Link>
+        </p>
+        <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl dark:text-white">{t(article.title)}</h1>
+        <div className="mt-6">
+          <LockedNotice />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start lg:gap-8">
       {/* Danh sách chủ đề trong danh mục, bên trái, giống trang SQL Basic */}
@@ -135,7 +138,7 @@ export default function ArticleView({ article, category, relatedPublished }: { a
         <Badge tone="sky">{article.difficulty}</Badge>
       </div>
       <h1 className="text-3xl font-bold tracking-tight md:text-4xl">{t(article.title)}</h1>
-      <p className="mt-3 text-lg text-slate-600 dark:text-slate-400">{t(article.summary)}</p>
+      <p className="mt-3 text-lg text-slate-600 dark:text-slate-400">{stripHtml(t(article.summary))}</p>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       {article.thumbnail && <img src={article.thumbnail} alt="" className="mt-8 w-full rounded-2xl border border-slate-200 object-cover shadow-sm dark:border-slate-800" />}
 
@@ -149,7 +152,7 @@ export default function ArticleView({ article, category, relatedPublished }: { a
         <Section title={L.objectives}>
           <ul className="list-disc space-y-1 pl-6">
             {article.objectives.map((o) => (
-              <li key={o.vi}>{t(o)}</li>
+              <li key={o.vi} dangerouslySetInnerHTML={{ __html: renderRichHtml(t(o)) }} />
             ))}
           </ul>
         </Section>

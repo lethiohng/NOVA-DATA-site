@@ -58,7 +58,7 @@ export default async function SqlAdvancedLessonPage({ params }: { params: Promis
           totalMinutes={ADVANCED_LESSONS.reduce((s, x) => s + x.minutes, 0)}
         />
 
-        <PremiumGate course="sql-advanced" courseTitle="SQL Advanced" price={sqlCourses.Advanced.price}>
+        <PremiumGate course="sql-advanced" courseTitle="SQL Advanced" price={sqlCourses.Advanced.price} lessonId={lesson.id}>
           <LessonDoneButton courseKey="sql-advanced" lessonId={lesson.id} />
         <div className="mt-8">
           <LessonVideo courseKey="sql-advanced" lessonId={lesson.id} title={lesson.title} />
