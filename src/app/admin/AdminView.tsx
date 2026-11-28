@@ -5,12 +5,13 @@ import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { PageHeader, Section } from "@/components/ui";
 import LessonVideos from "./LessonVideos";
+import { CareerEditor, PracticeEditor } from "./ExtraContent";
 import { youtubeId } from "@/lib/youtube";
 
 /* Trang quản trị nội dung: chỉ tài khoản có is_admin = true mới sửa được (RLS trong migration_013 kiểm tra lại ở database). */
 
 type Lang = "vi" | "en";
-type Tab = "articles" | "projects" | "courses";
+type Tab = "articles" | "projects" | "courses" | "career" | "practice";
 
 /* Kiểm tra link YouTube nhập vào. Để trống thì lưu null (xóa video). */
 function cleanYoutube(v: string): { value: string | null; error: string | null } {
@@ -314,6 +315,8 @@ export default function AdminView() {
   const [projects, setProjects] = useState<ProjectRow[]>([]);
   const [courses, setCourses] = useState<CourseRow[]>([]);
   const [sqlCourse, setSqlCourse] = useState<"sql-basic" | "sql-intermediate" | "sql-advanced" | null>(null);
+  const [projNew, setProjNew] = useState<{ slug: string; titleVi: string; titleEn: string } | null>(null); // form tạo dự án mới
+  const [newArt, setNewArt] = useState({ slug: "", difficulty: "", titleVi: "", titleEn: "" }); // form tạo bài mới trong khóa
   const [courseForm, setCourseForm] = useState<{ id: string; slug: string; vi: { title: string; description: string }; en: { title: string; description: string }; topics: CourseRow["content_items"]; youtube: string } | null>(null);
   const [editing, setEditing] = useState<string | null>(null);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
@@ -394,7 +397,49 @@ export default function AdminView() {
     setMessage(null);
   }
 
+  /* Tạo dự án mới ở trạng thái nháp, rồi mở để soạn nội dung. */
+  async function createProject() {
+    if (!projNew) return;
+    const slug = projNew.slug.trim().toLowerCase();
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) {
+      setMessage({ ok: false, text: "Slug chỉ gồm chữ thường không dấu, số và dấu gạch ngang, ví dụ: bao-cao-oee." });
+      return;
+    }
+    if (!projNew.titleVi.trim() || !projNew.titleEn.trim()) {
+      setMessage({ ok: false, text: "Nhập tên dự án cả tiếng Việt và tiếng Anh." });
+      return;
+    }
+    setSaving(true);
+    setMessage(null);
+    const { data: item, error: e1 } = await supabase
+      .from("projects")
+      .insert({ slug, status: "Draft", position: projects.length + 1, tags: [] })
+      .select("id")
+      .single();
+    if (e1 || !item) {
+      setSaving(false);
+      setMessage({ ok: false, text: e1 ? e1.message : "Không tạo được dự án." });
+      return;
+    }
+    const { error: e2 } = await supabase.from("project_translations").insert([
+      { project_id: item.id, language_code: "vi", title: projNew.titleVi.trim() },
+      { project_id: item.id, language_code: "en", title: projNew.titleEn.trim() },
+    ]);
+    if (e2) {
+      setSaving(false);
+      setMessage({ ok: false, text: `Đã tạo dự án nhưng lỗi khi lưu bản dịch: ${e2.message}` });
+      return;
+    }
+    const data = await reload();
+    setSaving(false);
+    setProjNew(null);
+    const row = data.projects.find((p) => p.id === item.id);
+    if (row) openProject(row);
+    setMessage({ ok: true, text: "Đã tạo dự án mới ở trạng thái nháp. Soạn nội dung rồi bấm Lưu." });
+  }
+
   function openProject(row: ProjectRow) {
+    setProjNew(null);
     const pick = (lang: Lang) => {
       const t = row.project_translations.find((x) => x.language_code === lang);
       const out: Record<string, string> = {};
@@ -530,6 +575,49 @@ export default function AdminView() {
     await reload();
   }
 
+  /* Tạo bài viết mới trong khóa đang mở, ở trạng thái nháp, rồi mở bài để soạn nội dung. */
+  async function createArticle(categoryId: string, position: number) {
+    const slug = newArt.slug.trim().toLowerCase();
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) {
+      setMessage({ ok: false, text: "Slug chỉ gồm chữ thường không dấu, số và dấu gạch ngang, ví dụ: loi-dong-may." });
+      return;
+    }
+    if (!newArt.titleVi.trim() || !newArt.titleEn.trim()) {
+      setMessage({ ok: false, text: "Nhập tiêu đề cả tiếng Việt và tiếng Anh." });
+      return;
+    }
+    setSaving(true);
+    setMessage(null);
+    const { data: item, error: e1 } = await supabase
+      .from("content_items")
+      .insert({ slug, category_id: categoryId, content_type: "Article", status: "Draft", difficulty: newArt.difficulty || null, position })
+      .select("id")
+      .single();
+    if (e1 || !item) {
+      setSaving(false);
+      setMessage({ ok: false, text: e1 ? e1.message : "Không tạo được bài." });
+      return;
+    }
+    const { error: e2 } = await supabase.from("content_translations").insert([
+      { content_id: item.id, language_code: "vi", title: newArt.titleVi.trim(), summary: null, sections: toSections(emptyDraft(), true) },
+      { content_id: item.id, language_code: "en", title: newArt.titleEn.trim(), summary: null, sections: toSections(emptyDraft(), false) },
+    ]);
+    if (e2) {
+      setSaving(false);
+      setMessage({ ok: false, text: `Đã tạo bài nhưng lỗi khi lưu bản dịch: ${e2.message}` });
+      return;
+    }
+    const data = await reload();
+    setSaving(false);
+    setNewArt({ slug: "", difficulty: "", titleVi: "", titleEn: "" });
+    const row = data.articles.find((a) => a.id === item.id);
+    if (row) {
+      setTab("articles");
+      openArticle(row);
+    }
+    setMessage({ ok: true, text: "Đã tạo bài mới ở trạng thái nháp. Soạn nội dung rồi bấm Lưu." });
+  }
+
   if (status === "loading") return <p className="text-sm text-slate-500">Đang tải…</p>;
 
   if (status === "signed-out") {
@@ -554,7 +642,7 @@ export default function AdminView() {
       <PageHeader eyebrow="Admin" title="Quản trị nội dung" description="Sửa bài viết và dự án. Bấm Lưu để cập nhật trực tiếp trên Supabase." />
 
       <div className="mb-6 flex gap-2">
-        {(["articles", "projects", "courses"] as Tab[]).map((t) => (
+        {(["articles", "projects", "courses", "career", "practice"] as Tab[]).map((t) => (
           <button
             key={t}
             type="button"
@@ -569,14 +657,21 @@ export default function AdminView() {
               ? `Bài viết (${articles.length})`
               : t === "projects"
                 ? `Dự án (${projects.length})`
-                : `Khóa học (${courses.length})`}
+                : t === "courses"
+                  ? `Khóa học (${courses.length})`
+                  : t === "career"
+                    ? "Career"
+                    : "Luyện tập SQL"}
           </button>
         ))}
       </div>
 
       {message && <p className={`mb-4 text-sm ${message.ok ? "text-emerald-600" : "text-rose-600"}`}>{message.text}</p>}
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      {tab === "career" && <CareerEditor />}
+      {tab === "practice" && <PracticeEditor />}
+
+      <div className={tab === "career" || tab === "practice" ? "hidden" : "grid gap-6 lg:grid-cols-3"}>
         <div className="space-y-2 lg:col-span-1">
           {tab === "articles" &&
             articles.map((a) => (
@@ -626,6 +721,22 @@ export default function AdminView() {
                 </button>
               );
             })}
+          {tab === "projects" && (
+            <button
+              type="button"
+              onClick={() => {
+                setProjNew({ slug: "", titleVi: "", titleEn: "" });
+                setEditing(null);
+                setProjForm(null);
+                setArtForm(null);
+                setCourseForm(null);
+                setMessage(null);
+              }}
+              className="w-full rounded-xl border border-dashed border-sky-400 py-2 text-sm font-semibold text-sky-700 hover:bg-sky-50 dark:text-sky-300 dark:hover:bg-slate-800"
+            >
+              + Thêm dự án mới
+            </button>
+          )}
           {tab === "projects" &&
             projects.map((p) => (
               <button
@@ -706,6 +817,28 @@ export default function AdminView() {
             </Section>
           )}
 
+          {tab === "projects" && projNew && (
+            <Section title="Dự án mới">
+              <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <label className="block text-sm">
+                  <span className="mb-1 block font-medium text-slate-700 dark:text-slate-300">Slug (đường dẫn, ví dụ bao-cao-oee)</span>
+                  <input value={projNew.slug} onChange={(e) => setProjNew({ ...projNew, slug: e.target.value })} className={inputCls} />
+                </label>
+                <label className="block text-sm">
+                  <span className="mb-1 block font-medium text-slate-700 dark:text-slate-300">Tên dự án (tiếng Việt)</span>
+                  <input value={projNew.titleVi} onChange={(e) => setProjNew({ ...projNew, titleVi: e.target.value })} className={inputCls} />
+                </label>
+                <label className="block text-sm">
+                  <span className="mb-1 block font-medium text-slate-700 dark:text-slate-300">Tên dự án (tiếng Anh)</span>
+                  <input value={projNew.titleEn} onChange={(e) => setProjNew({ ...projNew, titleEn: e.target.value })} className={inputCls} />
+                </label>
+                <button type="button" disabled={saving} onClick={createProject} className="rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-60">
+                  {saving ? "Đang tạo…" : "+ Tạo dự án nháp"}
+                </button>
+              </div>
+            </Section>
+          )}
+
           {editing && courseForm && (
             <Section title="Chỉnh sửa nội dung khóa học">
               <div className="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
@@ -751,6 +884,57 @@ export default function AdminView() {
                       );
                     })}
                   </ul>
+                </div>
+
+                <div className="space-y-3 border-t border-slate-200 pt-4 dark:border-slate-800">
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Thêm bài mới vào khóa này</p>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <label className="block text-sm">
+                      <span className="mb-1 block text-slate-600 dark:text-slate-400">Slug (đường dẫn, ví dụ loi-dong-may)</span>
+                      <input
+                        value={newArt.slug}
+                        onChange={(e) => setNewArt({ ...newArt, slug: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-950"
+                      />
+                    </label>
+                    <label className="block text-sm">
+                      <span className="mb-1 block text-slate-600 dark:text-slate-400">Độ khó</span>
+                      <select
+                        value={newArt.difficulty}
+                        onChange={(e) => setNewArt({ ...newArt, difficulty: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-950"
+                      >
+                        <option value="">—</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </label>
+                    <label className="block text-sm">
+                      <span className="mb-1 block text-slate-600 dark:text-slate-400">Tiêu đề (tiếng Việt)</span>
+                      <input
+                        value={newArt.titleVi}
+                        onChange={(e) => setNewArt({ ...newArt, titleVi: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-950"
+                      />
+                    </label>
+                    <label className="block text-sm">
+                      <span className="mb-1 block text-slate-600 dark:text-slate-400">Tiêu đề (tiếng Anh)</span>
+                      <input
+                        value={newArt.titleEn}
+                        onChange={(e) => setNewArt({ ...newArt, titleEn: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-950"
+                      />
+                    </label>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => createArticle(courseForm.id, courseForm.topics.length + 1)}
+                    className="rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-60"
+                  >
+                    {saving ? "Đang tạo…" : "+ Tạo bài nháp"}
+                  </button>
                 </div>
               </div>
             </Section>
