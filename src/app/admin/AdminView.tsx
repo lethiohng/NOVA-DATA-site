@@ -52,6 +52,7 @@ type ArticleRow = {
   slug: string;
   status: "Draft" | "Published";
   difficulty: string | null;
+  category_id: string | null;
   youtube_url: string | null;
   content_translations: { language_code: Lang; title: string; summary: string | null; sections: unknown }[];
 };
@@ -315,6 +316,7 @@ export default function AdminView() {
   const [projects, setProjects] = useState<ProjectRow[]>([]);
   const [courses, setCourses] = useState<CourseRow[]>([]);
   const [sqlCourse, setSqlCourse] = useState<"sql-basic" | "sql-intermediate" | "sql-advanced" | null>(null);
+  const [artSearch, setArtSearch] = useState(""); // ô tìm bài viết
   const [projNew, setProjNew] = useState<{ slug: string; titleVi: string; titleEn: string } | null>(null); // form tạo dự án mới
   const [newArt, setNewArt] = useState({ slug: "", difficulty: "", titleVi: "", titleEn: "" }); // form tạo bài mới trong khóa
   const [courseForm, setCourseForm] = useState<{ id: string; slug: string; vi: { title: string; description: string }; en: { title: string; description: string }; topics: CourseRow["content_items"]; youtube: string } | null>(null);
@@ -360,7 +362,7 @@ export default function AdminView() {
 
   async function reload() {
     const [a, p, c] = await Promise.all([
-      supabase.from("content_items").select("id, slug, status, difficulty, youtube_url, content_translations(language_code, title, summary, sections)").order("slug"),
+      supabase.from("content_items").select("id, slug, status, difficulty, category_id, youtube_url, content_translations(language_code, title, summary, sections)").order("slug"),
       supabase
         .from("projects")
         .select("id, slug, status, youtube_url, project_translations(language_code, title, summary, business_problem, data_structure, solution, dashboard, business_value)")
@@ -618,6 +620,28 @@ export default function AdminView() {
     setMessage({ ok: true, text: "Đã tạo bài mới ở trạng thái nháp. Soạn nội dung rồi bấm Lưu." });
   }
 
+  // Gom bài viết theo khóa học (danh mục). Khóa đang mở hoặc khi đang tìm kiếm thì tự mở ra.
+  const q = artSearch.trim().toLowerCase();
+  const titleVi = (a: ArticleRow) => a.content_translations.find((t) => t.language_code === "vi")?.title ?? a.slug;
+  const courseTitle = (id: string | null) => {
+    if (!id) return "Chưa thuộc khóa";
+    return courses.find((c) => c.id === id)?.category_translations.find((t) => t.language_code === "vi")?.title ?? "Khóa khác";
+  };
+  const groupMap = new Map<string, ArticleRow[]>();
+  for (const a of articles) {
+    if (q && !a.slug.includes(q) && !titleVi(a).toLowerCase().includes(q)) continue;
+    const k = a.category_id ?? "none";
+    groupMap.set(k, [...(groupMap.get(k) ?? []), a]);
+  }
+  const articleGroups = [...groupMap.entries()]
+    .map(([k, items]) => ({
+      key: k,
+      title: courseTitle(k === "none" ? null : k),
+      items: [...items].sort((x, y) => x.slug.localeCompare(y.slug)),
+      open: Boolean(q) || items.some((a) => a.id === editing),
+    }))
+    .sort((x, y) => x.title.localeCompare(y.title));
+
   if (status === "loading") return <p className="text-sm text-slate-500">Đang tải…</p>;
 
   if (status === "signed-out") {
@@ -673,20 +697,39 @@ export default function AdminView() {
 
       <div className={tab === "career" || tab === "practice" ? "hidden" : "grid gap-6 lg:grid-cols-3"}>
         <div className="space-y-2 lg:col-span-1">
-          {tab === "articles" &&
-            articles.map((a) => (
-              <button
-                key={a.id}
-                type="button"
-                onClick={() => openArticle(a)}
-                className={`block w-full rounded-xl border p-3 text-left text-sm transition ${editing === a.id ? "border-sky-500 bg-sky-50 dark:bg-slate-800" : "border-slate-200 bg-white hover:border-sky-300 dark:border-slate-800 dark:bg-slate-900"}`}
-              >
-                <span className="block font-semibold text-slate-900 dark:text-white">{a.content_translations.find((t) => t.language_code === "vi")?.title ?? a.slug}</span>
-                <span className="text-xs text-slate-500">
-                  {a.slug} · {a.status}
-                </span>
-              </button>
-            ))}
+          {tab === "articles" && (
+            <>
+              <input
+                value={artSearch}
+                onChange={(e) => setArtSearch(e.target.value)}
+                placeholder="Tìm theo tên hoặc slug…"
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-sky-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950"
+              />
+              {articleGroups.length === 0 && <p className="text-sm text-slate-500">Không có bài nào.</p>}
+              {articleGroups.map((g) => (
+                <details key={`${g.key}-${g.open}`} open={g.open} className="rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+                  <summary className="cursor-pointer select-none px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
+                    {g.title} <span className="font-normal text-slate-500">({g.items.length})</span>
+                  </summary>
+                  <div className="space-y-2 p-2 pt-0">
+                    {g.items.map((a) => (
+                      <button
+                        key={a.id}
+                        type="button"
+                        onClick={() => openArticle(a)}
+                        className={`block w-full rounded-lg border p-2.5 text-left text-sm transition ${editing === a.id ? "border-sky-500 bg-sky-50 dark:bg-slate-800" : "border-slate-200 hover:border-sky-300 dark:border-slate-800"}`}
+                      >
+                        <span className="block font-medium text-slate-900 dark:text-white">{titleVi(a)}</span>
+                        <span className="text-xs text-slate-500">
+                          {a.slug} · {a.status === "Published" ? "Đã xuất bản" : "Nháp"}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </details>
+              ))}
+            </>
+          )}
           {tab === "courses" &&
             SQL_COURSE_LIST.map((c) => (
               <button
