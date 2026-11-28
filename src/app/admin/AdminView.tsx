@@ -725,6 +725,21 @@ export default function AdminView() {
                         </span>
                       </button>
                     ))}
+                    {courses.some((c) => c.id === g.key) && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const row = courses.find((c) => c.id === g.key);
+                          if (!row) return;
+                          setTab("courses");
+                          setSqlCourse(null);
+                          openCourse(row);
+                        }}
+                        className="w-full rounded-lg border border-dashed border-emerald-400 py-2 text-sm font-semibold text-emerald-700 hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-slate-800"
+                      >
+                        + Thêm bài mới vào khóa này
+                      </button>
+                    )}
                   </div>
                 </details>
               ))}
