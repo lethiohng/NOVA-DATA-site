@@ -169,3 +169,19 @@ export const MILESTONES: Milestone[] = [
     },
   },
 ];
+
+/* Đoạn Sứ mệnh mặc định. Đoạn cuối cùng hiển thị đậm. */
+export const MISSION: { vi: string; en: string }[] = [
+  {
+    vi: "Từ Automation đến Data, từ những kiến thức cơ bản đến các ứng dụng thực tế trong nhà máy, mình muốn hệ thống lại mọi thứ thành những bài học dễ hiểu, có lộ trình và có thể thực hành.",
+    en: "From Automation to Data, from basic knowledge to real applications in the factory, I want to organize everything into easy-to-follow lessons with a clear path that you can practice.",
+  },
+  {
+    vi: "Mình hy vọng NOVA DATA sẽ trở thành một nơi mà bạn có thể bắt đầu học Data, tìm thấy tài liệu hữu ích và cùng mình tiến bộ từng ngày.",
+    en: "I hope NOVA DATA becomes a place where you can start learning Data, find useful materials, and grow with me day by day.",
+  },
+  {
+    vi: "Không cần biết tất cả mới bắt đầu. Chúng ta có thể vừa học, vừa làm và cùng nhau phát triển. ❤️",
+    en: "You do not need to know everything before you start. We can learn, practice and grow together. ❤️",
+  },
+];

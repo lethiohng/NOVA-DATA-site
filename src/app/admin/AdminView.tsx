@@ -8,13 +8,14 @@ import LessonVideos from "./LessonVideos";
 import { CareerEditor, PracticeEditor } from "./ExtraContent";
 import UsersAdmin from "./UsersAdmin";
 import FreeItemsAdmin from "./FreeItemsAdmin";
+import AboutAdmin from "./AboutAdmin";
 import { youtubeId } from "@/lib/youtube";
 import RichTextEditor from "./RichTextEditor";
 
 /* Trang quản trị nội dung: chỉ tài khoản có is_admin = true mới sửa được (RLS trong migration_013 kiểm tra lại ở database). */
 
 type Lang = "vi" | "en";
-type Tab = "articles" | "projects" | "courses" | "career" | "practice" | "users" | "free";
+type Tab = "articles" | "projects" | "courses" | "career" | "practice" | "users" | "free" | "about";
 
 /* Kiểm tra link YouTube nhập vào. Để trống thì lưu null (xóa video). */
 function cleanYoutube(v: string): { value: string | null; error: string | null } {
@@ -668,7 +669,7 @@ export default function AdminView() {
       <PageHeader eyebrow="Admin" title="Quản trị nội dung" description="Sửa bài viết và dự án. Bấm Lưu để cập nhật trực tiếp trên Supabase." />
 
       <div className="mb-6 flex gap-2">
-        {(["articles", "projects", "courses", "career", "practice", "users", "free"] as Tab[]).map((t) => (
+        {(["articles", "projects", "courses", "career", "practice", "users", "free", "about"] as Tab[]).map((t) => (
           <button
             key={t}
             type="button"
@@ -691,7 +692,9 @@ export default function AdminView() {
                       ? "Luyện tập SQL"
                       : t === "users"
                         ? "Người dùng"
-                        : "Miễn phí"}
+                        : t === "free"
+                          ? "Miễn phí"
+                          : "About"}
           </button>
         ))}
       </div>
@@ -702,8 +705,9 @@ export default function AdminView() {
       {tab === "practice" && <PracticeEditor />}
       {tab === "users" && <UsersAdmin />}
       {tab === "free" && <FreeItemsAdmin />}
+      {tab === "about" && <AboutAdmin />}
 
-      <div className={tab === "career" || tab === "practice" || tab === "users" || tab === "free" ? "hidden" : "grid gap-6 lg:grid-cols-3"}>
+      <div className={tab === "career" || tab === "practice" || tab === "users" || tab === "free" || tab === "about" ? "hidden" : "grid gap-6 lg:grid-cols-3"}>
         <div className="space-y-2 lg:col-span-1">
           {tab === "articles" && (
             <>

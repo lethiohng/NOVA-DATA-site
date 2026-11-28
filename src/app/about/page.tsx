@@ -6,12 +6,21 @@ import { PageHeader, Section } from "@/components/ui";
 
 import { useState } from "react";
 import TimelineModal from "@/components/TimelineModal";
-import { MILESTONES, type Milestone } from "./milestones";
+import { MILESTONES, MISSION } from "./milestones";
+import { loadAbout, type Mission } from "./content";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
+import { useEffect } from "react";
+import type { Milestone } from "./milestones";
 
 export default function AboutPage() {
   const { lang } = useLang();
   const vi = lang === "vi";
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const [supabase] = useState(() => createSupabaseBrowserClient());
+  const [content, setContent] = useState<{ milestones: Milestone[]; mission: Mission[] }>({ milestones: MILESTONES, mission: MISSION });
+  useEffect(() => {
+    loadAbout(supabase).then(setContent);
+  }, [supabase]);
   return (
     <>
       <PageHeader
@@ -35,7 +44,7 @@ export default function AboutPage() {
 
       <Section title={vi ? "Hành trình: từ Automation đến Data" : "My Journey: from Automation to Data"}>
         <ol className="relative space-y-8 border-l-2 border-sky-100 pl-8 dark:border-slate-800">
-          {MILESTONES.map((m, i) => {
+          {content.milestones.map((m, i) => {
             const card = (
               <>
                 <span className="inline-flex rounded-full bg-sky-50 px-3 py-0.5 text-xs font-semibold text-sky-700 dark:bg-sky-950/50 dark:text-sky-300">
@@ -55,7 +64,7 @@ export default function AboutPage() {
                 <span
                   aria-hidden
                   className={`absolute -left-[41px] top-1 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ring-4 ring-slate-50 dark:ring-slate-950 ${
-                    i === MILESTONES.length - 1 ? "bg-sky-600 text-white" : "bg-white text-sky-700 ring-sky-100 dark:bg-slate-900 dark:text-sky-300"
+                    i === content.milestones.length - 1 ? "bg-sky-600 text-white" : "bg-white text-sky-700 ring-sky-100 dark:bg-slate-900 dark:text-sky-300"
                   }`}
                 >
                   {i + 1}
@@ -78,27 +87,17 @@ export default function AboutPage() {
         </ol>
       </Section>
 
-      {openIdx !== null && MILESTONES[openIdx].detail && (
-        <TimelineModal milestone={MILESTONES[openIdx]} onClose={() => setOpenIdx(null)} />
+      {openIdx !== null && content.milestones[openIdx]?.detail && (
+        <TimelineModal milestone={content.milestones[openIdx]} onClose={() => setOpenIdx(null)} />
       )}
 
       <Section title={vi ? "Sứ mệnh" : "Our mission"}>
         <div className="space-y-4 leading-relaxed text-slate-600 dark:text-slate-400">
-          <p>
-            {vi
-              ? "Từ Automation đến Data, từ những kiến thức cơ bản đến các ứng dụng thực tế trong nhà máy, mình muốn hệ thống lại mọi thứ thành những bài học dễ hiểu, có lộ trình và có thể thực hành."
-              : "From Automation to Data, from basic knowledge to real applications in the factory, I want to organize everything into easy-to-follow lessons with a clear path that you can practice."}
-          </p>
-          <p>
-            {vi
-              ? "Mình hy vọng NOVA DATA sẽ trở thành một nơi mà bạn có thể bắt đầu học Data, tìm thấy tài liệu hữu ích và cùng mình tiến bộ từng ngày."
-              : "I hope NOVA DATA becomes a place where you can start learning Data, find useful materials, and grow with me day by day."}
-          </p>
-          <p className="font-medium text-slate-800 dark:text-slate-200">
-            {vi
-              ? "Không cần biết tất cả mới bắt đầu. Chúng ta có thể vừa học, vừa làm và cùng nhau phát triển. ❤️"
-              : "You do not need to know everything before you start. We can learn, practice and grow together. ❤️"}
-          </p>
+          {content.mission.map((p, i) => (
+            <p key={i} className={i === content.mission.length - 1 ? "font-medium text-slate-800 dark:text-slate-200" : undefined}>
+              {vi ? p.vi : p.en}
+            </p>
+          ))}
         </div>
       </Section>
 

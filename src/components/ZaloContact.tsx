@@ -6,6 +6,9 @@ import { useLang } from "@/lib/i18n";
 
 export const ZALO_PHONE = "0328772486";
 export const ZALO_URL = `https://zalo.me/${ZALO_PHONE}`;
+// WhatsApp dùng số quốc tế, bỏ số 0 đầu và thêm mã Việt Nam 84.
+export const WHATSAPP_URL = `https://wa.me/84${ZALO_PHONE.slice(1)}`;
+export const FACEBOOK_URL = "https://www.facebook.com/NovaManufacturingBIE";
 
 /* Khối kết bạn Zalo: số điện thoại, mã QR và lý do nên kết bạn (hỗ trợ và nhóm học tập). */
 export default function ZaloContact() {
@@ -37,14 +40,32 @@ export default function ZaloContact() {
             ? "Kết bạn Zalo để được hỗ trợ nhanh hơn và được thêm vào nhóm học tập, trao đổi cùng cộng đồng."
             : "Add us on Zalo for faster support and an invitation to the study and discussion group."}
         </p>
-        <a
-          href={ZALO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700"
-        >
-          {vi ? "Kết bạn trên Zalo" : "Add on Zalo"}
-        </a>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <a
+            href={ZALO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700"
+          >
+            {vi ? "Kết bạn trên Zalo" : "Add on Zalo"}
+          </a>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+          >
+            {vi ? "Nhắn trên WhatsApp" : "Chat on WhatsApp"}
+          </a>
+          <a
+            href={FACEBOOK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+          >
+            {vi ? "Nhắn tin Facebook" : "Message on Facebook"}
+          </a>
+        </div>
       </div>
     </div>
   );
