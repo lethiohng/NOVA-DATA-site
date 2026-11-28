@@ -19,9 +19,12 @@ export default function AuthPanel({ mode }: { mode: "login" | "register" }) {
   const signIn = async () => {
     setLoading(true);
     setError(null);
+    // Quay lại trang người dùng định xem trước khi bị chuyển tới đăng nhập (chỉ cho đường dẫn nội bộ).
+    const asked = new URLSearchParams(window.location.search).get("next") ?? "";
+    const next = asked.startsWith("/") && !asked.startsWith("//") ? asked : "/learn";
     const { error: err } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback?next=/learn` },
+      options: { redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}` },
     });
     if (err) {
       setError(err.message);
