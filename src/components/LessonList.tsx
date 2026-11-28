@@ -37,7 +37,7 @@ export default function LessonList({ courseKey, items }: { courseKey: string; it
         if (access.ready && access.isLocked("lesson", lessonKey(courseKey, it.id), courseKey)) {
           return (
             <li key={it.id}>
-              <div className="flex items-center justify-between gap-4 rounded-xl border border-dashed border-violet-300 bg-violet-50/50 px-4 py-3 text-sm dark:border-violet-900 dark:bg-violet-950/20">
+              <Link href="/pro" className="flex items-center justify-between gap-4 rounded-xl border border-dashed border-violet-300 bg-violet-50/50 px-4 py-3 text-sm transition hover:border-violet-500 dark:border-violet-900 dark:bg-violet-950/20">
                 <span className="min-w-0 text-slate-500">
                   <span className="mr-3 font-mono text-xs">{it.number}</span>
                   <span className="font-medium">{it.title}</span>
@@ -45,7 +45,7 @@ export default function LessonList({ courseKey, items }: { courseKey: string; it
                 <span className="inline-flex shrink-0 items-center gap-2 text-xs font-semibold text-violet-700 dark:text-violet-300">
                   🔒 Pro
                 </span>
-              </div>
+              </Link>
             </li>
           );
         }

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { Project } from "@/lib/content";
 import { useT } from "@/lib/i18n";
 import { stripHtml } from "@/lib/rich";
@@ -19,10 +20,10 @@ export default function ProjectsView({ projects }: { projects: Project[] }) {
       <div className="grid gap-4 md:grid-cols-2">
         {projects.map((p) =>
           access.ready && access.isLocked("project", p.slug) ? (
-            <div key={p.slug} className="rounded-2xl border border-dashed border-violet-300 bg-violet-50/50 p-6 dark:border-violet-900 dark:bg-violet-950/20">
+            <Link key={p.slug} href="/pro" className="block rounded-2xl border border-dashed border-violet-300 bg-violet-50/50 p-6 transition hover:border-violet-500 dark:border-violet-900 dark:bg-violet-950/20">
               <h2 className="font-semibold text-slate-500">{t(p.title)}</h2>
               <span className="mt-3 inline-flex text-xs font-semibold text-violet-700 dark:text-violet-300">🔒 Pro</span>
-            </div>
+            </Link>
           ) : (
             <Card key={p.slug} href={`/projects/${p.slug}`}>
               <h2 className="font-semibold">{t(p.title)}</h2>
