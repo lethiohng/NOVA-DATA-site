@@ -83,7 +83,7 @@ export default function Footer() {
             </li>
             <li>
               <a href="https://wa.me/84328772486" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 transition hover:text-sky-600 dark:hover:text-sky-400">
-                <span aria-hidden className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-600 text-[10px] font-bold text-white">W</span>
+                <span aria-hidden className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#3b86d1] text-[10px] font-bold text-white">W</span>
                 WhatsApp: 0328772486
               </a>
             </li>
