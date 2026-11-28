@@ -4,59 +4,14 @@ import Link from "next/link";
 import { useLang } from "@/lib/i18n";
 import { PageHeader, Section } from "@/components/ui";
 
-type Milestone = { period: string; org: string; role: string; detail: { vi: string; en: string } };
-
-const MILESTONES: Milestone[] = [
-  {
-    period: "2020 – 2024",
-    org: "Automation Education",
-    role: "PLC · Control · Automation",
-    detail: {
-      vi: "Học tập và xây dựng nền tảng về PLC, điều khiển và tự động hóa.",
-      en: "Studied and built a foundation in PLC, control and automation.",
-    },
-  },
-  {
-    period: "2023 – 2024",
-    org: "Unilever Vietnam",
-    role: "Process Engineering Intern",
-    detail: {
-      vi: "Power BI, 5S Dashboard và Maintenance Planning.",
-      en: "Power BI, a 5S Dashboard and Maintenance Planning.",
-    },
-  },
-  {
-    period: "2024",
-    org: "Milwaukee Tool",
-    role: "BI Intern",
-    detail: {
-      vi: "Production Data Analysis và Power BI Dashboard.",
-      en: "Production Data Analysis and Power BI Dashboards.",
-    },
-  },
-  {
-    period: "2025 – Nay",
-    org: "BI Engineering",
-    role: "Manufacturing Analytics",
-    detail: {
-      vi: "Andon, Total Yield và Digital MDI.",
-      en: "Andon, Total Yield and Digital MDI.",
-    },
-  },
-  {
-    period: "2026 – Về sau",
-    org: "NOVA DATA",
-    role: "Chia sẻ & cộng đồng",
-    detail: {
-      vi: "Chia sẻ kiến thức, xây dựng tài liệu và phát triển cộng đồng học Data.",
-      en: "Sharing knowledge, building learning materials and growing a community of Data learners.",
-    },
-  },
-];
+import { useState } from "react";
+import TimelineModal from "@/components/TimelineModal";
+import { MILESTONES, type Milestone } from "./milestones";
 
 export default function AboutPage() {
   const { lang } = useLang();
   const vi = lang === "vi";
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
   return (
     <>
       <PageHeader
@@ -80,28 +35,52 @@ export default function AboutPage() {
 
       <Section title={vi ? "Hành trình: từ Automation đến Data" : "My Journey: from Automation to Data"}>
         <ol className="relative space-y-8 border-l-2 border-sky-100 pl-8 dark:border-slate-800">
-          {MILESTONES.map((m, i) => (
-            <li key={m.period} className="relative">
-              <span
-                aria-hidden
-                className={`absolute -left-[41px] top-1 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ring-4 ring-slate-50 dark:ring-slate-950 ${
-                  i === MILESTONES.length - 1 ? "bg-sky-600 text-white" : "bg-white text-sky-700 ring-sky-100 dark:bg-slate-900 dark:text-sky-300"
-                }`}
-              >
-                {i + 1}
-              </span>
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
+          {MILESTONES.map((m, i) => {
+            const card = (
+              <>
                 <span className="inline-flex rounded-full bg-sky-50 px-3 py-0.5 text-xs font-semibold text-sky-700 dark:bg-sky-950/50 dark:text-sky-300">
-                  {m.period}
+                  {m.period[lang]}
                 </span>
-                <h3 className="mt-3 text-lg font-semibold text-slate-900 dark:text-white">{m.org}</h3>
-                <p className="text-sm font-medium text-sky-700 dark:text-sky-400">{m.role}</p>
-                <p className="mt-2 leading-relaxed text-slate-600 dark:text-slate-400">{vi ? m.detail.vi : m.detail.en}</p>
-              </div>
-            </li>
-          ))}
+                <h3 className="mt-3 text-lg font-semibold text-slate-900 dark:text-white">{m.title[lang]}</h3>
+                <p className="text-sm font-medium text-sky-700 dark:text-sky-400">{m.sub[lang]}</p>
+                <p className="mt-2 leading-relaxed text-slate-600 dark:text-slate-400">{m.short[lang]}</p>
+                {m.detail && (
+                  <p className="mt-4 text-sm font-semibold text-sky-600 dark:text-sky-400">{vi ? "Xem chi tiết →" : "View details →"}</p>
+                )}
+              </>
+            );
+            const cardCls = "block w-full rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition duration-200 dark:border-slate-800 dark:bg-slate-900";
+            return (
+              <li key={m.period.en} className="relative">
+                <span
+                  aria-hidden
+                  className={`absolute -left-[41px] top-1 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ring-4 ring-slate-50 dark:ring-slate-950 ${
+                    i === MILESTONES.length - 1 ? "bg-sky-600 text-white" : "bg-white text-sky-700 ring-sky-100 dark:bg-slate-900 dark:text-sky-300"
+                  }`}
+                >
+                  {i + 1}
+                </span>
+                {m.detail ? (
+                  <button
+                    type="button"
+                    onClick={() => setOpenIdx(i)}
+                    aria-haspopup="dialog"
+                    className={`${cardCls} cursor-pointer hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md focus-visible:outline-2 focus-visible:outline-sky-600`}
+                  >
+                    {card}
+                  </button>
+                ) : (
+                  <div className={cardCls}>{card}</div>
+                )}
+              </li>
+            );
+          })}
         </ol>
       </Section>
+
+      {openIdx !== null && MILESTONES[openIdx].detail && (
+        <TimelineModal milestone={MILESTONES[openIdx]} onClose={() => setOpenIdx(null)} />
+      )}
 
       <Section title={vi ? "Sứ mệnh" : "Our mission"}>
         <div className="space-y-4 leading-relaxed text-slate-600 dark:text-slate-400">
